@@ -16,18 +16,6 @@ public interface ChipDataSource {
     void takeChip(Chip chip);
     void replaceChip(Chip chip);
 
-    /**
-     * @deprecated use {@link #takeChip(Chip)} instead!
-     */
-    @Deprecated
-    void takeFilteredChip(Chip chip);
-
-    /**
-     * @deprecated use {@link #replaceChip(Chip)} instead!
-     */
-    @Deprecated
-    void replaceFilteredChip(Chip chip);
-
     void registerObserver(ChipDataSourceObserver observer);
     void unregisterObserver(ChipDataSourceObserver observer);
     void unregisterAllObservers();
