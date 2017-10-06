@@ -11,20 +11,31 @@ import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.support.annotation.DrawableRes;
+import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.text.TextPaint;
 
 /**
  * Copyright © Tyler Suehr
  *
- * Creates a {@link Bitmap} that contains a letter used in the English alphabet
- * or digit, if there is no letter or digit available, a default image is shown instead.
+ * This is used to create a Bitmap containing a single letter with a background of
+ * a randomly, but repeatable, color. If no digit or letter in the English alphabet
+ * is available, a default image is shown instead.
+ *
+ * This tool affords the above with two methods:
+ * (1) {@link #getLetterTile(String)}, and
+ * (2) {@link #getCircularLetterTile(String)}
  *
  * @author Tyler Suehr
- * @version 1.0
+ * @version 1.1
  */
 class LetterTileProvider {
-    private static final int NUM_OF_TILE_COLORS = 8;
+    /* Default colors for the letter tiles */
+    private static final String[] DEFAULT_COLORS = new String[] {
+            "#f16364", "#f58559", "#f9a43e", "#e4c62e",
+            "#67bf74", "#59a2be", "#2093cd", "#ad62a7"
+    };
 
     private final TextPaint paint = new TextPaint();
     private final Rect bounds = new Rect();
@@ -33,44 +44,43 @@ class LetterTileProvider {
 
     private final String[] colors;
     private final Bitmap defaultBitmap;
-
-    private final int width;
-    private final int height;
+    private final int tileSize;
 
 
+    /* Constructors with all defaults */
     LetterTileProvider(Context c) {
-        final Resources res = c.getResources();
-
-        // Setup the paint
-        this.paint.setTypeface(Typeface.create("sans-serif-light", Typeface.NORMAL));
-        this.paint.setColor(Color.WHITE);
-        this.paint.setTextAlign(Paint.Align.CENTER);
-        this.paint.setAntiAlias(true);
-
-        this.colors = res.getStringArray(R.array.letter_tile_colors);
-        this.defaultBitmap = drawableToBitmap(ContextCompat.getDrawable(c, R.drawable.ic_person_white_24dp));
-        this.width = res.getDimensionPixelSize(R.dimen.letter_tile_size);
-        this.height = res.getDimensionPixelSize(R.dimen.letter_tile_size);
+        this(c, DEFAULT_COLORS);
     }
 
+    /* Constructs with custom background colors */
     LetterTileProvider(Context c, String[] possibleColors) {
-        final Resources res = c.getResources();
+        this(c, possibleColors, c.getResources().getDimensionPixelSize(R.dimen.default_letter_tile_size));
+    }
 
+    /* Constructs with custom background colors and tile size */
+    LetterTileProvider(Context c, @NonNull String[] possibleColors, int tileSize) {
+        this(c, possibleColors, tileSize, R.drawable.ic_default_tile);
+    }
+
+    /* Constructs with all custom properties */
+    LetterTileProvider(Context c, @NonNull String[] possibleColors, int tileSize, @DrawableRes int defaultDr) {
         // Setup the paint
         this.paint.setTypeface(Typeface.create("sans-serif-light", Typeface.NORMAL));
         this.paint.setColor(Color.WHITE);
         this.paint.setTextAlign(Paint.Align.CENTER);
         this.paint.setAntiAlias(true);
 
+        // Setup the properties
         this.colors = possibleColors;
-        this.defaultBitmap = drawableToBitmap(ContextCompat.getDrawable(c, R.drawable.ic_person_white_24dp));
-        this.width = res.getDimensionPixelSize(R.dimen.letter_tile_size);
-        this.height = res.getDimensionPixelSize(R.dimen.letter_tile_size);
+        this.tileSize = tileSize;
+        this.defaultBitmap = drawableToBitmap(ContextCompat.getDrawable(c, defaultDr));
     }
 
     /**
-     * Convenience method to create a circular tile letter Bitmap.
-     * @param displayName Any kind of string
+     * Convenience method to make the custom Bitmap from {@link #getLetterTile(String)}
+     * a circular Bitmap.
+     *
+     * @param displayName Any string value
      * @return {@link Bitmap}
      */
     Bitmap getCircularLetterTile(String displayName) {
@@ -78,9 +88,11 @@ class LetterTileProvider {
     }
 
     /**
-     * Creates a Bitmap with the letter (first character of the given name),
-     * in the center of the Bitmap.
-     * @param displayName Any kind of string
+     * Creates a custom Bitmap containing a letter, digit, or default image (if no letter
+     * or digit can be resolved), positioned at the center, with a randomized background
+     * color, picked from {@link #colors}, based on the hashed value of the given string.
+     *
+     * @param displayName Any string value
      * @return {@link Bitmap}
      */
     Bitmap getLetterTile(String displayName) {
@@ -90,7 +102,7 @@ class LetterTileProvider {
         final char firstChar = displayName.charAt(0);
 
         // Create a Bitmap with the width & height specified from resources
-        final Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+        final Bitmap bitmap = Bitmap.createBitmap(tileSize, tileSize, Bitmap.Config.ARGB_8888);
 
         // Setup our canvas for drawing
         final Canvas c = canvas;
@@ -102,15 +114,15 @@ class LetterTileProvider {
             this.firstChar[0] = Character.toUpperCase(firstChar);
 
             // Set the paint text size as half the bitmap's height
-            this.paint.setTextSize(height >> 1);
+            this.paint.setTextSize(tileSize >> 1);
 
             // Measure the bounds of our first character
             this.paint.getTextBounds(this.firstChar, 0, 1, bounds);
 
             // Draw the character on the Canvas
             c.drawText(this.firstChar, 0, 1,
-                    width / 2,
-                    height / 2 + (bounds.bottom - bounds.top) / 2,
+                    tileSize / 2,
+                    tileSize / 2 + (bounds.bottom - bounds.top) / 2,
                     paint);
         } else {
             // (32 - 24) / 2 = 4
@@ -123,19 +135,24 @@ class LetterTileProvider {
     }
 
     /**
-     * Randomly chooses one of the defined colors using the given key.
-     * @param key Any kind of string
+     * Randomly picks one of the colors in {@link #colors} using an algorithm based
+     * on the hashed value of the given key.
+     *
+     * This is consistent because String.hashCode() is guaranteed to not change across
+     * Java versions, which implicates that the same key always maps to the same color.
+     *
+     * @param key Any string value
      * @return {@link android.support.annotation.ColorInt}
      */
     private int pickColor(String key) {
-        // String.hashCode() is not supposed to change across Java versions, so this should
-        // guarantee the same key always maps to the same color regardless
-        final int whichColor = Math.abs(key.hashCode()) % NUM_OF_TILE_COLORS;
+        final int whichColor = Math.abs(key.hashCode()) % colors.length;
         return Color.parseColor(colors[whichColor]);
     }
 
     /**
-     * Creates a circular Bitmap by drawing the given Bitmap in a circular mannor.
+     * Creates a circular Bitmap by drawing a circle and then the given
+     * Bitmap in the center.
+     *
      * @param bitmap {@link Bitmap}
      * @return {@link Bitmap}
      */
@@ -163,7 +180,7 @@ class LetterTileProvider {
     }
 
     /**
-     * Converts a Drawable into a Bitmap object.
+     * Creates a Bitmap object from a Drawable object.
      */
     private static Bitmap drawableToBitmap(Drawable dr) {
         // Attempt to retrieve any existing Bitmap, if possible
