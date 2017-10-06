@@ -88,14 +88,14 @@ public class ListChipDataSource implements ChipDataSource {
                 this.filteredChips.remove(chip);
                 this.selectedChips.add(chip);
 
-                notifyChange(chip);
+                notifyChanged(chip);
             } else {
                 throw new IllegalArgumentException("Chip is not in filtered chip list!");
             }
         } else {
             // Just add it to the selected list only
             this.selectedChips.add(chip);
-            notifyChange(chip);
+            notifyChanged(chip);
         }
     }
 
@@ -115,7 +115,7 @@ public class ListChipDataSource implements ChipDataSource {
                 this.originalChips.add(chip);
             }
 
-            notifyChange(chip);
+            notifyChanged(chip);
         } else {
             throw new IllegalArgumentException("Chip is not in selected chip list!");
         }
@@ -147,7 +147,7 @@ public class ListChipDataSource implements ChipDataSource {
      * Notifies the observers of a change to the data source.
      * @param affectedChip {@link Chip}
      */
-    private synchronized void notifyChange(final Chip affectedChip) {
+    private synchronized void notifyChanged(final Chip affectedChip) {
         if (observers != null) {
             for (ChipDataSourceObserver observer : observers) {
                 observer.onChipDataSourceChanged(affectedChip);

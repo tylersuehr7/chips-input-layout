@@ -31,10 +31,10 @@ public class ListChipDataSourceTest {
         final ListChipDataSource ls = new ListChipDataSource();
 
         List<Chip> chips = new ArrayList<>();
-        chips.add(new DataChipImpl("0", "Chip", "Chip", null));
-        chips.add(new DataChipImpl("1", "Chip", "Chip", null));
-        chips.add(new DataChipImpl("2", "Chip", "Chip", null));
-        chips.add(new DataChipImpl("3", "Chip", "Chip", null));
+        chips.add(new BasicTestChip("0", "Chip"));
+        chips.add(new BasicTestChip("1", "Chip"));
+        chips.add(new BasicTestChip("2", "Chip"));
+        chips.add(new BasicTestChip("3", "Chip"));
         ls.setFilterableChips(chips);
 
         assertFalse(ls.originalChips.isEmpty());
@@ -78,7 +78,7 @@ public class ListChipDataSourceTest {
     @Test
     public void takeFilteredChip() throws Exception {
         // Create a test chip to use
-        final Chip chip = new DataChipImpl("0", "takeFilteredChip", "Chippy", null);
+        final Chip chip = new BasicTestChip("0", "takeFilteredChip");
 
         // Create the data source
         final ListChipDataSource ls = new ListChipDataSource();
@@ -99,7 +99,7 @@ public class ListChipDataSourceTest {
     @Test
     public void replaceFilteredChip() throws Exception {
         // Create a test chip to use
-        final Chip chip = new DataChipImpl("0", "takeFilteredChip", "Chippy", null);
+        final Chip chip = new BasicTestChip("0", "takeFilteredChip");
 
         // Create the data source
         final ListChipDataSource ls = new ListChipDataSource();
@@ -121,7 +121,7 @@ public class ListChipDataSourceTest {
     @Test
     public void takeNonFilteredChip() throws Exception {
         // Create a test chip to use
-        final Chip chip = new DataChipImpl("0", "takeNonFilteredChip", "Chippy", null);
+        final Chip chip = new BasicTestChip("0", "takeNonFilteredChip");
         chip.setFilterable(false);
 
         // Create the data source
@@ -137,7 +137,7 @@ public class ListChipDataSourceTest {
     @Test
     public void replaceNonFilteredChip() throws Exception {
         // Create a test chip to use
-        final Chip chip = new DataChipImpl("0", "replaceNonFilteredChip", "Chippy", null);
+        final Chip chip = new BasicTestChip("0", "replaceNonFilteredChip");
         chip.setFilterable(false);
 
         // Create the data source
