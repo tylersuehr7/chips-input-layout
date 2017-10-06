@@ -84,6 +84,7 @@ public class ListChipDataSource implements ChipDataSource {
         if (chip.isFilterable()) {
             // Check if chip is actually in the filtered list
             if (filteredChips.contains(chip)) {
+                this.originalChips.remove(chip);
                 this.filteredChips.remove(chip);
                 this.selectedChips.add(chip);
 
@@ -111,6 +112,7 @@ public class ListChipDataSource implements ChipDataSource {
             // Check if the chip is filterable
             if (chip.isFilterable()) {
                 this.filteredChips.add(chip);
+                this.originalChips.add(chip);
             }
 
             notifyChange(chip);

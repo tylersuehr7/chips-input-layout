@@ -93,6 +93,7 @@ public class ListChipDataSourceTest {
         // Since chip was filterable, make sure it's in selected list only
         assertTrue(ls.selectedChips.contains(chip));
         assertFalse(ls.filteredChips.contains(chip));
+        assertFalse(ls.originalChips.contains(chip));
     }
 
     @Test
@@ -103,7 +104,7 @@ public class ListChipDataSourceTest {
         // Create the data source
         final ListChipDataSource ls = new ListChipDataSource();
 
-        // Set chips as filterables
+        // Set chips as filterable
         List<Chip> chips = new ArrayList<>();
         chips.add(chip);
         ls.setFilterableChips(chips);
@@ -114,6 +115,7 @@ public class ListChipDataSourceTest {
         // Since chip was filterable, make sure it's in filtered list only
         assertFalse(ls.selectedChips.contains(chip));
         assertTrue(ls.filteredChips.contains(chip));
+        assertTrue(ls.originalChips.contains(chip));
     }
 
     @Test
@@ -129,6 +131,7 @@ public class ListChipDataSourceTest {
         // Since chip was not filterable, make sure it's in selected list only
         assertTrue(ls.selectedChips.contains(chip));
         assertFalse(ls.filteredChips.contains(chip));
+        assertFalse(ls.originalChips.contains(chip));
     }
 
     @Test
@@ -146,6 +149,7 @@ public class ListChipDataSourceTest {
         // Since chip was not filterable, make sure it's not in selected or filtered list
         assertFalse(ls.selectedChips.contains(chip));
         assertFalse(ls.filteredChips.contains(chip));
+        assertFalse(ls.originalChips.contains(chip));
     }
 
     @Test
