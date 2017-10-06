@@ -33,7 +33,6 @@ import com.beloo.widget.chipslayoutmanager.ChipsLayoutManager;
 import com.tylersuehr.library.data.Chip;
 import com.tylersuehr.library.data.ChipDataSource;
 import com.tylersuehr.library.data.ListChipDataSource;
-
 import java.util.List;
 
 /**
@@ -93,8 +92,9 @@ public class ChipsInput extends MaxHeightScrollView
 
     @Override
     public void onFilteredChipClick(Chip chip) {
-//        this.chipsEditText.setText("");
         this.filterableRecyclerView.fadeOut();
+        this.chipsEditText.setText("");
+        this.chipsAdapter.notifyDataSetChanged();
     }
 
     ChipDataSource getChipDataSource() {

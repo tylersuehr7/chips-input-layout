@@ -101,10 +101,13 @@ class ChipsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> impleme
             Chip chip = new BaseChip(v.getText().toString(), null);
             chip.setFilterable(false);
 
+            // Empty input before taking chip so we don't have to update UI twice
+            v.setText("");
+
             this.chipDataSource.takeChip(chip);
 
-            v.setText("");
-            notifyDataSetChanged();
+//            v.setText("");
+//            notifyDataSetChanged();
             return true;
         }
         return false;
