@@ -3,6 +3,8 @@ package com.tylersuehr.library.data;
 /**
  * Copyright © 2017 Tyler Suehr
  *
+ * Defines a basic observer manager for {@link ChipDataSourceObserver}.
+ *
  * @author Tyler Suehr
  * @version 1.0
  */
