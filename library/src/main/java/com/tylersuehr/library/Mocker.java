@@ -17,14 +17,14 @@ public final class Mocker {
     public static List<Chip> mockChips() {
         List<Chip> chips = new ArrayList<>();
         for (int i = 0; i < 20; i++) {
-            chips.add(new BaseChip("Chip " + i, "Hell yeah, I'm a chip!"));
+            chips.add(new BasicChip("Chip " + i, "Hell yeah, I'm a chip!"));
         }
-        chips.add(new BaseChip("Wrestling", "Hell yeah, I'm a chip!"));
-        chips.add(new BaseChip("Football", "Hell yeah, I'm a chip!"));
-        chips.add(new BaseChip("Soccer", "Hell yeah, I'm a chip!"));
-        chips.add(new BaseChip("Baseball", "Hell yeah, I'm a chip!"));
-        chips.add(new BaseChip("Kick the Can", "Hell yeah, I'm a chip!"));
-        chips.add(new BaseChip("Ping Pong", "Hell yeah, I'm a chip!"));
+        chips.add(new BasicChip("Wrestling", "Hell yeah, I'm a chip!"));
+        chips.add(new BasicChip("Football", "Hell yeah, I'm a chip!"));
+        chips.add(new BasicChip("Soccer", "Hell yeah, I'm a chip!"));
+        chips.add(new BasicChip("Baseball", "Hell yeah, I'm a chip!"));
+        chips.add(new BasicChip("Kick the Can", "Hell yeah, I'm a chip!"));
+        chips.add(new BasicChip("Ping Pong", "Hell yeah, I'm a chip!"));
         return chips;
     }
 }

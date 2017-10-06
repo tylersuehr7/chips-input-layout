@@ -98,7 +98,7 @@ class ChipsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> impleme
     public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
         if (actionId == EditorInfo.IME_ACTION_DONE && !TextUtils.isEmpty(v.getText())) {
             // Create a custom, non-filterable, chip and add to selected list
-            Chip chip = new BaseChip(v.getText().toString(), null);
+            Chip chip = new BasicChip(v.getText().toString(), null);
             chip.setFilterable(false);
 
             // Empty input before taking chip so we don't have to update UI twice

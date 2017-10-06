@@ -11,7 +11,7 @@ import com.tylersuehr.library.data.Chip;
  * @author Tyler Suehr
  * @version 1.0
  */
-class BaseChip extends Chip {
+class BasicChip extends Chip {
     private Object id;
     private Uri avatarUri;
     private Drawable avatarDrawable;
@@ -19,39 +19,39 @@ class BaseChip extends Chip {
     private String subtitle;
 
 
-    BaseChip(@NonNull Object id, @Nullable Uri avatarUri, @NonNull String label, @Nullable String subtitle) {
+    BasicChip(@NonNull Object id, @Nullable Uri avatarUri, @NonNull String label, @Nullable String subtitle) {
         this.id = id;
         this.avatarUri = avatarUri;
         this.title = label;
         this.subtitle = subtitle;
     }
 
-    BaseChip(@NonNull Object id, @Nullable Drawable avatarDrawable, @NonNull String label, @Nullable String subtitle) {
+    BasicChip(@NonNull Object id, @Nullable Drawable avatarDrawable, @NonNull String label, @Nullable String subtitle) {
         this.id = id;
         this.avatarDrawable = avatarDrawable;
         this.title = label;
         this.subtitle = subtitle;
     }
 
-    BaseChip(@Nullable Uri avatarUri, @NonNull String label, @Nullable String subtitle) {
+    BasicChip(@Nullable Uri avatarUri, @NonNull String label, @Nullable String subtitle) {
         this.avatarUri = avatarUri;
         this.title = label;
         this.subtitle = subtitle;
     }
 
-    BaseChip(@Nullable Drawable avatarDrawable, @NonNull String label, @Nullable String subtitle) {
+    BasicChip(@Nullable Drawable avatarDrawable, @NonNull String label, @Nullable String subtitle) {
         this.avatarDrawable = avatarDrawable;
         this.title = label;
         this.subtitle = subtitle;
     }
 
-    BaseChip(@NonNull Object id, @NonNull String label, @Nullable String subtitle) {
+    BasicChip(@NonNull Object id, @NonNull String label, @Nullable String subtitle) {
         this.id = id;
         this.title = label;
         this.subtitle = subtitle;
     }
 
-    BaseChip(@NonNull String label, @Nullable String subtitle) {
+    BasicChip(@NonNull String label, @Nullable String subtitle) {
         this.title = label;
         this.subtitle = subtitle;
     }
