@@ -1,6 +1,5 @@
 package com.tylersuehr.library.data;
 import android.support.annotation.Nullable;
-import java.util.List;
 
 /**
  * Copyright © 2017 Tyler Suehr
