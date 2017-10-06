@@ -1,7 +1,5 @@
 package com.tylersuehr.library.data;
 import android.support.annotation.VisibleForTesting;
-import android.text.TextUtils;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
@@ -13,7 +11,7 @@ import java.util.List;
  * @author Tyler Suehr
  * @version 1.0
  */
-public class ListChipDataSource implements ChipDataSource, ChipDataSourceManager {
+public class ListChipDataSource implements ChipDataSource {
     /* Aggregation of observers listening to chip data changes */
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     List<ChipDataSourceObserver> observers;
@@ -87,17 +85,17 @@ public class ListChipDataSource implements ChipDataSource, ChipDataSourceManager
             // Check if chip is actually in the filtered list
             if (filteredChips.contains(chip)) {
                 this.filteredChips.remove(chip);
-                notifyChipRemoved(filteredChips, chip);
+                notifyChange(chip);
 
                 this.selectedChips.add(chip);
-                notifyChipAdded(selectedChips, chip);
+                notifyChange(chip);
             } else {
                 throw new IllegalArgumentException("Chip is not in filtered chip list!");
             }
         } else {
             // Just add it to the selected list only
             this.selectedChips.add(chip);
-            notifyChipAdded(selectedChips, chip);
+            notifyChange(chip);
         }
     }
 
@@ -110,12 +108,12 @@ public class ListChipDataSource implements ChipDataSource, ChipDataSourceManager
         // Check if chip is actually selected
         if (selectedChips.contains(chip)) {
             this.selectedChips.remove(chip);
-            notifyChipRemoved(selectedChips, chip);
+            notifyChange(chip);
 
             // Check if the chip is filterable
             if (chip.isFilterable()) {
                 this.filteredChips.add(chip);
-                notifyChipAdded(filteredChips, chip);
+                notifyChange(chip);
             }
         } else {
             throw new IllegalArgumentException("Chip is not in selected chip list!");
@@ -132,10 +130,10 @@ public class ListChipDataSource implements ChipDataSource, ChipDataSourceManager
         // Check if chip is actually in the filtered chip list
         if (filteredChips.contains(chip)) {
             this.filteredChips.remove(chip);
-            notifyChipRemoved(filteredChips, chip);
+            notifyChange(chip);
 
             this.selectedChips.add(chip);
-            notifyChipAdded(selectedChips, chip);
+            notifyChange(chip);
         } else {
             throw new IllegalArgumentException("Chip is not in filtered chip list!");
         }
@@ -151,10 +149,10 @@ public class ListChipDataSource implements ChipDataSource, ChipDataSourceManager
         // Check if chip is actually selected
         if (selectedChips.contains(chip)) {
             this.selectedChips.remove(chip);
-            notifyChipRemoved(selectedChips, chip);
+            notifyChange(chip);
 
             this.filteredChips.add(chip);
-            notifyChipAdded(filteredChips, chip);
+            notifyChange(chip);
         } else {
             throw new IllegalArgumentException("Chip is not in selected chip list!");
         }
@@ -183,27 +181,13 @@ public class ListChipDataSource implements ChipDataSource, ChipDataSourceManager
     }
 
     /**
-     * Notifies any observers of a chip being added.
-     * @param list Immutable list of {@link Chip}
-     * @param addedChip {@link Chip}
+     * Notifies the observers of a change to the data source.
+     * @param affectedChip {@link Chip}
      */
-    private synchronized void notifyChipAdded(final List<Chip> list, Chip addedChip) {
+    private synchronized void notifyChange(final Chip affectedChip) {
         if (observers != null) {
             for (ChipDataSourceObserver observer : observers) {
-                observer.onChipAdded(list, addedChip);
-            }
-        }
-    }
-
-    /**
-     * Notifies any observers of a chip being removed.
-     * @param list Immutable list of {@link Chip}
-     * @param removedChip {@link Chip}
-     */
-    private synchronized void notifyChipRemoved(final List<Chip> list, Chip removedChip) {
-        if (observers != null) {
-            for (ChipDataSourceObserver observer : observers) {
-                observer.onChipRemoved(list, removedChip);
+                observer.onChipDataSourceChanged(affectedChip);
             }
         }
     }

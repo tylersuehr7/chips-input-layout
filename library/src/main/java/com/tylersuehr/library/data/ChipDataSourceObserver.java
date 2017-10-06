@@ -1,4 +1,5 @@
 package com.tylersuehr.library.data;
+import android.support.annotation.Nullable;
 import java.util.List;
 
 /**
@@ -8,6 +9,5 @@ import java.util.List;
  * @version 1.0
  */
 public interface ChipDataSourceObserver {
-    void onChipAdded(final List<Chip> list, Chip addedChip);
-    void onChipRemoved(final List<Chip> list, Chip removedChip);
+    void onChipDataSourceChanged(@Nullable Chip affectedChip);
 }
