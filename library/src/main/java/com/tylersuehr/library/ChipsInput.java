@@ -151,16 +151,6 @@ public class ChipsInput extends MaxHeightScrollView
 
         // Setup the filterable recycler when new filterable data has been set
         createAndSetupFilterableRecyclerView();
-//        this.filterableChipsAdapter = new FilterableChipsAdapter(
-//                getContext(), this, chipOptions, chipDataSource);
-//
-//        this.filterableRecyclerView = new FilterableRecyclerView(getContext());
-//        if (chipOptions.filterableListBackgroundColor != null) {
-//            this.filterableRecyclerView.getBackground().setColorFilter(
-//                    chipOptions.filterableListBackgroundColor.getDefaultColor(), PorterDuff.Mode.SRC_ATOP);
-//        }
-//        this.filterableRecyclerView.setAdapter(filterableChipsAdapter);
-//        this.filterableRecyclerView.setChipsInputAndAdjustLayout(this, filterableChipsAdapter.getFilter());
     }
 
     /**
@@ -251,7 +241,7 @@ public class ChipsInput extends MaxHeightScrollView
                 if (TextUtils.isEmpty(s)) {
                     filterableRecyclerView.fadeOut();
                 } else {
-                    filterableRecyclerView.filterList(s);
+                    filterableRecyclerView.filterChips(s);
                 }
             }
         }

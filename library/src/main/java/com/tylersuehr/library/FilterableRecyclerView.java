@@ -41,7 +41,7 @@ class FilterableRecyclerView extends RecyclerView {
      *
      * @param filter Filter pattern
      */
-    void filterList(CharSequence filter) {
+    void filterChips(CharSequence filter) {
         if (filter != null) {
             this.chipsFilter.filter(filter, new Filter.FilterListener() {
                 @Override
