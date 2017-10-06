@@ -231,20 +231,6 @@ class ChipsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> impleme
             lp.topMargin = coord[1] - Utils.dp(13);
         }
 
-        // When detailed chip view loses focus, fade it out
-//        detailedChipView.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-//            @Override
-//            public void onFocusChange(View v, boolean hasFocus) {
-//                if (!hasFocus) {
-//                    detailedChipView.fadeOut();
-//
-//                    // Request focus on the chips edit text
-//                    editText.requestFocus();
-//                    editText.requestFocusFromTouch();
-//                }
-//            }
-//        });
-
         // Show the detailed chip view
         rootView.addView(detailedChipView, lp);
         detailedChipView.fadeIn();
