@@ -40,7 +40,9 @@ import java.util.List;
  * @author Tyler Suehr
  * @version 1.0
  */
-public class ChipsInput extends MaxHeightScrollView {
+public class ChipsInput extends MaxHeightScrollView
+        implements FilterableChipsAdapter.OnFilteredChipClickListener {
+
     private ChipDataSource chipDataSource;
     private ChipOptions chipOptions;
 
@@ -49,12 +51,11 @@ public class ChipsInput extends MaxHeightScrollView {
 
     /* Displays selected chips and chips EditText */
     private RecyclerView chipsRecycler;
-
-    /* Adapts the user's selected chips into the chips RecyclerView */
     private ChipsAdapter chipsAdapter;
 
     /* Displays filtered chips */
     private FilterableRecyclerView filterableRecyclerView;
+    private FilterableChipsAdapter filterableChipsAdapter;
 
 
     public ChipsInput(Context context) {
@@ -86,6 +87,12 @@ public class ChipsInput extends MaxHeightScrollView {
         }
         Window.Callback localCallback = activity.getWindow().getCallback();
         activity.getWindow().setCallback(new WindowCallback(localCallback, activity));
+    }
+
+    @Override
+    public void onFilteredChipClick(Chip chip) {
+//        this.chipsEditText.setText("");
+        this.filterableRecyclerView.fadeOut();
     }
 
     ChipDataSource getChipDataSource() {
@@ -141,12 +148,16 @@ public class ChipsInput extends MaxHeightScrollView {
         this.chipDataSource.setFilterableChips(chips);
 
         // Setup the filterable recycler when new filterable data has been set
+        this.filterableChipsAdapter = new FilterableChipsAdapter(
+                getContext(), this, chipOptions, chipDataSource);
+
         this.filterableRecyclerView = new FilterableRecyclerView(getContext());
         if (chipOptions.filterableListBackgroundColor != null) {
             this.filterableRecyclerView.getBackground().setColorFilter(
                     chipOptions.filterableListBackgroundColor.getDefaultColor(), PorterDuff.Mode.SRC_ATOP);
         }
-        this.filterableRecyclerView.build(this);
+        this.filterableRecyclerView.setAdapter(filterableChipsAdapter);
+        this.filterableRecyclerView.setChipsInputAndAdjustLayout(this, filterableChipsAdapter.getFilter());
     }
 
     /**

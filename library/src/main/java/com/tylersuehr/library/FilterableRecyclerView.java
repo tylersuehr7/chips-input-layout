@@ -1,5 +1,4 @@
 package com.tylersuehr.library;
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.graphics.Rect;
@@ -11,7 +10,6 @@ import android.view.ViewTreeObserver;
 import android.view.animation.AlphaAnimation;
 import android.widget.Filter;
 import android.widget.RelativeLayout;
-import com.tylersuehr.library.data.Chip;
 
 /**
  * Copyright © 2017 Tyler Suehr
@@ -19,10 +17,9 @@ import com.tylersuehr.library.data.Chip;
  * @author Tyler Suehr
  * @version 1.0
  */
-@SuppressLint("ViewConstructor")
-class FilterableRecyclerView extends RecyclerView implements FilterableChipsAdapter.OnFilteredChipClickListener {
-    private FilterableChipsAdapter adapter;
+class FilterableRecyclerView extends RecyclerView {
     private ChipsInput chipsInput;
+    private Filter chipsFilter;
 
 
     FilterableRecyclerView(Context c) {
@@ -31,22 +28,14 @@ class FilterableRecyclerView extends RecyclerView implements FilterableChipsAdap
         setVisibility(GONE);
     }
 
-    public void build(final ChipsInput chipsInput) {
+    public void setChipsInputAndAdjustLayout(final ChipsInput chipsInput, Filter chipsFilter) {
+        this.chipsFilter = chipsFilter;
         this.chipsInput = chipsInput;
-
-        this.adapter = new FilterableChipsAdapter(
-                chipsInput.getContext(),
-                this,
-                chipsInput.getChipOptions(),
-                chipsInput.getChipDataSource());
-        setAdapter(adapter);
-
-        // Listen to changes in the tree
         this.chipsInput.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
                 // Position
-                ViewGroup rootView = (ViewGroup) chipsInput.getRootView();
+                ViewGroup rootView = (ViewGroup)chipsInput.getRootView();
 
                 // Size
                 RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(
@@ -70,26 +59,25 @@ class FilterableRecyclerView extends RecyclerView implements FilterableChipsAdap
     }
 
     /**
-     * When a filtered chip is clicked, the data source will be updated, and therefore
-     * should hide the filtered recycler view.
+     * Applies the given filter pattern to the filter. If the filter yields no results,
+     * then we hide this filterable recycler, or show it otherwise.
+     *
+     * @param filter Filter pattern
      */
-    @Override
-    public void onFilteredChipClick(Chip chip) {
-        fadeOut();
-    }
-
     void filterList(CharSequence filter) {
-        this.adapter.getFilter().filter(filter, new Filter.FilterListener() {
-            @Override
-            public void onFilterComplete(int count) {
-                // Show if, and only if, there are results
-                if (adapter.getItemCount() > 0) {
-                    fadeIn();
-                } else {
-                    fadeOut();
+        if (filter != null) {
+            this.chipsFilter.filter(filter, new Filter.FilterListener() {
+                @Override
+                public void onFilterComplete(int count) {
+                    // Show if, and only if, there are results
+                    if (count > 0) {
+                        fadeIn();
+                    } else {
+                        fadeOut();
+                    }
                 }
-            }
-        });
+            });
+        }
     }
 
     /**
