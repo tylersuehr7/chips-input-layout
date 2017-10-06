@@ -2,6 +2,7 @@ package com.tylersuehr.library;
 
 import android.content.Context;
 import android.graphics.PorterDuff;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -25,9 +26,10 @@ import java.util.List;
  * @author Tyler Suehr
  * @version 1.0
  */
-class FilterableChipsAdapter extends RecyclerView.Adapter<FilterableChipsAdapter.Holder> implements Filterable {
+class FilterableChipsAdapter extends RecyclerView.Adapter<FilterableChipsAdapter.Holder>
+        implements ChipDataSourceObserver, Filterable {
     private static LetterTileProvider tileProvider;
-    private final ChipDataSource dataSource;
+    private final ChipDataSource chipDataSource;
     private final ChipOptions chipOptions;
     private final OnFilteredChipClickListener listener;
     private ChipFilter filter;
@@ -35,32 +37,21 @@ class FilterableChipsAdapter extends RecyclerView.Adapter<FilterableChipsAdapter
 
     FilterableChipsAdapter(Context c,
                            OnFilteredChipClickListener listener,
-                           ChipOptions op,
-                           ChipDataSource dataSource,
-                           ChipDataSourceManager dataSourceManager) {
-        this.listener = listener;
-        this.dataSource = dataSource;
-        this.chipOptions = op;
-
+                           ChipOptions chipOptions,
+                           ChipDataSource chipDataSource) {
         tileProvider = getTileProvider(c);
 
-        // Create a listener for the chips
-        dataSourceManager.registerObserver(new ChipDataSourceObserver() {
-            @Override
-            public void onChipAdded(List<Chip> list, Chip addedChip) {
-                notifyDataSetChanged();
-            }
+        this.listener = listener;
+        this.chipDataSource = chipDataSource;
+        this.chipOptions = chipOptions;
 
-            @Override
-            public void onChipRemoved(List<Chip> list, Chip removedChip) {
-                notifyDataSetChanged();
-            }
-        });
+        // Register an observer on chip data source
+        this.chipDataSource.registerObserver(this);
     }
 
     @Override
     public int getItemCount() {
-        return dataSource.getFilteredChips().size();
+        return chipDataSource.getFilteredChips().size();
     }
 
     @Override
@@ -72,7 +63,7 @@ class FilterableChipsAdapter extends RecyclerView.Adapter<FilterableChipsAdapter
 
     @Override
     public void onBindViewHolder(Holder holder, int position) {
-        final Chip chip = dataSource.getFilteredChips().get(position);
+        final Chip chip = chipDataSource.getFilteredChips().get(position);
 
         // Set the chip avatar, if possible
         if (chipOptions.hasAvatarIcon && chip.getAvatarUri() != null) {
@@ -117,6 +108,11 @@ class FilterableChipsAdapter extends RecyclerView.Adapter<FilterableChipsAdapter
         return filter;
     }
 
+    @Override
+    public void onChipDataSourceChanged(@Nullable Chip affectedChip) {
+        notifyDataSetChanged();
+    }
+
     private static LetterTileProvider getTileProvider(Context c) {
         if (tileProvider == null) {
             tileProvider = new LetterTileProvider(c);
@@ -143,8 +139,8 @@ class FilterableChipsAdapter extends RecyclerView.Adapter<FilterableChipsAdapter
             // TODO: POSSIBLE OPTIMIZATION
             // Add some convenience methods to ChipDataSource to take and replace filterable chips
             // using indexes instead of the Chip model
-            final Chip chip = dataSource.getFilteredChips().get(getAdapterPosition());
-            dataSource.takeChip(chip);
+            final Chip chip = chipDataSource.getFilteredChips().get(getAdapterPosition());
+            chipDataSource.takeChip(chip);
 
             listener.onFilteredChipClick(chip);
         }
@@ -180,28 +176,28 @@ class FilterableChipsAdapter extends RecyclerView.Adapter<FilterableChipsAdapter
         // to store original filtered list (may have been the original idea to begin with)
         private ChipFilter() {
             this.originalFiltered = new ArrayList<>();
-            this.originalFiltered.addAll(dataSource.getFilteredChips());
+            this.originalFiltered.addAll(chipDataSource.getFilteredChips());
         }
 
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
             FilterResults results = new FilterResults();
 
-            dataSource.getFilteredChips().clear();
+            chipDataSource.getFilteredChips().clear();
             if (TextUtils.isEmpty(constraint)) {
-                dataSource.getFilteredChips().addAll(originalFiltered);
+                chipDataSource.getFilteredChips().addAll(originalFiltered);
             } else {
                 final String pattern = constraint.toString().toLowerCase().trim();
                 for (Chip chip : originalFiltered) {
                     if (chip.getTitle().toLowerCase().contains(pattern)
                             || (chip.getSubtitle() != null && chip.getSubtitle().toLowerCase().replaceAll("\\s", "").contains(pattern))) {
-                        dataSource.getFilteredChips().add(chip);
+                        chipDataSource.getFilteredChips().add(chip);
                     }
                 }
             }
 
-            results.values = dataSource.getFilteredChips();
-            results.count = dataSource.getFilteredChips().size();
+            results.values = chipDataSource.getFilteredChips();
+            results.count = chipDataSource.getFilteredChips().size();
             return results;
         }
 

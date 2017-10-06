@@ -1,4 +1,5 @@
 package com.tylersuehr.library;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.KeyEvent;
@@ -14,8 +15,6 @@ import com.tylersuehr.library.data.Chip;
 import com.tylersuehr.library.data.ChipDataSource;
 import com.tylersuehr.library.data.ChipDataSourceObserver;
 
-import java.util.List;
-
 /**
  * Copyright © 2017 Tyler Suehr
  *
@@ -26,11 +25,11 @@ import java.util.List;
  * @version 1.0
  */
 class ChipsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements
-        View.OnKeyListener, TextView.OnEditorActionListener {
+        View.OnKeyListener, TextView.OnEditorActionListener, ChipDataSourceObserver {
     private static final int TYPE_INPUT = 0;
     private static final int TYPE_ITEM  = 1;
 
-    private final ChipDataSource dataSource;
+    private final ChipDataSource chipDataSource;
     private final ChipOptions chipOptions;
     private final ChipsInput chipsInput;
     private final EditText editText;
@@ -38,23 +37,15 @@ class ChipsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> impleme
 
     ChipsAdapter(ChipsInput chipsInput) {
         this.chipsInput = chipsInput;
-        this.dataSource = chipsInput.getChipDataSource();
+        this.chipDataSource = chipsInput.getChipDataSource();
         this.chipOptions = chipsInput.getChipOptions();
         this.editText = chipsInput.getChipsInput();
+
         this.editText.setOnKeyListener(this);
         this.editText.setOnEditorActionListener(this);
 
-        chipsInput.getChipDataSourceManager().registerObserver(new ChipDataSourceObserver() {
-            @Override
-            public void onChipAdded(List<Chip> list, Chip addedChip) {
-                notifyDataSetChanged();
-            }
-
-            @Override
-            public void onChipRemoved(List<Chip> list, Chip removedChip) {
-                notifyDataSetChanged();
-            }
-        });
+        // Register an observer on the chip data source
+        this.chipDataSource.registerObserver(this);
     }
 
     @Override
@@ -66,8 +57,8 @@ class ChipsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> impleme
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        if (position == dataSource.getSelectedChips().size()) { // For EditText
-            if (dataSource.getSelectedChips().size() == 0) {
+        if (position == chipDataSource.getSelectedChips().size()) { // For EditText
+            if (chipDataSource.getSelectedChips().size() == 0) {
                 this.editText.setHint(chipOptions.hint);
             }
 
@@ -75,7 +66,7 @@ class ChipsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> impleme
             autoFitEditText();
         } else if (getItemCount() > 1) { // For chips
             ChipHolder cHolder = (ChipHolder)holder;
-            cHolder.chipView.inflateWithChip(dataSource.getSelectedChips().get(position));
+            cHolder.chipView.inflateWithChip(chipDataSource.getSelectedChips().get(position));
 
             // TODO POSSIBLE OPTIMIZATION
             // Add custom listeners for click and delete on ChipView and then implement them on
@@ -87,17 +78,17 @@ class ChipsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> impleme
 
     @Override
     public int getItemCount() {
-        return dataSource.getSelectedChips().size() + 1;
+        return chipDataSource.getSelectedChips().size() + 1;
     }
 
     @Override
     public int getItemViewType(int position) {
-        return position == dataSource.getSelectedChips().size() ? TYPE_INPUT : TYPE_ITEM;
+        return position == chipDataSource.getSelectedChips().size() ? TYPE_INPUT : TYPE_ITEM;
     }
 
     @Override
     public long getItemId(int position) {
-        return dataSource.getSelectedChips().get(position).hashCode();
+        return chipDataSource.getSelectedChips().get(position).hashCode();
     }
 
     /**
@@ -110,7 +101,7 @@ class ChipsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> impleme
             Chip chip = new BaseChip(v.getText().toString(), null);
             chip.setFilterable(false);
 
-            this.dataSource.takeChip(chip);
+            this.chipDataSource.takeChip(chip);
 
             v.setText("");
             notifyDataSetChanged();
@@ -127,12 +118,17 @@ class ChipsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> impleme
         if (keyEvent.getAction() == KeyEvent.ACTION_DOWN
                 && keyEvent.getKeyCode() == KeyEvent.KEYCODE_DEL) { // Backspace key
             // Just remove the last chip, if possible
-            if (dataSource.getSelectedChips().size() > 0 && editText.getText().toString().length() == 0) {
-                removeChip(dataSource.getSelectedChips().size() - 1);
+            if (chipDataSource.getSelectedChips().size() > 0 && editText.getText().toString().length() == 0) {
+                removeChip(chipDataSource.getSelectedChips().size() - 1);
                 return true;
             }
         }
         return false;
+    }
+
+    @Override
+    public void onChipDataSourceChanged(@Nullable Chip affectedChip) {
+        notifyDataSetChanged();
     }
 
     /**
@@ -140,11 +136,11 @@ class ChipsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> impleme
      * @param position Position of chip to remove
      */
     private void removeChip(int position) {
-        final Chip chip = dataSource.getSelectedChips().get(position);
+        final Chip chip = chipDataSource.getSelectedChips().get(position);
         if (chip.isFilterable()) {
-            this.dataSource.replaceFilteredChip(chip);
+            this.chipDataSource.replaceFilteredChip(chip);
         } else {
-            this.dataSource.getSelectedChips().remove(position);
+            this.chipDataSource.getSelectedChips().remove(position);
         }
         notifyDataSetChanged();
     }
@@ -197,7 +193,7 @@ class ChipsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> impleme
 
                     // Create a detailed chip view to show
                     final DetailedChipView detailedChipView = chipsInput.getThemedDetailedChipView(
-                            dataSource.getSelectedChips().get(position));
+                            chipDataSource.getSelectedChips().get(position));
                     setDetailedChipViewPosition(detailedChipView, coord);
 
                     // Remove the button when the chip is delete

@@ -38,8 +38,7 @@ class FilterableRecyclerView extends RecyclerView implements FilterableChipsAdap
         this.adapter = new FilterableChipsAdapter(c,
                 this,
                 chipsInput.getChipOptions(),
-                chipsInput.getChipDataSource(),
-                chipsInput.getChipDataSourceManager());
+                chipsInput.getChipDataSource());
         setAdapter(adapter);
 
         // Listen to changes in the tree
