@@ -14,7 +14,6 @@ import android.widget.TextView;
 
 import com.tylersuehr.library.data.Chip;
 import com.tylersuehr.library.data.ChipDataSource;
-import com.tylersuehr.library.data.ChipDataSourceManager;
 import com.tylersuehr.library.data.ChipDataSourceObserver;
 
 import java.util.ArrayList;

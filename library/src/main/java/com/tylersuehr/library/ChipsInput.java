@@ -30,7 +30,6 @@ import android.widget.RelativeLayout;
 import com.beloo.widget.chipslayoutmanager.ChipsLayoutManager;
 import com.tylersuehr.library.data.Chip;
 import com.tylersuehr.library.data.ChipDataSource;
-import com.tylersuehr.library.data.ChipDataSourceManager;
 import com.tylersuehr.library.data.ListChipDataSource;
 
 /**
@@ -41,7 +40,6 @@ import com.tylersuehr.library.data.ListChipDataSource;
  */
 public class ChipsInput extends MaxHeightScrollView {
     private ChipDataSource chipDataSource;
-    private ChipDataSourceManager chipDataSourceManager;
     private ChipOptions chipOptions;
 
     /* Allows user to type text into the ChipsInput */
@@ -64,12 +62,9 @@ public class ChipsInput extends MaxHeightScrollView {
     public ChipsInput(Context c, AttributeSet attrs) {
         super(c, attrs);
         this.chipOptions = new ChipOptions(c, attrs);
+        this.chipDataSource = new ListChipDataSource();
 
-        ListChipDataSource ls = new ListChipDataSource();
-        this.chipDataSource = ls;
-        this.chipDataSourceManager = ls;
-
-        ls.setFilterableChips(Mocker.mockChips());
+        chipDataSource.setFilterableChips(Mocker.mockChips());
 
         // Inflate the view
         inflate(c, R.layout.chips_input_view, this);
@@ -93,10 +88,6 @@ public class ChipsInput extends MaxHeightScrollView {
 
     ChipDataSource getChipDataSource() {
         return chipDataSource;
-    }
-
-    ChipDataSourceManager getChipDataSourceManager() {
-        return chipDataSourceManager;
     }
 
     ChipOptions getChipOptions() {
