@@ -75,27 +75,6 @@ public class ListChipDataSource implements ChipDataSource {
     }
 
     @Override
-    public void filterChips(CharSequence filter) {
-        // Always clear the filtered chip list (backed up in original)
-        this.filteredChips.clear();
-
-        if (filter == null || filter.length() <= 0) {
-            // Nothing to filter, so add back the original filterable chips
-            this.filteredChips.addAll(originalChips);
-        } else {
-            // Only include chips where the title or possible subtitle contain the filter
-            final String f = filter.toString().toLowerCase().trim();
-            for (Chip c : originalChips) {
-                if (c.getTitle().toLowerCase().contains(f) ||
-                        (c.getSubtitle() != null && c.getSubtitle().toLowerCase().contains(f))) {
-                    this.filteredChips.add(c);
-                }
-            }
-        }
-        notifyChange(null);
-    }
-
-    @Override
     public void takeChip(Chip chip) {
         if (chip == null) {
             throw new NullPointerException("Chip cannot be null!");

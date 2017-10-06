@@ -13,7 +13,6 @@ public interface ChipDataSource {
     List<Chip> getOriginalChips();
 
     void setFilterableChips(List<? extends Chip> chips);
-    void filterChips(CharSequence filter);
     void takeChip(Chip chip);
     void replaceChip(Chip chip);
 
