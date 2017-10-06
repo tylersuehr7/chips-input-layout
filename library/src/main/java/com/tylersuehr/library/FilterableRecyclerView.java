@@ -1,9 +1,7 @@
 package com.tylersuehr.library;
-
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.Configuration;
-import android.graphics.PorterDuff;
 import android.graphics.Rect;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -13,7 +11,6 @@ import android.view.ViewTreeObserver;
 import android.view.animation.AlphaAnimation;
 import android.widget.Filter;
 import android.widget.RelativeLayout;
-
 import com.tylersuehr.library.data.Chip;
 
 /**
@@ -26,16 +23,19 @@ import com.tylersuehr.library.data.Chip;
 class FilterableRecyclerView extends RecyclerView implements FilterableChipsAdapter.OnFilteredChipClickListener {
     private FilterableChipsAdapter adapter;
     private ChipsInput chipsInput;
-    private boolean shown = false;
 
 
-    FilterableRecyclerView(Context c, final ChipsInput chipsInput) {
+    FilterableRecyclerView(Context c) {
         super(c);
-        this.chipsInput = chipsInput;
         setLayoutManager(new LinearLayoutManager(c));
         setVisibility(GONE);
+    }
 
-        this.adapter = new FilterableChipsAdapter(c,
+    public void build(final ChipsInput chipsInput) {
+        this.chipsInput = chipsInput;
+
+        this.adapter = new FilterableChipsAdapter(
+                chipsInput.getContext(),
                 this,
                 chipsInput.getChipOptions(),
                 chipsInput.getChipDataSource());
@@ -62,8 +62,6 @@ class FilterableRecyclerView extends RecyclerView implements FilterableChipsAdap
 
                 // Add view
                 rootView.addView(FilterableRecyclerView.this, lp);
-
-                shown = true;
 
                 // Remove the listener
                 chipsInput.getViewTreeObserver().removeOnGlobalLayoutListener(this);
@@ -98,7 +96,6 @@ class FilterableRecyclerView extends RecyclerView implements FilterableChipsAdap
      * Uses alpha animation to fade in the current view if it's not visible.
      */
     void fadeIn() {
-        if (!shown) { return; }
         if (getVisibility() == VISIBLE) { return; }
 
         // Get visible window (keyboard shown)
@@ -126,7 +123,6 @@ class FilterableRecyclerView extends RecyclerView implements FilterableChipsAdap
      * Uses alpha animation to fade out the current view if it's not gone.
      */
     void fadeOut() {
-        if (!shown) { return; }
         if (getVisibility() == GONE) { return; }
 
         AlphaAnimation anim = new AlphaAnimation(1.0f, 0.0f);

@@ -32,6 +32,8 @@ import com.tylersuehr.library.data.Chip;
 import com.tylersuehr.library.data.ChipDataSource;
 import com.tylersuehr.library.data.ListChipDataSource;
 
+import java.util.List;
+
 /**
  * Copyright © 2017 Tyler Suehr
  *
@@ -64,8 +66,6 @@ public class ChipsInput extends MaxHeightScrollView {
         this.chipOptions = new ChipOptions(c, attrs);
         this.chipDataSource = new ListChipDataSource();
 
-        chipDataSource.setFilterableChips(Mocker.mockChips());
-
         // Inflate the view
         inflate(c, R.layout.chips_input_view, this);
 
@@ -76,6 +76,8 @@ public class ChipsInput extends MaxHeightScrollView {
                 .setOrientation(ChipsLayoutManager.HORIZONTAL).build());
         this.chipsRecycler.setNestedScrollingEnabled(false);
         this.chipsRecycler.setAdapter(chipsAdapter);
+
+        setFilterableChipList(Mocker.mockChips());
 
         // Set the window callbacks to hide when the detailed chip view is visible
         Activity activity = Utils.scanForActivity(c);
@@ -135,17 +137,16 @@ public class ChipsInput extends MaxHeightScrollView {
         return chipsEditText;
     }
 
-    FilterableRecyclerView getFilterableRecyclerView() {
-        if (filterableRecyclerView == null) {
-            this.filterableRecyclerView = new FilterableRecyclerView(getContext(), this);
+    public void setFilterableChipList(List<? extends Chip> chips) {
+        this.chipDataSource.setFilterableChips(chips);
 
-            // Set properties from chip options
-            if (chipOptions.filterableListBackgroundColor != null) {
-                this.filterableRecyclerView.getBackground().setColorFilter(
-                        chipOptions.filterableListBackgroundColor.getDefaultColor(), PorterDuff.Mode.SRC_ATOP);
-            }
+        // Setup the filterable recycler when new filterable data has been set
+        this.filterableRecyclerView = new FilterableRecyclerView(getContext());
+        if (chipOptions.filterableListBackgroundColor != null) {
+            this.filterableRecyclerView.getBackground().setColorFilter(
+                    chipOptions.filterableListBackgroundColor.getDefaultColor(), PorterDuff.Mode.SRC_ATOP);
         }
-        return filterableRecyclerView;
+        this.filterableRecyclerView.build(this);
     }
 
     /**
@@ -188,14 +189,12 @@ public class ChipsInput extends MaxHeightScrollView {
     private final class ChipInputTextChangedHandler implements TextWatcher {
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
-            // Show filterable recycler view
-            final FilterableRecyclerView filterableRecyclerView = getFilterableRecyclerView();
             if (filterableRecyclerView != null) {
+                // Hide the filterable recycler if there is no filter.
+                // Filter the recycler if there is a filter
                 if (TextUtils.isEmpty(s)) {
-                    // If no filter, then hide the filterable recycler
                     filterableRecyclerView.fadeOut();
                 } else {
-                    // Filter the filtered chip list
                     filterableRecyclerView.filterList(s);
                 }
             }
