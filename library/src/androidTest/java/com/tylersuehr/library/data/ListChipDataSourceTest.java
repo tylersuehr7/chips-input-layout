@@ -1,5 +1,7 @@
 package com.tylersuehr.library.data;
 
+import android.support.annotation.Nullable;
+
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -71,41 +73,6 @@ public class ListChipDataSourceTest {
 
         assertNotNull(ls.originalChips);
         assertEquals(chips, ls.getOriginalChips());
-    }
-
-    @Test
-    public void depTakeFilteredChip() throws Exception {
-        final ListChipDataSource ls = new ListChipDataSource();
-
-        final Chip chip = new DataChipImpl("3", "Test Chip", "Chippy", null);
-
-        List<Chip> chips = new ArrayList<>();
-        chips.add(new DataChipImpl("0", "Chip", "chippy", null));
-        chips.add(new DataChipImpl("1", "Chip", "chippy", null));
-        chips.add(new DataChipImpl("2", "Chip", "chippy", null));
-        chips.add(chip);
-
-        ls.setFilterableChips(chips);
-        ls.takeFilteredChip(chip);
-
-        assertFalse(ls.filteredChips.contains(chip));
-        assertTrue(ls.selectedChips.contains(chip));
-    }
-
-    @Test
-    public void depReplaceFilteredChip() throws Exception {
-        final ListChipDataSource ls = new ListChipDataSource();
-        final Chip chip = new DataChipImpl("0", "Test Chip", "Chippy", null);
-
-        List<Chip> chips = new ArrayList<>();
-        chips.add(chip);
-
-        ls.setFilterableChips(chips);
-        ls.takeFilteredChip(chip);
-        ls.replaceFilteredChip(chip);
-
-        assertFalse(ls.selectedChips.contains(chip));
-        assertTrue(ls.filteredChips.contains(chip));
     }
 
     @Test
@@ -185,12 +152,7 @@ public class ListChipDataSourceTest {
     public void registerObserver() throws Exception {
         final ChipDataSourceObserver result = new ChipDataSourceObserver() {
             @Override
-            public void onChipAdded(List<Chip> list, Chip addedChip) {
-
-            }
-
-            @Override
-            public void onChipRemoved(List<Chip> list, Chip removedChip) {
+            public void onChipDataSourceChanged(@Nullable Chip affectedChip) {
 
             }
         };
@@ -204,12 +166,7 @@ public class ListChipDataSourceTest {
     public void unregisterObserver() throws Exception {
         final ChipDataSourceObserver result = new ChipDataSourceObserver() {
             @Override
-            public void onChipAdded(List<Chip> list, Chip addedChip) {
-
-            }
-
-            @Override
-            public void onChipRemoved(List<Chip> list, Chip removedChip) {
+            public void onChipDataSourceChanged(@Nullable Chip affectedChip) {
 
             }
         };
@@ -226,23 +183,13 @@ public class ListChipDataSourceTest {
     public void unregisterAllObservers() throws Exception {
         final ChipDataSourceObserver result = new ChipDataSourceObserver() {
             @Override
-            public void onChipAdded(List<Chip> list, Chip addedChip) {
-
-            }
-
-            @Override
-            public void onChipRemoved(List<Chip> list, Chip removedChip) {
+            public void onChipDataSourceChanged(@Nullable Chip affectedChip) {
 
             }
         };
         final ChipDataSourceObserver result2 = new ChipDataSourceObserver() {
             @Override
-            public void onChipAdded(List<Chip> list, Chip addedChip) {
-
-            }
-
-            @Override
-            public void onChipRemoved(List<Chip> list, Chip removedChip) {
+            public void onChipDataSourceChanged(@Nullable Chip affectedChip) {
 
             }
         };

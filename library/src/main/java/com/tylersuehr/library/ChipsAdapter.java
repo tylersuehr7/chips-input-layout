@@ -137,12 +137,7 @@ class ChipsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> impleme
      */
     private void removeChip(int position) {
         final Chip chip = chipDataSource.getSelectedChips().get(position);
-        if (chip.isFilterable()) {
-            this.chipDataSource.replaceFilteredChip(chip);
-        } else {
-            this.chipDataSource.getSelectedChips().remove(position);
-        }
-        notifyDataSetChanged();
+        this.chipDataSource.replaceChip(chip);
     }
 
     private void autoFitEditText() {
