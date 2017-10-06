@@ -16,9 +16,6 @@ import com.tylersuehr.library.data.Chip;
 import com.tylersuehr.library.data.ChipDataSource;
 import com.tylersuehr.library.data.ChipDataSourceObserver;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * Copyright © 2017 Tyler Suehr
  *
@@ -167,27 +164,16 @@ class FilterableChipsAdapter extends RecyclerView.Adapter<FilterableChipsAdapter
      * of filterable chips will be added back into the data source filterable chips.
      */
     private final class ChipFilter extends Filter {
-        private final List<Chip> originalFiltered;
-
-
-        // TODO: POSSIBLE OPTIMIZATION
-        // Use the original chip list in ChipDataSource instead of this instantiated list in constructor
-        // to store original filtered list (may have been the original idea to begin with)
-        private ChipFilter() {
-            this.originalFiltered = new ArrayList<>();
-            this.originalFiltered.addAll(chipDataSource.getFilteredChips());
-        }
-
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
             FilterResults results = new FilterResults();
 
             chipDataSource.getFilteredChips().clear();
             if (TextUtils.isEmpty(constraint)) {
-                chipDataSource.getFilteredChips().addAll(originalFiltered);
+                chipDataSource.getFilteredChips().addAll(chipDataSource.getOriginalChips());
             } else {
                 final String pattern = constraint.toString().toLowerCase().trim();
-                for (Chip chip : originalFiltered) {
+                for (Chip chip : chipDataSource.getOriginalChips()) {
                     if (chip.getTitle().toLowerCase().contains(pattern)
                             || (chip.getSubtitle() != null && chip.getSubtitle().toLowerCase().replaceAll("\\s", "").contains(pattern))) {
                         chipDataSource.getFilteredChips().add(chip);
