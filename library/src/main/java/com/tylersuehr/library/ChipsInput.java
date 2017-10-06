@@ -1,6 +1,7 @@
 package com.tylersuehr.library;
 import android.app.Activity;
 import android.content.Context;
+import android.content.res.Configuration;
 import android.graphics.PorterDuff;
 import android.graphics.Rect;
 import android.os.Build;
@@ -21,6 +22,7 @@ import android.view.MotionEvent;
 import android.view.SearchEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.accessibility.AccessibilityEvent;
@@ -148,16 +150,17 @@ public class ChipsInput extends MaxHeightScrollView
         this.chipDataSource.setFilterableChips(chips);
 
         // Setup the filterable recycler when new filterable data has been set
-        this.filterableChipsAdapter = new FilterableChipsAdapter(
-                getContext(), this, chipOptions, chipDataSource);
-
-        this.filterableRecyclerView = new FilterableRecyclerView(getContext());
-        if (chipOptions.filterableListBackgroundColor != null) {
-            this.filterableRecyclerView.getBackground().setColorFilter(
-                    chipOptions.filterableListBackgroundColor.getDefaultColor(), PorterDuff.Mode.SRC_ATOP);
-        }
-        this.filterableRecyclerView.setAdapter(filterableChipsAdapter);
-        this.filterableRecyclerView.setChipsInputAndAdjustLayout(this, filterableChipsAdapter.getFilter());
+        createAndSetupFilterableRecyclerView();
+//        this.filterableChipsAdapter = new FilterableChipsAdapter(
+//                getContext(), this, chipOptions, chipDataSource);
+//
+//        this.filterableRecyclerView = new FilterableRecyclerView(getContext());
+//        if (chipOptions.filterableListBackgroundColor != null) {
+//            this.filterableRecyclerView.getBackground().setColorFilter(
+//                    chipOptions.filterableListBackgroundColor.getDefaultColor(), PorterDuff.Mode.SRC_ATOP);
+//        }
+//        this.filterableRecyclerView.setAdapter(filterableChipsAdapter);
+//        this.filterableRecyclerView.setChipsInputAndAdjustLayout(this, filterableChipsAdapter.getFilter());
     }
 
     /**
@@ -194,6 +197,48 @@ public class ChipsInput extends MaxHeightScrollView
                 .backgroundColor(chipOptions.detailedChipBackgroundColor)
                 .deleteIconColor(chipOptions.detailedChipDeleteIconColor)
                 .build();
+    }
+
+    private void createAndSetupFilterableRecyclerView() {
+        // Create a new filterable recycler view
+        this.filterableRecyclerView = new FilterableRecyclerView(getContext());
+
+        // Set the filterable properties from the options
+        if (chipOptions.filterableListBackgroundColor != null) {
+            this.filterableRecyclerView.getBackground().setColorFilter(
+                    chipOptions.filterableListBackgroundColor.getDefaultColor(), PorterDuff.Mode.SRC_ATOP);
+        }
+
+        // Create and set the filterable chips adapter
+        this.filterableChipsAdapter = new FilterableChipsAdapter(getContext(), this, chipOptions, chipDataSource);
+        this.filterableRecyclerView.setAdapter(this, filterableChipsAdapter);
+
+        // To show our filterable recycler view, we need to make sure our ChipsInput has already
+        // been displayed on the screen so we can access its root view
+        getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                // Get the root view of the ChipsInput
+                ViewGroup rootView = (ViewGroup)getRootView();
+
+                // Create the layout params for our filterable recycler view
+                RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(
+                        Utils.getWindowWidth(getContext()),
+                        ViewGroup.LayoutParams.MATCH_PARENT
+                );
+                lp.addRule(RelativeLayout.ALIGN_PARENT_TOP);
+                lp.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
+                if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+                    lp.bottomMargin = Utils.getNavBarHeight(getContext());
+                }
+
+                // Add the filterable recycler to our root with the specified layout params
+                rootView.addView(filterableRecyclerView, lp);
+
+                // Remove the view tree listener
+                getViewTreeObserver().removeOnGlobalLayoutListener(this);
+            }
+        });
     }
 
 

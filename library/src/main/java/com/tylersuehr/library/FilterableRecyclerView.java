@@ -1,15 +1,13 @@
 package com.tylersuehr.library;
 import android.content.Context;
-import android.content.res.Configuration;
 import android.graphics.Rect;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 import android.view.animation.AlphaAnimation;
 import android.widget.Filter;
-import android.widget.RelativeLayout;
+import android.widget.Filterable;
 
 /**
  * Copyright © 2017 Tyler Suehr
@@ -18,7 +16,10 @@ import android.widget.RelativeLayout;
  * @version 1.0
  */
 class FilterableRecyclerView extends RecyclerView {
+    /* Used to determine location in window */
     private ChipsInput chipsInput;
+
+    /* Used to trigger filtering and receive callbacks to show or hide this */
     private Filter chipsFilter;
 
 
@@ -28,34 +29,10 @@ class FilterableRecyclerView extends RecyclerView {
         setVisibility(GONE);
     }
 
-    public void setChipsInputAndAdjustLayout(final ChipsInput chipsInput, Filter chipsFilter) {
-        this.chipsFilter = chipsFilter;
+    <T extends RecyclerView.Adapter & Filterable> void setAdapter(ChipsInput chipsInput, T adapter) {
+        setAdapter(adapter);
         this.chipsInput = chipsInput;
-        this.chipsInput.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout() {
-                // Position
-                ViewGroup rootView = (ViewGroup)chipsInput.getRootView();
-
-                // Size
-                RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(
-                        Utils.getWindowWidth(getContext()),
-                        ViewGroup.LayoutParams.MATCH_PARENT
-                );
-                lp.addRule(RelativeLayout.ALIGN_PARENT_TOP);
-                lp.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
-
-                if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
-                    lp.bottomMargin = Utils.getNavBarHeight(getContext());
-                }
-
-                // Add view
-                rootView.addView(FilterableRecyclerView.this, lp);
-
-                // Remove the listener
-                chipsInput.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-            }
-        });
+        this.chipsFilter = adapter.getFilter();
     }
 
     /**
