@@ -94,7 +94,7 @@ class ChipsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> impleme
      */
     @Override
     public void onKeyboardActionDone(String text) {
-        if (TextUtils.isEmpty(text)) { return; }
+        if (TextUtils.isEmpty(text) || !chipOptions.allowCustomChips) { return; }
 
         // Create a custom, non-filterable, chip and add to selected list
         Chip chip = new BasicChip(text, null);

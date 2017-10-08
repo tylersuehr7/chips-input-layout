@@ -38,6 +38,7 @@ final class ChipOptions {
     ColorStateList filterableListTextColor;
 
     /* Properties for the ChipsInput itself */
+    boolean allowCustomChips = true;
     int maxRows;
 
 
@@ -68,6 +69,7 @@ final class ChipOptions {
         this.filterableListTextColor = a.getColorStateList(R.styleable.ChipsInput_filterable_list_textColor);
 
         // Setup the properties for the ChipsInput itself
+        this.allowCustomChips = a.getBoolean(R.styleable.ChipsInput_customChipsEnabled, true);
         this.maxRows = a.getInt(R.styleable.ChipsInput_maxRows, 3);
 
         a.recycle();

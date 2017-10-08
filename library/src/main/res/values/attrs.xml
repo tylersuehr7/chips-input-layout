@@ -28,6 +28,7 @@
         <attr name="android:textColor"/>
         <attr name="maxRows" format="integer" />
         <attr name="showChipDetailed" format="boolean" />
+        <attr name="customChipsEnabled" format="boolean"/>
         <attr name="chip_labelColor" format="color" />
         <attr name="chip_hasAvatarIcon" format="boolean" />
         <attr name="chip_deletable" format="boolean" />
