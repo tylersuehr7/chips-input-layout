@@ -12,6 +12,13 @@ import android.widget.Filterable;
 /**
  * Copyright © 2017 Tyler Suehr
  *
+ * This subclass of {@link RecyclerView} will allow us to call to the {@link Filter} to
+ * filter the appropriate data source, and then receive a callback once the filtering is
+ * complete.
+ *
+ * We want to callbacks for filtering events because we can handle showing/hiding this
+ * view respectively.
+ *
  * @author Tyler Suehr
  * @version 1.0
  */
