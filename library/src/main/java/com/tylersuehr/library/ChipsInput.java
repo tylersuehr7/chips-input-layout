@@ -46,7 +46,10 @@ import java.util.List;
 public class ChipsInput extends MaxHeightScrollView
         implements FilterableChipsAdapter.OnFilteredChipClickListener {
 
+    /* Stores and manages all our chips */
     private ChipDataSource chipDataSource;
+
+    /* Stores the mutable properties of our ChipsInput (XML attrs) */
     private ChipOptions chipOptions;
 
     /* Allows user to type text into the ChipsInput */
@@ -105,6 +108,21 @@ public class ChipsInput extends MaxHeightScrollView
         hideKeyboard();
     }
 
+    public void setFilterableChipList(List<? extends Chip> chips) {
+        this.chipDataSource.setFilterableChips(chips);
+
+        // Setup the filterable recycler when new filterable data has been set
+        createAndSetupFilterableRecyclerView();
+    }
+
+    public List<? extends Chip> getFilterableChips() {
+        return chipDataSource.getOriginalChips();
+    }
+
+    public List<? extends Chip> getSelectedChips() {
+        return chipDataSource.getSelectedChips();
+    }
+
     ChipDataSource getChipDataSource() {
         return chipDataSource;
     }
@@ -155,13 +173,6 @@ public class ChipsInput extends MaxHeightScrollView
         return chipsEditText;
     }
 
-    public void setFilterableChipList(List<? extends Chip> chips) {
-        this.chipDataSource.setFilterableChips(chips);
-
-        // Setup the filterable recycler when new filterable data has been set
-        createAndSetupFilterableRecyclerView();
-    }
-
     /**
      * Creates a new {@link ChipView} with its theme set from properties defined
      * in {@link #chipOptions}.
@@ -198,6 +209,11 @@ public class ChipsInput extends MaxHeightScrollView
                 .build();
     }
 
+    /**
+     * Creates a new filterable recycler, sets up its properties from the chip options,
+     * creates a new filterable adapter for the recycler, and adds it as a child view to
+     * the root ViewGroup.
+     */
     private void createAndSetupFilterableRecyclerView() {
         // Create a new filterable recycler view
         this.filterableRecyclerView = new FilterableRecyclerView(getContext());
@@ -243,12 +259,20 @@ public class ChipsInput extends MaxHeightScrollView
         });
     }
 
+    /**
+     * Hides the software keyboard from the chips edit text.
+     */
     private void hideKeyboard() {
         ((InputMethodManager)getContext().getSystemService(Context.INPUT_METHOD_SERVICE))
                 .hideSoftInputFromWindow(chipsEditText.getWindowToken(), 0);
     }
 
 
+    /**
+     * Implementation of {@link TextWatcher} that handles two things for us:
+     * (1) Hides the filterable recycler if the user removes all the text from input.
+     * (2) Tells the filterable recycler to filter the chips when the user enters text.
+     */
     private final class ChipInputTextChangedHandler implements TextWatcher {
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {

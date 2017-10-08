@@ -6,9 +6,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <com.tylersuehr.library.ChipsInput
+        android:id="@+id/chips_input"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Enter activity... "
+        android:hint="Start typing for chips... "
         app:filterable_list_backgroundColor="@color/colorPrimary"
         app:filterable_list_textColor="#fafafa"/>
 </LinearLayout>
