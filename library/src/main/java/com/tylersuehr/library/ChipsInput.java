@@ -205,10 +205,10 @@ public class ChipsInput extends MaxHeightScrollView
         this.filterableRecyclerView.setBackgroundColor(Color.WHITE);
         ViewCompat.setElevation(filterableRecyclerView, 4f);
 
-//        if (chipOptions.filterableListBackgroundColor != null) {
-//            this.filterableRecyclerView.getBackground().setColorFilter(
-//                    chipOptions.filterableListBackgroundColor.getDefaultColor(), PorterDuff.Mode.SRC_ATOP);
-//        }
+        if (chipOptions.filterableListBackgroundColor != null) {
+            this.filterableRecyclerView.getBackground().setColorFilter(
+                    chipOptions.filterableListBackgroundColor.getDefaultColor(), PorterDuff.Mode.SRC_ATOP);
+        }
 
         // Create and set the filterable chips adapter
         this.filterableChipsAdapter = new FilterableChipsAdapter(getContext(), this, chipOptions, chipDataSource);

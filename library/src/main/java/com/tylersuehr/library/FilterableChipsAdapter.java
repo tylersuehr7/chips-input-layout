@@ -92,7 +92,7 @@ class FilterableChipsAdapter extends RecyclerView.Adapter<FilterableChipsAdapter
         }
         if (chipOptions.filterableListTextColor != null) {
             holder.title.setTextColor(chipOptions.filterableListTextColor);
-            holder.subtitle.setText(Utils.alpha(chipOptions.filterableListTextColor.getDefaultColor(), 150));
+            holder.subtitle.setTextColor(Utils.alpha(chipOptions.filterableListTextColor.getDefaultColor(), 150));
         }
     }
 

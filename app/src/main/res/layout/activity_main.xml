@@ -8,5 +8,7 @@
     <com.tylersuehr.library.ChipsInput
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Enter activity... "/>
+        android:hint="Enter activity... "
+        app:filterable_list_backgroundColor="@color/colorPrimary"
+        app:filterable_list_textColor="#fafafa"/>
 </LinearLayout>
