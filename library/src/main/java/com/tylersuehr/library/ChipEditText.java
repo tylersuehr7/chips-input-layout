@@ -12,7 +12,7 @@ import android.view.inputmethod.InputConnectionWrapper;
  * Setting onKeyEventListener doesn't work on software keyboards (IME) :(
  *
  * This subclass of {@link AppCompatEditText} provides a solution for detecting both
- * the IME_ACTION_DONE and backspace key press on both software keyboards!
+ * the IME_ACTION_DONE and backspace key press on software keyboards!
  *
  * TODO: Also try to simplify text watcher crap with this as well
  *
