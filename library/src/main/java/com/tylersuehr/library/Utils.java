@@ -13,6 +13,9 @@ import android.view.ViewConfiguration;
 /**
  * Copyright © 2017 Tyler Suehr
  *
+ * Utility class that provides common methods needed by many different components
+ * or for convenience.
+ *
  * @author Tyler Suehr
  * @version 1.0
  */
