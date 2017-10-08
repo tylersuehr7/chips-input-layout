@@ -182,7 +182,7 @@ public class ChipsInput extends MaxHeightScrollView
         int padding = Utils.dp(4);
 
         ChipView chipView = new ChipView.Builder(getContext())
-                .labelColor(chipOptions.chipLabelColor)
+                .titleTextColor(chipOptions.chipLabelColor)
                 .hasAvatarIcon(chipOptions.hasAvatarIcon)
                 .deletable(chipOptions.chipDeletable)
                 .deleteIcon(chipOptions.chipDeleteIcon)

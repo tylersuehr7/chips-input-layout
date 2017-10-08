@@ -22,25 +22,24 @@ import com.tylersuehr.library.data.Chip;
  * @version 1.0
  */
 public class ChipView extends FrameLayout {
+    private LetterTileProvider tileProvider;
+    private Chip chip;
+
     private CircleImageView mAvatarImageView;
     private ImageButton mButtonDelete;
     private TextView mTitleView;
 
-    private ColorStateList mLabelColor;
-    private String mLabel;
+    private ColorStateList titleTextColor;
+    private String title;
 
-    private boolean mHasAvatarIcon = false;
-    private Drawable mAvatarIconDrawable;
-    private Uri mAvatarIconUri;
+    private boolean hasAvatarIcon = false;
+    private Drawable avatarDrawable;
+    private Uri avatarUri;
 
-    private boolean mDeletable = false;
-    private Drawable mDeleteIcon;
-
-    private ColorStateList mDeleteIconColor;
-    private ColorStateList mBackgroundColor;
-
-    private LetterTileProvider mLetterTileProvider;
-    private Chip mChip;
+    private boolean deletable = false;
+    private Drawable deleteIcon;
+    private ColorStateList deleteIconColor;
+    private ColorStateList backgroundColor;
 
 
     public ChipView(@NonNull Context context) {
@@ -56,7 +55,7 @@ public class ChipView extends FrameLayout {
         this.mTitleView = findViewById(R.id.label);
         this.mButtonDelete = findViewById(R.id.delete_button);
 
-        this.mLetterTileProvider = new LetterTileProvider(c);
+        this.tileProvider = new LetterTileProvider(c);
     }
 
     /**
@@ -64,46 +63,46 @@ public class ChipView extends FrameLayout {
      * @param chip {@link Chip}
      */
     public void inflateWithChip(Chip chip) {
-        this.mChip = chip;
-        this.mLabel = mChip.getTitle();
-        this.mAvatarIconUri = mChip.getAvatarUri();
-        this.mAvatarIconDrawable = mChip.getAvatarDrawable();
-        inflateWithAttributes();
+        this.chip = chip;
+        this.title = this.chip.getTitle();
+        this.avatarUri = this.chip.getAvatarUri();
+        this.avatarDrawable = this.chip.getAvatarDrawable();
+        inflateFromFields();
     }
 
     /**
-     * Sets properties from the set XML attributes.
+     * Updates the views from the stored field data.
      */
-    private void inflateWithAttributes() {
-        setLabel(mLabel);
-        if (mLabelColor != null) {
-            setLabelColor(mLabelColor);
+    private void inflateFromFields() {
+        setTitle(title);
+        if (titleTextColor != null) {
+            setTitleTextColor(titleTextColor);
         }
 
-        setHasAvatarIcon(mHasAvatarIcon);
-        setDeletable(mDeletable);
+        setHasAvatarIcon(hasAvatarIcon);
+        setDeletable(deletable);
 
-        if (mBackgroundColor != null) {
-            setChipBackgroundColor(mBackgroundColor);
+        if (backgroundColor != null) {
+            setChipBackgroundColor(backgroundColor);
         }
     }
 
-    public String getLabel() {
-        return mLabel;
+    public String getTitle() {
+        return title;
     }
 
-    public void setLabel(String label) {
-        this.mLabel = label;
+    public void setTitle(String label) {
+        this.title = label;
         this.mTitleView.setText(label);
     }
 
-    public void setLabelColor(ColorStateList color) {
-        this.mLabelColor = color;
+    public void setTitleTextColor(ColorStateList color) {
+        this.titleTextColor = color;
         this.mTitleView.setTextColor(color);
     }
 
-    public void setLabelColor(@ColorInt int color) {
-        this.mLabelColor = ColorStateList.valueOf(color);
+    public void setTitleTextColor(@ColorInt int color) {
+        this.titleTextColor = ColorStateList.valueOf(color);
         this.mTitleView.setTextColor(color);
     }
 
@@ -112,11 +111,11 @@ public class ChipView extends FrameLayout {
      * @param hasAvatarIcon True if avatar icon should be shown
      */
     public void setHasAvatarIcon(boolean hasAvatarIcon) {
-        this.mHasAvatarIcon = hasAvatarIcon;
+        this.hasAvatarIcon = hasAvatarIcon;
         if (hasAvatarIcon) { // Show the avatar icon
             this.mAvatarImageView.setVisibility(VISIBLE);
 
-            // Adjust label's padding
+            // Adjust title's padding
             if (mButtonDelete.getVisibility() == VISIBLE) {
                 this.mTitleView.setPadding(Utils.dp(8), 0, 0, 0);
             } else {
@@ -124,17 +123,17 @@ public class ChipView extends FrameLayout {
             }
 
             // Set the avatar icon
-            if (mAvatarIconUri != null) { // Use the URI
-                this.mAvatarImageView.setImageURI(mAvatarIconUri);
-            } else if (mAvatarIconDrawable != null) { // Use the Drawable
-                this.mAvatarImageView.setImageDrawable(mAvatarIconDrawable);
+            if (avatarUri != null) { // Use the URI
+                this.mAvatarImageView.setImageURI(avatarUri);
+            } else if (avatarDrawable != null) { // Use the Drawable
+                this.mAvatarImageView.setImageDrawable(avatarDrawable);
             } else { // Use the tile provider
-                this.mAvatarImageView.setImageBitmap(mLetterTileProvider.getLetterTile(getLabel()));
+                this.mAvatarImageView.setImageBitmap(tileProvider.getLetterTile(getTitle()));
             }
         } else { // Hide the avatar icon
             this.mAvatarImageView.setVisibility(GONE);
 
-            // Adjust label's padding
+            // Adjust title's padding
             if(mButtonDelete.getVisibility() == VISIBLE) {
                 this.mTitleView.setPadding(Utils.dp(12), 0, 0, 0);
             } else {
@@ -144,15 +143,15 @@ public class ChipView extends FrameLayout {
     }
 
     public void setAvatarIcon(Drawable avatarIcon) {
-        this.mAvatarIconDrawable = avatarIcon;
-        this.mHasAvatarIcon = true;
-        inflateWithAttributes();
+        this.avatarDrawable = avatarIcon;
+        this.hasAvatarIcon = true;
+        inflateFromFields();
     }
 
     public void setAvatarIcon(Uri avatarUri) {
-        this.mAvatarIconUri = avatarUri;
-        this.mHasAvatarIcon = true;
-        inflateWithAttributes();
+        this.avatarUri = avatarUri;
+        this.hasAvatarIcon = true;
+        inflateFromFields();
     }
 
     /**
@@ -160,11 +159,11 @@ public class ChipView extends FrameLayout {
      * @param deletable True if delete button should be shown
      */
     public void setDeletable(boolean deletable) {
-        this.mDeletable = deletable;
+        this.deletable = deletable;
         if (deletable) { // Show the delete button
             this.mButtonDelete.setVisibility(VISIBLE);
 
-            // Adjust label's padding
+            // Adjust title's padding
             if (mAvatarImageView.getVisibility() == VISIBLE) {
                 this.mTitleView.setPadding(Utils.dp(8), 0, 0, 0);
             } else {
@@ -172,16 +171,16 @@ public class ChipView extends FrameLayout {
             }
 
             // Set the delete icon
-            if (mDeleteIcon != null) {
-                this.mButtonDelete.setImageDrawable(mDeleteIcon);
+            if (deleteIcon != null) {
+                this.mButtonDelete.setImageDrawable(deleteIcon);
             }
-            if (mDeleteIconColor != null) {
-                this.mButtonDelete.getDrawable().mutate().setColorFilter(mDeleteIconColor.getDefaultColor(), PorterDuff.Mode.SRC_ATOP);
+            if (deleteIconColor != null) {
+                this.mButtonDelete.getDrawable().mutate().setColorFilter(deleteIconColor.getDefaultColor(), PorterDuff.Mode.SRC_ATOP);
             }
         } else { // Hide the delete button
             this.mButtonDelete.setVisibility(GONE);
 
-            // Adjust label's padding
+            // Adjust title's padding
             if (mAvatarImageView.getVisibility() == VISIBLE) {
                 this.mTitleView.setPadding(Utils.dp(8), 0, Utils.dp(12), 0);
             } else {
@@ -191,30 +190,30 @@ public class ChipView extends FrameLayout {
     }
 
     public void setDeleteIconColor(ColorStateList color) {
-        this.mDeleteIconColor = color;
-        this.mDeletable = true;
-        inflateWithAttributes();
+        this.deleteIconColor = color;
+        this.deletable = true;
+        inflateFromFields();
     }
 
     public void setDeleteIconColor(@ColorInt int color) {
-        this.mDeleteIconColor = ColorStateList.valueOf(color);
-        this.mDeletable = true;
-        inflateWithAttributes();
+        this.deleteIconColor = ColorStateList.valueOf(color);
+        this.deletable = true;
+        inflateFromFields();
     }
 
     public void setDeleteIcon(Drawable deleteIcon) {
-        this.mDeleteIcon = deleteIcon;
-        this.mDeletable = true;
-        inflateWithAttributes();
+        this.deleteIcon = deleteIcon;
+        this.deletable = true;
+        inflateFromFields();
     }
 
     public void setChipBackgroundColor(ColorStateList color) {
-        this.mBackgroundColor = color;
+        this.backgroundColor = color;
         setChipBackgroundColor(color.getDefaultColor());
     }
 
     public void setChipBackgroundColor(@ColorInt int color) {
-        this.mBackgroundColor = ColorStateList.valueOf(color);
+        this.backgroundColor = ColorStateList.valueOf(color);
         getChildAt(0).getBackground().setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
     }
 
@@ -223,7 +222,8 @@ public class ChipView extends FrameLayout {
      * @param chip the chip
      */
     public void setChip(Chip chip) {
-        this.mChip = chip;
+        this.chip = chip;
+        inflateWithChip(chip);
     }
 
     /**
@@ -263,12 +263,12 @@ public class ChipView extends FrameLayout {
             this.context = context;
         }
 
-        Builder label(String label) {
+        Builder title(String label) {
             this.label = label;
             return this;
         }
 
-        Builder labelColor(ColorStateList labelColor) {
+        Builder titleTextColor(ColorStateList labelColor) {
             this.labelColor = labelColor;
             return this;
         }
@@ -323,17 +323,17 @@ public class ChipView extends FrameLayout {
 
     private static ChipView newInstance(Builder builder) {
         ChipView chipView = new ChipView(builder.context);
-        chipView.mLabel = builder.label;
-        chipView.mLabelColor = builder.labelColor;
-        chipView.mHasAvatarIcon = builder.hasAvatarIcon;
-        chipView.mAvatarIconUri = builder.avatarIconUri;
-        chipView.mAvatarIconDrawable = builder.avatarIconDrawable;
-        chipView.mDeletable = builder.deletable;
-        chipView.mDeleteIcon = builder.deleteIcon;
-        chipView.mDeleteIconColor = builder.deleteIconColor;
-        chipView.mBackgroundColor = builder.backgroundColor;
-        chipView.mChip = builder.chip;
-        chipView.inflateWithAttributes();
+        chipView.title = builder.label;
+        chipView.titleTextColor = builder.labelColor;
+        chipView.hasAvatarIcon = builder.hasAvatarIcon;
+        chipView.avatarUri = builder.avatarIconUri;
+        chipView.avatarDrawable = builder.avatarIconDrawable;
+        chipView.deletable = builder.deletable;
+        chipView.deleteIcon = builder.deleteIcon;
+        chipView.deleteIconColor = builder.deleteIconColor;
+        chipView.backgroundColor = builder.backgroundColor;
+        chipView.chip = builder.chip;
+        chipView.inflateFromFields();
         return chipView;
     }
 }
