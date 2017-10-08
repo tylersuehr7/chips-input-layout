@@ -16,19 +16,20 @@ import java.util.List;
  * @author Tyler Suehr
  * @version 1.0
  */
-public class MainActivity extends AppCompatActivity {
+public class ExampleChipsActivity extends AppCompatActivity {
     private ChipsInput chipsInput;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_example_chips);
 
         // Setup toolbar
         Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        // Setup chips input
         this.chipsInput = (ChipsInput)findViewById(R.id.chips_input);
     }
 
