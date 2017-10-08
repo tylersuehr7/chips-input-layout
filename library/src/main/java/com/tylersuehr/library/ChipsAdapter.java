@@ -104,8 +104,7 @@ class ChipsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> impleme
         if (TextUtils.isEmpty(text) || !chipOptions.allowCustomChips) { return; }
 
         // Create a custom, non-filterable, chip and add to selected list
-        Chip chip = new BasicChip(text, null);
-        chip.setFilterable(false);
+        Chip chip = new NonFilterableChip(text);
 
         // Clear the input before taking chip so we don't need to update UI twice
         this.editText.setText("");

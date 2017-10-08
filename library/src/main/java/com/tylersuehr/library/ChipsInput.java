@@ -84,8 +84,6 @@ public class ChipsInput extends MaxHeightScrollView
         this.chipsRecycler.setNestedScrollingEnabled(false);
         this.chipsRecycler.setAdapter(chipsAdapter);
 
-        setFilterableChipList(Mocker.mockChips());
-
         // Set the window callbacks to hide when the detailed chip view is visible
         Activity activity = Utils.scanForActivity(c);
         if (activity == null) {
