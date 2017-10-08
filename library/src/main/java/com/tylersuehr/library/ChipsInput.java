@@ -129,7 +129,8 @@ public class ChipsInput extends MaxHeightScrollView
                     ViewGroup.LayoutParams.WRAP_CONTENT
             ));
 
-            this.chipsEditText.setPadding(Utils.dp(8), 0, 0, 0);
+            int padding = Utils.dp(8);
+            this.chipsEditText.setPadding(padding, padding, padding, padding);
 
             // Setup the chips options for the input
             this.chipsEditText.setBackgroundResource(android.R.color.transparent);
