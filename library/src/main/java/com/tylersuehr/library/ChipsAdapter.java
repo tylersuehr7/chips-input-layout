@@ -2,15 +2,11 @@ package com.tylersuehr.library;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
-import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
-
 import com.tylersuehr.library.data.Chip;
 import com.tylersuehr.library.data.ChipDataSource;
 import com.tylersuehr.library.data.ChipDataSourceObserver;
@@ -25,14 +21,14 @@ import com.tylersuehr.library.data.ChipDataSourceObserver;
  * @version 1.0
  */
 class ChipsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements
-        View.OnKeyListener, TextView.OnEditorActionListener, ChipDataSourceObserver {
+        ChipEditText.OnKeyboardListener, ChipDataSourceObserver {
     private static final int TYPE_INPUT = 0;
     private static final int TYPE_ITEM  = 1;
 
     private final ChipDataSource chipDataSource;
     private final ChipOptions chipOptions;
     private final ChipsInput chipsInput;
-    private final EditText editText;
+    private final ChipEditText editText;
 
 
     ChipsAdapter(ChipsInput chipsInput) {
@@ -40,9 +36,7 @@ class ChipsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> impleme
         this.chipDataSource = chipsInput.getChipDataSource();
         this.chipOptions = chipsInput.getChipOptions();
         this.editText = chipsInput.getChipsInput();
-
-        this.editText.setOnKeyListener(this);
-        this.editText.setOnEditorActionListener(this);
+        this.editText.setKeyboardListener(this);
 
         // Register an observer on the chip data source
         this.chipDataSource.registerObserver(this);
@@ -91,42 +85,38 @@ class ChipsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> impleme
         return chipDataSource.getSelectedChips().get(position).hashCode();
     }
 
+
     /**
-     * Only used to detect when the 'enter' button is pressed on the keyboard.
+     * Called when the IME_ACTION_DONE option is pressed on a software or
+     * physical keyboard.
+     *
+     * @param text Current text in the EditText
      */
     @Override
-    public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-        if (actionId == EditorInfo.IME_ACTION_DONE && !TextUtils.isEmpty(v.getText())) {
-            // Create a custom, non-filterable, chip and add to selected list
-            Chip chip = new BasicChip(v.getText().toString(), null);
-            chip.setFilterable(false);
+    public void onKeyboardActionDone(String text) {
+        if (TextUtils.isEmpty(text)) { return; }
 
-            // Empty input before taking chip so we don't have to update UI twice
-            v.setText("");
+        // Create a custom, non-filterable, chip and add to selected list
+        Chip chip = new BasicChip(text, null);
+        chip.setFilterable(false);
 
-            this.chipDataSource.takeChip(chip);
+        // Clear the input before taking chip so we don't need to update UI twice
+        this.editText.setText("");
 
-//            v.setText("");
-//            notifyDataSetChanged();
-            return true;
-        }
-        return false;
+        // This will trigger callback, which calls notifyDataSetChanged()
+        this.chipDataSource.takeChip(chip);
     }
 
     /**
-     * Only used to detect backspace events on the keyboard.
+     * Called when the backspace (KEYCODE_DEL) is pressed on a software or
+     * physical keyboard.
      */
     @Override
-    public boolean onKey(View view, int i, KeyEvent keyEvent) {
-        if (keyEvent.getAction() == KeyEvent.ACTION_DOWN
-                && keyEvent.getKeyCode() == KeyEvent.KEYCODE_DEL) { // Backspace key
-            // Just remove the last chip, if possible
-            if (chipDataSource.getSelectedChips().size() > 0 && editText.getText().toString().length() == 0) {
-                removeChip(chipDataSource.getSelectedChips().size() - 1);
-                return true;
-            }
+    public void onKeyboardBackspace() {
+        // Only remove the last chip if the input was empty
+        if (chipDataSource.getSelectedChips().size() > 0 && editText.getText().toString().length() == 0) {
+            removeChip(chipDataSource.getSelectedChips().size() - 1);
         }
-        return false;
     }
 
     @Override

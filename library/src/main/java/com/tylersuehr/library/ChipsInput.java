@@ -7,7 +7,6 @@ import android.graphics.Rect;
 import android.os.Build;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
-import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.InputType;
@@ -48,7 +47,7 @@ public class ChipsInput extends MaxHeightScrollView
     private ChipOptions chipOptions;
 
     /* Allows user to type text into the ChipsInput */
-    private EditText chipsEditText;
+    private ChipEditText chipsEditText;
 
     /* Displays selected chips and chips EditText */
     private RecyclerView chipsRecycler;
@@ -113,9 +112,9 @@ public class ChipsInput extends MaxHeightScrollView
      * Lazy loads the input for the user to enter chip titles.
      * @return {@link EditText}
      */
-    EditText getChipsInput() {
+    ChipEditText getChipsInput() {
         if (chipsEditText == null) {
-            this.chipsEditText = new AppCompatEditText(getContext());
+            this.chipsEditText = new ChipEditText(getContext());
             this.chipsEditText.setLayoutParams(new RelativeLayout.LayoutParams(
                     ViewGroup.LayoutParams.WRAP_CONTENT,
                     ViewGroup.LayoutParams.WRAP_CONTENT
