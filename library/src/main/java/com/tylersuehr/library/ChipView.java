@@ -247,7 +247,7 @@ public class ChipView extends FrameLayout {
      */
     static class Builder {
         private Context context;
-        private String label;
+        private String title;
         private ColorStateList labelColor;
         private Uri avatarIconUri;
         private Drawable avatarIconDrawable;
@@ -263,8 +263,8 @@ public class ChipView extends FrameLayout {
             this.context = context;
         }
 
-        Builder title(String label) {
-            this.label = label;
+        Builder title(String title) {
+            this.title = title;
             return this;
         }
 
@@ -310,7 +310,7 @@ public class ChipView extends FrameLayout {
 
         Builder chip(Chip chip) {
             this.chip = chip;
-            this.label = chip.getTitle();
+            this.title = chip.getTitle();
             this.avatarIconDrawable = chip.getAvatarDrawable();
             this.avatarIconUri = chip.getAvatarUri();
             return this;
@@ -323,7 +323,7 @@ public class ChipView extends FrameLayout {
 
     private static ChipView newInstance(Builder builder) {
         ChipView chipView = new ChipView(builder.context);
-        chipView.title = builder.label;
+        chipView.title = builder.title;
         chipView.titleTextColor = builder.labelColor;
         chipView.hasAvatarIcon = builder.hasAvatarIcon;
         chipView.avatarUri = builder.avatarIconUri;
