@@ -22,9 +22,9 @@ import com.tylersuehr.library.data.Chip;
  * @version 1.0
  */
 public class ChipView extends FrameLayout {
-    private CircleImageView mAvatarIconImageView;
-    private ImageButton mDeleteButton;
-    private TextView mLabelTextView;
+    private CircleImageView mAvatarImageView;
+    private ImageButton mButtonDelete;
+    private TextView mTitleView;
 
     private ColorStateList mLabelColor;
     private String mLabel;
@@ -52,9 +52,9 @@ public class ChipView extends FrameLayout {
 
         // Inflate the layout
         inflate(c, R.layout.chip_view, this);
-        this.mAvatarIconImageView = findViewById(R.id.icon);
-        this.mLabelTextView = findViewById(R.id.label);
-        this.mDeleteButton = findViewById(R.id.delete_button);
+        this.mAvatarImageView = findViewById(R.id.icon);
+        this.mTitleView = findViewById(R.id.label);
+        this.mButtonDelete = findViewById(R.id.delete_button);
 
         this.mLetterTileProvider = new LetterTileProvider(c);
     }
@@ -94,17 +94,17 @@ public class ChipView extends FrameLayout {
 
     public void setLabel(String label) {
         this.mLabel = label;
-        this.mLabelTextView.setText(label);
+        this.mTitleView.setText(label);
     }
 
     public void setLabelColor(ColorStateList color) {
         this.mLabelColor = color;
-        this.mLabelTextView.setTextColor(color);
+        this.mTitleView.setTextColor(color);
     }
 
     public void setLabelColor(@ColorInt int color) {
         this.mLabelColor = ColorStateList.valueOf(color);
-        this.mLabelTextView.setTextColor(color);
+        this.mTitleView.setTextColor(color);
     }
 
     /**
@@ -114,31 +114,31 @@ public class ChipView extends FrameLayout {
     public void setHasAvatarIcon(boolean hasAvatarIcon) {
         this.mHasAvatarIcon = hasAvatarIcon;
         if (hasAvatarIcon) { // Show the avatar icon
-            this.mAvatarIconImageView.setVisibility(VISIBLE);
+            this.mAvatarImageView.setVisibility(VISIBLE);
 
             // Adjust label's padding
-            if (mDeleteButton.getVisibility() == VISIBLE) {
-                this.mLabelTextView.setPadding(Utils.dp(8), 0, 0, 0);
+            if (mButtonDelete.getVisibility() == VISIBLE) {
+                this.mTitleView.setPadding(Utils.dp(8), 0, 0, 0);
             } else {
-                this.mLabelTextView.setPadding(Utils.dp(8), 0, Utils.dp(12), 0);
+                this.mTitleView.setPadding(Utils.dp(8), 0, Utils.dp(12), 0);
             }
 
             // Set the avatar icon
             if (mAvatarIconUri != null) { // Use the URI
-                this.mAvatarIconImageView.setImageURI(mAvatarIconUri);
+                this.mAvatarImageView.setImageURI(mAvatarIconUri);
             } else if (mAvatarIconDrawable != null) { // Use the Drawable
-                this.mAvatarIconImageView.setImageDrawable(mAvatarIconDrawable);
+                this.mAvatarImageView.setImageDrawable(mAvatarIconDrawable);
             } else { // Use the tile provider
-                this.mAvatarIconImageView.setImageBitmap(mLetterTileProvider.getLetterTile(getLabel()));
+                this.mAvatarImageView.setImageBitmap(mLetterTileProvider.getLetterTile(getLabel()));
             }
         } else { // Hide the avatar icon
-            this.mAvatarIconImageView.setVisibility(GONE);
+            this.mAvatarImageView.setVisibility(GONE);
 
             // Adjust label's padding
-            if(mDeleteButton.getVisibility() == VISIBLE) {
-                this.mLabelTextView.setPadding(Utils.dp(12), 0, 0, 0);
+            if(mButtonDelete.getVisibility() == VISIBLE) {
+                this.mTitleView.setPadding(Utils.dp(12), 0, 0, 0);
             } else {
-                this.mLabelTextView.setPadding(Utils.dp(12), 0, Utils.dp(12), 0);
+                this.mTitleView.setPadding(Utils.dp(12), 0, Utils.dp(12), 0);
             }
         }
     }
@@ -162,30 +162,30 @@ public class ChipView extends FrameLayout {
     public void setDeletable(boolean deletable) {
         this.mDeletable = deletable;
         if (deletable) { // Show the delete button
-            this.mDeleteButton.setVisibility(VISIBLE);
+            this.mButtonDelete.setVisibility(VISIBLE);
 
             // Adjust label's padding
-            if (mAvatarIconImageView.getVisibility() == VISIBLE) {
-                this.mLabelTextView.setPadding(Utils.dp(8), 0, 0, 0);
+            if (mAvatarImageView.getVisibility() == VISIBLE) {
+                this.mTitleView.setPadding(Utils.dp(8), 0, 0, 0);
             } else {
-                this.mLabelTextView.setPadding(Utils.dp(12), 0, 0, 0);
+                this.mTitleView.setPadding(Utils.dp(12), 0, 0, 0);
             }
 
             // Set the delete icon
             if (mDeleteIcon != null) {
-                this.mDeleteButton.setImageDrawable(mDeleteIcon);
+                this.mButtonDelete.setImageDrawable(mDeleteIcon);
             }
             if (mDeleteIconColor != null) {
-                this.mDeleteButton.getDrawable().mutate().setColorFilter(mDeleteIconColor.getDefaultColor(), PorterDuff.Mode.SRC_ATOP);
+                this.mButtonDelete.getDrawable().mutate().setColorFilter(mDeleteIconColor.getDefaultColor(), PorterDuff.Mode.SRC_ATOP);
             }
         } else { // Hide the delete button
-            this.mDeleteButton.setVisibility(GONE);
+            this.mButtonDelete.setVisibility(GONE);
 
             // Adjust label's padding
-            if (mAvatarIconImageView.getVisibility() == VISIBLE) {
-                this.mLabelTextView.setPadding(Utils.dp(8), 0, Utils.dp(12), 0);
+            if (mAvatarImageView.getVisibility() == VISIBLE) {
+                this.mTitleView.setPadding(Utils.dp(8), 0, Utils.dp(12), 0);
             } else {
-                this.mLabelTextView.setPadding(Utils.dp(12), 0, Utils.dp(12), 0);
+                this.mTitleView.setPadding(Utils.dp(12), 0, Utils.dp(12), 0);
             }
         }
     }
@@ -239,7 +239,7 @@ public class ChipView extends FrameLayout {
      * @param onClickListener {@link OnClickListener}
      */
     public void setOnDeleteClicked(OnClickListener onClickListener) {
-        this.mDeleteButton.setOnClickListener(onClickListener);
+        this.mButtonDelete.setOnClickListener(onClickListener);
     }
 
     /**
