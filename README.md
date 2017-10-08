@@ -7,8 +7,6 @@ Here's some of the core features of ChipsInputView:
 * Most views are highly customizable
 * Sticks to the Material Design Guide as much as possible
 
-Using the ChipsInputView, you can set chips that can be filtered when the user types or allow the user to enter custom chips themselves.
-
 *Honorable Mentions:*
 * This was based on the design of: https://github.com/pchmn/MaterialChipsInput
 * This uses a RecyclerView layout manager: https://github.com/BelooS/ChipsLayoutManager
