@@ -286,18 +286,6 @@ public class ChipsInput extends MaxHeightScrollView
                     if (!outRect.contains((int)event.getRawX(), (int)event.getRawY())) {
                         ((DetailedChipView)v).fadeOut();
                     }
-                } else if (v instanceof EditText) {
-                    Rect outRect = new Rect();
-                    v.getGlobalVisibleRect(outRect);
-
-                    // If the touch was outside the visible bounds of the edit text, then we
-                    // want to close the software keyboard
-                    // TODO: make functional maybe
-//                    if (!outRect.contains((int)event.getRawX(), (int)event.getRawY())
-//                            && !((EditText)v).isFilterableListVisible()) {
-//                        InputMethodManager im = (InputMethodManager)activity.getSystemService(Context.INPUT_METHOD_SERVICE);
-//                        im.hideSoftInputFromInputMethod(v.getWindowToken(), 0);
-//                    }
                 }
             }
             return localCallback.dispatchTouchEvent(event);
