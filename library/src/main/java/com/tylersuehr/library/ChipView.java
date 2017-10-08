@@ -1,14 +1,12 @@
 package com.tylersuehr.library;
 import android.content.Context;
 import android.content.res.ColorStateList;
-import android.content.res.TypedArray;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.support.annotation.ColorInt;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
@@ -59,26 +57,6 @@ public class ChipView extends FrameLayout {
         this.mDeleteButton = findViewById(R.id.delete_button);
 
         this.mLetterTileProvider = new LetterTileProvider(c);
-
-        // Set XML attributes
-        TypedArray a = c.getTheme().obtainStyledAttributes(attrs, R.styleable.ChipView, 0, 0);
-        mLabel = a.getString(R.styleable.ChipView_label);
-        mLabelColor = a.getColorStateList(R.styleable.ChipView_labelColor);
-
-        mHasAvatarIcon = a.getBoolean(R.styleable.ChipView_hasAvatarIcon, false);
-        int avatarIconId = a.getResourceId(R.styleable.ChipView_avatarIcon, -1);
-        if(avatarIconId != -1) mAvatarIconDrawable = ContextCompat.getDrawable(c, avatarIconId);
-        if(mAvatarIconDrawable != null) mHasAvatarIcon = true;
-
-        mDeletable = a.getBoolean(R.styleable.ChipView_deletable, false);
-        mDeleteIconColor = a.getColorStateList(R.styleable.ChipView_deleteIconColor);
-        int deleteIconId = a.getResourceId(R.styleable.ChipView_deleteIcon, -1);
-        if(deleteIconId != -1) mDeleteIcon = ContextCompat.getDrawable(c, deleteIconId);
-
-        mBackgroundColor = a.getColorStateList(R.styleable.ChipView_backgroundColor);
-        a.recycle();
-
-        inflateWithAttributes();
     }
 
     /**
