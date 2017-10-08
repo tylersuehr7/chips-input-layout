@@ -54,9 +54,9 @@ public class ChipView extends FrameLayout {
 
         // Inflate the layout
         inflate(c, R.layout.chip_view, this);
-        this.mAvatarIconImageView = (CircleImageView)findViewById(R.id.icon);
-        this.mLabelTextView = (TextView)findViewById(R.id.label);
-        this.mDeleteButton = (ImageButton)findViewById(R.id.delete_button);
+        this.mAvatarIconImageView = findViewById(R.id.icon);
+        this.mLabelTextView = findViewById(R.id.label);
+        this.mDeleteButton = findViewById(R.id.delete_button);
 
         this.mLetterTileProvider = new LetterTileProvider(c);
 
