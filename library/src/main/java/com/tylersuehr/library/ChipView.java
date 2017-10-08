@@ -16,7 +16,7 @@ import com.tylersuehr.library.data.Chip;
 /**
  * Copyright © 2017 Tyler Suehr
  *
- * This is the view that is used for any kind of Chip that we will use.
+ * This is the view that displays the normal chip (specified in Material Design Guide).
  *
  * @author Tyler Suehr
  * @version 1.0

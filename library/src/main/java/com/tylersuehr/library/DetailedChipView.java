@@ -21,6 +21,8 @@ import com.tylersuehr.library.data.Chip;
 /**
  * Copyright © 2017 Tyler Suehr
  *
+ * This is the view that displays the details of a chip (specified in Material Design Guide).
+ *
  * @author Tyler Suehr
  * @version 1.0
  */
