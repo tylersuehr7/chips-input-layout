@@ -32,14 +32,14 @@
         android:textColor="#212121"
         tools:text="Tyler Suehr"
         app:layout_constraintLeft_toRightOf="@+id/icon"
-        app:layout_constraintRight_toLeftOf="@+id/delete_button"
+        app:layout_constraintRight_toLeftOf="@+id/button_delete"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="parent"/>
 
     <ImageButton
         android:background="?attr/selectableItemBackgroundBorderless"
-        android:id="@+id/delete_button"
+        android:id="@+id/button_delete"
         android:layout_width="24dp"
         android:layout_height="24dp"
         android:src="@drawable/ic_cancel_grey_24dp"

@@ -53,7 +53,7 @@ public class ChipView extends FrameLayout {
         inflate(c, R.layout.chip_view, this);
         this.mAvatarImageView = findViewById(R.id.icon);
         this.mTitleView = findViewById(R.id.label);
-        this.mButtonDelete = findViewById(R.id.delete_button);
+        this.mButtonDelete = findViewById(R.id.button_delete);
 
         this.tileProvider = new LetterTileProvider(c);
     }

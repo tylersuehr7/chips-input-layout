@@ -25,15 +25,16 @@ import com.tylersuehr.library.data.Chip;
  * @version 1.0
  */
 public class DetailedChipView extends FrameLayout {
-    private static LetterTileProvider mLetterTileProvider;
+    private static LetterTileProvider tileProvider;
+
+    private TextView mTitleView;
+    private TextView mSubtitleView;
+    private ImageButton mButtonDelete;
 
     private ConstraintLayout mContentLayout;
-    private CircleImageView mAvatarIconImageView;
-    private TextView mNameTextView;
-    private TextView mInfoTextView;
-    private ImageButton mDeleteButton;
+    private CircleImageView mAvatarImageView;
 
-    private ColorStateList mBackgroundColor;
+    private ColorStateList backgroundColor;
 
 
     public DetailedChipView(@NonNull Context context) {
@@ -44,15 +45,15 @@ public class DetailedChipView extends FrameLayout {
         super(c, attrs);
 
         // Setup the tile provider
-        mLetterTileProvider = getTileProvider(c);
+        tileProvider = getTileProvider(c);
 
         // Inflate the view
         View v = inflate(c, R.layout.chip_view_detailed, this);
         this.mContentLayout = v.findViewById(R.id.container);
-        this.mAvatarIconImageView = v.findViewById(R.id.avatar_icon);
-        this.mNameTextView = v.findViewById(R.id.name);
-        this.mInfoTextView = v.findViewById(R.id.info);
-        this.mDeleteButton = v.findViewById(R.id.delete_button);
+        this.mAvatarImageView = v.findViewById(R.id.avatar_icon);
+        this.mTitleView = v.findViewById(R.id.title);
+        this.mSubtitleView = v.findViewById(R.id.subtitle);
+        this.mButtonDelete = v.findViewById(R.id.button_delete);
 
         setVisibility(GONE);
         hideOnTouchOutside();
@@ -84,54 +85,54 @@ public class DetailedChipView extends FrameLayout {
     }
 
     public void setAvatarIcon(Drawable icon) {
-        this.mAvatarIconImageView.setImageDrawable(icon);
+        this.mAvatarImageView.setImageDrawable(icon);
     }
 
     public void setAvatarIcon(Bitmap icon) {
-        this.mAvatarIconImageView.setImageBitmap(icon);
+        this.mAvatarImageView.setImageBitmap(icon);
     }
 
     public void setAvatarIcon(Uri icon) {
-        this.mAvatarIconImageView.setImageURI(icon);
+        this.mAvatarImageView.setImageURI(icon);
     }
 
-    public void setName(String name) {
-        this.mNameTextView.setText(name);
+    public void setTitle(String name) {
+        this.mTitleView.setText(name);
     }
 
     /**
-     * Sets the info display and shows/hides it accordingly.
+     * Sets the subtitle display and shows/hides it accordingly.
      * @param info Info text
      */
-    public void setInfo(@Nullable String info) {
+    public void setSubtitle(@Nullable String info) {
         if(info != null) {
-            this.mInfoTextView.setVisibility(VISIBLE);
-            this.mInfoTextView.setText(info);
+            this.mSubtitleView.setVisibility(VISIBLE);
+            this.mSubtitleView.setText(info);
         } else {
-            this.mInfoTextView.setVisibility(GONE);
+            this.mSubtitleView.setVisibility(GONE);
         }
     }
 
     public void setTextColor(ColorStateList color) {
-        this.mNameTextView.setTextColor(color);
-        this.mInfoTextView.setTextColor(Utils.alpha(color.getDefaultColor(), 150));
+        this.mTitleView.setTextColor(color);
+        this.mSubtitleView.setTextColor(Utils.alpha(color.getDefaultColor(), 150));
     }
 
     public void setBackGroundColor(ColorStateList color) {
-        this.mBackgroundColor = color;
+        this.backgroundColor = color;
         this.mContentLayout.getBackground().setColorFilter(color.getDefaultColor(), PorterDuff.Mode.SRC_ATOP);
     }
 
     public int getBackgroundColor() {
-        return mBackgroundColor == null ? ContextCompat.getColor(getContext(), R.color.colorAccent) : mBackgroundColor.getDefaultColor();
+        return backgroundColor == null ? ContextCompat.getColor(getContext(), R.color.colorAccent) : backgroundColor.getDefaultColor();
     }
 
     public void setDeleteIconColor(ColorStateList color) {
-        this.mDeleteButton.getDrawable().mutate().setColorFilter(color.getDefaultColor(), PorterDuff.Mode.SRC_ATOP);
+        this.mButtonDelete.getDrawable().mutate().setColorFilter(color.getDefaultColor(), PorterDuff.Mode.SRC_ATOP);
     }
 
     public void setOnDeleteClicked(OnClickListener onClickListener) {
-        this.mDeleteButton.setOnClickListener(onClickListener);
+        this.mButtonDelete.setOnClickListener(onClickListener);
     }
 
     public void alignLeft() {
@@ -156,10 +157,10 @@ public class DetailedChipView extends FrameLayout {
     }
 
     private static LetterTileProvider getTileProvider(Context c) {
-        if (mLetterTileProvider == null) {
-            mLetterTileProvider = new LetterTileProvider(c);
+        if (tileProvider == null) {
+            tileProvider = new LetterTileProvider(c);
         }
-        return mLetterTileProvider;
+        return tileProvider;
     }
 
 
@@ -170,8 +171,8 @@ public class DetailedChipView extends FrameLayout {
         private Context context;
         private Uri avatarUri;
         private Drawable avatarDrawable;
-        private String name;
-        private String info;
+        private String title;
+        private String subtitle;
         private ColorStateList textColor;
         private ColorStateList backgroundColor;
         private ColorStateList deleteIconColor;
@@ -191,21 +192,21 @@ public class DetailedChipView extends FrameLayout {
             return this;
         }
 
-        Builder name(String name) {
-            this.name = name;
+        Builder title(String title) {
+            this.title = title;
             return this;
         }
 
-        Builder info(String info) {
-            this.info = info;
+        Builder subtitle(String subtitle) {
+            this.subtitle = subtitle;
             return this;
         }
 
         Builder chip(Chip chip) {
             this.avatarUri = chip.getAvatarUri();
             this.avatarDrawable = chip.getAvatarDrawable();
-            this.name = chip.getTitle();
-            this.info = chip.getSubtitle();
+            this.title = chip.getTitle();
+            this.subtitle = chip.getSubtitle();
             return this;
         }
 
@@ -238,7 +239,7 @@ public class DetailedChipView extends FrameLayout {
         } else if(builder.avatarDrawable != null) {
             detailedChipView.setAvatarIcon(builder.avatarDrawable);
         } else {
-            detailedChipView.setAvatarIcon(mLetterTileProvider.getLetterTile(builder.name));
+            detailedChipView.setAvatarIcon(tileProvider.getLetterTile(builder.title));
         }
 
         // Set the background color, if available
@@ -264,8 +265,8 @@ public class DetailedChipView extends FrameLayout {
             detailedChipView.setDeleteIconColor(ColorStateList.valueOf(Color.BLACK));
         }
 
-        detailedChipView.setName(builder.name);
-        detailedChipView.setInfo(builder.info);
+        detailedChipView.setTitle(builder.title);
+        detailedChipView.setSubtitle(builder.subtitle);
         return detailedChipView;
     }
 }

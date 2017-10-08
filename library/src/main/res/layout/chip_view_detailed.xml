@@ -21,7 +21,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"/>
     <TextView
-        android:id="@+id/name"
+        android:id="@+id/title"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -31,14 +31,14 @@
         android:scrollHorizontally="true"
         android:textSize="16sp"
         tools:text="Tyler R. Suehr"
-        app:layout_constraintRight_toLeftOf="@+id/delete_button"
-        app:layout_constraintBottom_toTopOf="@+id/info"
+        app:layout_constraintRight_toLeftOf="@+id/button_delete"
+        app:layout_constraintBottom_toTopOf="@+id/subtitle"
         app:layout_constraintLeft_toRightOf="@+id/avatar_icon"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintVertical_chainStyle="spread"/>
     <TextView
-        android:id="@+id/info"
+        android:id="@+id/subtitle"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -49,13 +49,13 @@
         android:maxLines="1"
         android:scrollHorizontally="true"
         tools:text="tylersuehr123@yahoo.com"
-        app:layout_constraintRight_toLeftOf="@+id/delete_button"
-        app:layout_constraintTop_toBottomOf="@+id/name"
+        app:layout_constraintRight_toLeftOf="@+id/button_delete"
+        app:layout_constraintTop_toBottomOf="@+id/title"
         app:layout_constraintLeft_toRightOf="@+id/avatar_icon"
         app:layout_constraintBottom_toBottomOf="parent"/>
     <ImageButton
         android:background="?attr/selectableItemBackgroundBorderless"
-        android:id="@+id/delete_button"
+        android:id="@+id/button_delete"
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:tint="#757575"
