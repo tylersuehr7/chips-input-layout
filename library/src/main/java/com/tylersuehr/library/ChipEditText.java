@@ -43,17 +43,6 @@ public class ChipEditText extends AppCompatEditText {
         return new ChipsInputConnection(super.onCreateInputConnection(outAttrs));
     }
 
-    void setCustomProperties(ChipOptions op) {
-        setBackgroundResource(android.R.color.transparent);
-        if (op.textColorHint != null) {
-            setHintTextColor(op.textColorHint);
-        }
-        if (op.textColor != null) {
-            setTextColor(op.textColor);
-        }
-        setHint(op.hint);
-    }
-
     public void setKeyboardListener(OnKeyboardListener listener) {
         this.keyboardListener = listener;
     }
