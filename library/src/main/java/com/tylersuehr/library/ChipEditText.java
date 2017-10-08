@@ -2,11 +2,9 @@ package com.tylersuehr.library;
 import android.content.Context;
 import android.support.v7.widget.AppCompatEditText;
 import android.view.KeyEvent;
-import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputConnection;
 import android.view.inputmethod.InputConnectionWrapper;
-import android.widget.TextView;
 
 /**
  * Copyright © 2017 Tyler Suehr
@@ -14,20 +12,19 @@ import android.widget.TextView;
  * Setting onKeyEventListener doesn't work on software keyboards (IME) :(
  *
  * This subclass of {@link AppCompatEditText} provides a solution for detecting both
- * the IME_ACTION_DONE and backspace key press on both software and hardware keyboards!
+ * the IME_ACTION_DONE and backspace key press on both software keyboards!
  *
  * TODO: Also try to simplify text watcher crap with this as well
  *
  * @author Tyler Suehr
  * @version 1.0
  */
-public class ChipEditText extends AppCompatEditText implements View.OnKeyListener {
+public class ChipEditText extends AppCompatEditText {
     private OnKeyboardListener keyboardListener;
 
 
     public ChipEditText(Context c) {
         super(c);
-        setOnKeyListener(this);
     }
 
     /**
@@ -39,18 +36,6 @@ public class ChipEditText extends AppCompatEditText implements View.OnKeyListene
             this.keyboardListener.onKeyboardActionDone(getText().toString());
         }
         super.onEditorAction(actionCode);
-    }
-
-    /**
-     * Used to detect the backspace button on a physical keyboard.
-     */
-    @Override
-    public boolean onKey(View v, int keyCode, KeyEvent event) {
-        if (event.getAction() == KeyEvent.ACTION_DOWN
-                && event.getKeyCode() == KeyEvent.KEYCODE_DEL) { // Backspace key
-            this.keyboardListener.onKeyboardBackspace();
-        }
-        return false;
     }
 
     @Override
@@ -78,7 +63,7 @@ public class ChipEditText extends AppCompatEditText implements View.OnKeyListene
     }
 
     /**
-     * Callbacks for shared events between the software and physical keyboards.
+     * Callbacks for simplified keyboard action events.
      */
     interface OnKeyboardListener {
         void onKeyboardBackspace();
