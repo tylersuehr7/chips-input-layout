@@ -17,6 +17,13 @@ import com.tylersuehr.library.data.ChipDataSourceObserver;
  * Used by {@link ChipsInput} to adapt the selected chips into views and display
  * the EditText to allow the user to type text in for chips.
  *
+ * This adapter should also afford the following abilities/features:
+ * (1) Allow user to create custom chips, if the options permit it.
+ * (2) Allow user to remove any chip by pressing delete on an empty input.
+ * (3) Allow the user to see chip details, if the options permit it.
+ *
+ * We should also observe changes to {@link ChipDataSource} to update the UI accordingly.
+ *
  * @author Tyler Suehr
  * @version 1.0
  */
@@ -129,6 +136,8 @@ class ChipsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> impleme
      * @param position Position of chip to remove
      */
     private void removeChip(int position) {
+        // TODO POSSIBLE OPTIMIZATION
+        // Create an overload to handle removing by position
         final Chip chip = chipDataSource.getSelectedChips().get(position);
         this.chipDataSource.replaceChip(chip);
     }
