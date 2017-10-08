@@ -14,12 +14,12 @@ import android.util.AttributeSet;
  * @version 1.0
  */
 final class ChipOptions {
-    /* Properties for the chips EditText */
+    /* Properties pertaining to ChipEditText */
     ColorStateList textColorHint;
     ColorStateList textColor;
     CharSequence hint;
 
-    /* Properties for the ChipView */
+    /* Properties pertaining to ChipView */
     ColorStateList chipDeleteIconColor;
     ColorStateList chipBackgroundColor;
     ColorStateList chipLabelColor;
@@ -28,16 +28,16 @@ final class ChipOptions {
     boolean chipDeletable = true;
     Drawable chipDeleteIcon;
 
-    /* Properties for the DetailedChipView */
+    /* Properties pertaining to DetailedChipView */
     ColorStateList detailedChipDeleteIconColor;
     ColorStateList detailedChipBackgroundColor;
     ColorStateList detailedChipTextColor;
 
-    /* Properties for the FilterableListView */
+    /* Properties pertaining to FilterableRecyclerView */
     ColorStateList filterableListBackgroundColor;
     ColorStateList filterableListTextColor;
 
-    /* Properties for the ChipsInput itself */
+    /* Properties pertaining to the ChipsInput itself */
     boolean allowCustomChips = true;
     int maxRows;
 
@@ -45,7 +45,7 @@ final class ChipOptions {
     ChipOptions(Context c, AttributeSet attrs) {
         TypedArray a = c.obtainStyledAttributes(attrs, R.styleable.ChipsInput);
 
-        // Setup the properties for the Chips EditText
+        // Setup the properties for the ChipEditText
         this.textColorHint = a.getColorStateList(R.styleable.ChipsInput_android_textColorHint);
         this.textColor = a.getColorStateList(R.styleable.ChipsInput_android_textColor);
         this.hint = a.getString(R.styleable.ChipsInput_android_hint);
@@ -64,7 +64,7 @@ final class ChipOptions {
         this.detailedChipBackgroundColor = a.getColorStateList(R.styleable.ChipsInput_chip_backgroundColor);
         this.detailedChipTextColor = a.getColorStateList(R.styleable.ChipsInput_chip_detailed_textColor);
 
-        // Setup the properties for the FilterableListView
+        // Setup the properties for the FilterableRecyclerView
         this.filterableListBackgroundColor = a.getColorStateList(R.styleable.ChipsInput_filterable_list_backgroundColor);
         this.filterableListTextColor = a.getColorStateList(R.styleable.ChipsInput_filterable_list_textColor);
 
