@@ -2,11 +2,13 @@ package com.tylersuehr.library;
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.Configuration;
+import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.Rect;
 import android.os.Build;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.InputType;
@@ -26,6 +28,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.view.accessibility.AccessibilityEvent;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 import com.beloo.widget.chipslayoutmanager.ChipsLayoutManager;
@@ -91,9 +94,15 @@ public class ChipsInput extends MaxHeightScrollView
 
     @Override
     public void onFilteredChipClick(Chip chip) {
+        // Hide the filterable recycler
         this.filterableRecyclerView.fadeOut();
+
+        // Clear the input and refresh the chips recycler
         this.chipsEditText.setText("");
         this.chipsAdapter.notifyDataSetChanged();
+
+        // Close the software keyboard
+        hideKeyboard();
     }
 
     ChipDataSource getChipDataSource() {
@@ -193,10 +202,13 @@ public class ChipsInput extends MaxHeightScrollView
         this.filterableRecyclerView = new FilterableRecyclerView(getContext());
 
         // Set the filterable properties from the options
-        if (chipOptions.filterableListBackgroundColor != null) {
-            this.filterableRecyclerView.getBackground().setColorFilter(
-                    chipOptions.filterableListBackgroundColor.getDefaultColor(), PorterDuff.Mode.SRC_ATOP);
-        }
+        this.filterableRecyclerView.setBackgroundColor(Color.WHITE);
+        ViewCompat.setElevation(filterableRecyclerView, 4f);
+
+//        if (chipOptions.filterableListBackgroundColor != null) {
+//            this.filterableRecyclerView.getBackground().setColorFilter(
+//                    chipOptions.filterableListBackgroundColor.getDefaultColor(), PorterDuff.Mode.SRC_ATOP);
+//        }
 
         // Create and set the filterable chips adapter
         this.filterableChipsAdapter = new FilterableChipsAdapter(getContext(), this, chipOptions, chipDataSource);
@@ -228,6 +240,11 @@ public class ChipsInput extends MaxHeightScrollView
                 getViewTreeObserver().removeOnGlobalLayoutListener(this);
             }
         });
+    }
+
+    private void hideKeyboard() {
+        ((InputMethodManager)getContext().getSystemService(Context.INPUT_METHOD_SERVICE))
+                .hideSoftInputFromWindow(chipsEditText.getWindowToken(), 0);
     }
 
 
