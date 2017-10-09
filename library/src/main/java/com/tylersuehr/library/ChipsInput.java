@@ -131,7 +131,7 @@ public class ChipsInput extends MaxHeightScrollView
      * Lazy loads the input for the user to enter chip titles.
      * @return {@link EditText}
      */
-    ChipEditText getChipsInput() {
+    ChipEditText getThemedChipsEditText() {
         if (chipsEditText == null) {
             this.chipsEditText = new ChipEditText(getContext());
             this.chipsEditText.setLayoutParams(new RelativeLayout.LayoutParams(

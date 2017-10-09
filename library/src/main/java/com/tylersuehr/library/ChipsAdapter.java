@@ -42,7 +42,7 @@ class ChipsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> impleme
         this.chipsInput = chipsInput;
         this.chipDataSource = chipsInput.getChipDataSource();
         this.chipOptions = chipsInput.getChipOptions();
-        this.editText = chipsInput.getChipsInput();
+        this.editText = chipsInput.getThemedChipsEditText();
         this.editText.setKeyboardListener(this);
 
         // Register an observer on the chip data source
