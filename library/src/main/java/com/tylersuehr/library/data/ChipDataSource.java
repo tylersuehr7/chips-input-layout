@@ -37,7 +37,7 @@ public interface ChipDataSource {
     void replaceChip(Chip chip);
     void replaceChip(int position); // Cannot be used for non-filtered chips
 
-    boolean notInDataSource(Chip chip);
+    boolean existsInDataSource(Chip chip);
 
     void registerObserver(ChipDataSourceObserver observer);
     void unregisterObserver(ChipDataSourceObserver observer);

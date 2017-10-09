@@ -176,11 +176,11 @@ public class ListChipDataSource implements ChipDataSource {
     }
 
     @Override
-    public boolean notInDataSource(Chip chip) {
+    public boolean existsInDataSource(Chip chip) {
         if (chip == null) {
             throw new NullPointerException("Chip cannot be null!");
         }
-        return !(originalChips.contains(chip)
+        return (originalChips.contains(chip)
                 || filteredChips.contains(chip)
                 || selectedChips.contains(chip));
     }

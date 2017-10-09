@@ -229,7 +229,7 @@ public class ListChipDataSourceTest {
         final Chip chip = new TestChip("Chip 1", "Chippy");
         final ListChipDataSource ls = new ListChipDataSource();
 
-        assertTrue(ls.notInDataSource(chip));
+        assertFalse(ls.existsInDataSource(chip));
     }
 
     @Test
@@ -239,7 +239,7 @@ public class ListChipDataSourceTest {
         final ListChipDataSource ls = new ListChipDataSource();
         ls.takeChip(chip);
 
-        assertFalse(ls.notInDataSource(chip));
+        assertTrue(ls.existsInDataSource(chip));
     }
 
     @Test
