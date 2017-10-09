@@ -1,8 +1,5 @@
 package com.tylersuehr.library.data;
 
-import android.support.annotation.Nullable;
-import android.util.Log;
-
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -245,7 +242,7 @@ public class ListChipDataSourceTest {
 
     @Test
     public void triggerChipAddedCallback() throws Exception {
-        final OnChipSelectedListener observer = new OnChipSelectedListener() {
+        final OnChipSelectedObserver observer = new OnChipSelectedObserver() {
             @Override
             public void onChipAdded(Chip addedChip) {
                 System.out.println("triggerChipAddedCallback() -> SUCCESS!");
@@ -259,14 +256,14 @@ public class ListChipDataSourceTest {
 
         final ListChipDataSource ls = new ListChipDataSource();
         ls.setFilterableChips(mockChips());
-        ls.setOnChipSelectedListener(observer);
+        ls.setOnChipSelectedObserver(observer);
 
         ls.takeChip(1);
     }
 
     @Test
     public void triggerChipRemovedCallback() throws Exception {
-        final OnChipSelectedListener observer = new OnChipSelectedListener() {
+        final OnChipSelectedObserver observer = new OnChipSelectedObserver() {
             @Override
             public void onChipAdded(Chip addedChip) {
                 fail("Chip should have been removed, not added!");
@@ -282,13 +279,13 @@ public class ListChipDataSourceTest {
         ls.setFilterableChips(mockChips());
         ls.takeChip(1);
 
-        ls.setOnChipSelectedListener(observer);
+        ls.setOnChipSelectedObserver(observer);
         ls.replaceChip(0);
     }
 
     @Test
     public void setOnChipSelectedListener() throws Exception {
-        final OnChipSelectedListener observer = new OnChipSelectedListener() {
+        final OnChipSelectedObserver observer = new OnChipSelectedObserver() {
             @Override
             public void onChipAdded(Chip addedChip) {
 
@@ -300,14 +297,14 @@ public class ListChipDataSourceTest {
             }
         };
         final ListChipDataSource ls = new ListChipDataSource();
-        ls.setOnChipSelectedListener(observer);
+        ls.setOnChipSelectedObserver(observer);
 
-        assertTrue(ls.chipSelectedListener == observer);
+        assertTrue(ls.chipSelectedObserver == observer);
     }
 
     @Test
     public void registerObserver() throws Exception {
-        final ChipDataSourceObserver result = new ChipDataSourceObserver() {
+        final OnChipChangedObserver result = new OnChipChangedObserver() {
             @Override
             public void onChipDataSourceChanged() {
 
@@ -315,13 +312,13 @@ public class ListChipDataSourceTest {
         };
         final ListChipDataSource cm = new ListChipDataSource();
 
-        cm.registerObserver(result);
+        cm.addOnChipChangedObserver(result);
         assertTrue(cm.observers.contains(result));
     }
 
     @Test
     public void unregisterObserver() throws Exception {
-        final ChipDataSourceObserver result = new ChipDataSourceObserver() {
+        final OnChipChangedObserver result = new OnChipChangedObserver() {
             @Override
             public void onChipDataSourceChanged() {
 
@@ -329,22 +326,22 @@ public class ListChipDataSourceTest {
         };
         final ListChipDataSource cm = new ListChipDataSource();
 
-        cm.registerObserver(result);
+        cm.addOnChipChangedObserver(result);
         assertTrue(cm.observers.contains(result));
 
-        cm.unregisterObserver(result);
+        cm.removeOnChipChangedObserver(result);
         assertFalse(cm.observers.contains(result));
     }
 
     @Test
     public void unregisterAllObservers() throws Exception {
-        final ChipDataSourceObserver result = new ChipDataSourceObserver() {
+        final OnChipChangedObserver result = new OnChipChangedObserver() {
             @Override
             public void onChipDataSourceChanged() {
 
             }
         };
-        final ChipDataSourceObserver result2 = new ChipDataSourceObserver() {
+        final OnChipChangedObserver result2 = new OnChipChangedObserver() {
             @Override
             public void onChipDataSourceChanged() {
 
@@ -352,10 +349,10 @@ public class ListChipDataSourceTest {
         };
         final ListChipDataSource cm = new ListChipDataSource();
 
-        cm.registerObserver(result);
-        cm.registerObserver(result2);
+        cm.addOnChipChangedObserver(result);
+        cm.addOnChipChangedObserver(result2);
 
-        cm.unregisterAllObservers();
+        cm.removeAllOnChipChangedObservers();
         assertTrue(cm.observers.isEmpty());
     }
 

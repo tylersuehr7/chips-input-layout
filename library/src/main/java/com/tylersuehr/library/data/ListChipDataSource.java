@@ -17,11 +17,11 @@ import java.util.List;
 public class ListChipDataSource implements ChipDataSource {
     /* Stores listener to receive chip selection callbacks */
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-    OnChipSelectedListener chipSelectedListener;
+    OnChipSelectedObserver chipSelectedObserver;
 
     /* Aggregation of observers listening to chip data changes */
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-    List<ChipDataSourceObserver> observers;
+    List<OnChipChangedObserver> observers;
 
     /* Stores all the original chips */
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
@@ -184,11 +184,6 @@ public class ListChipDataSource implements ChipDataSource {
     }
 
     @Override
-    public void setOnChipSelectedListener(OnChipSelectedListener listener) {
-        this.chipSelectedListener = listener;
-    }
-
-    @Override
     public boolean existsInDataSource(Chip chip) {
         if (chip == null) {
             throw new NullPointerException("Chip cannot be null!");
@@ -199,7 +194,12 @@ public class ListChipDataSource implements ChipDataSource {
     }
 
     @Override
-    public void registerObserver(ChipDataSourceObserver observer) {
+    public void setOnChipSelectedObserver(OnChipSelectedObserver listener) {
+        this.chipSelectedObserver = listener;
+    }
+
+    @Override
+    public void addOnChipChangedObserver(OnChipChangedObserver observer) {
         if (observers == null) {
             this.observers = new LinkedList<>();
         }
@@ -207,14 +207,14 @@ public class ListChipDataSource implements ChipDataSource {
     }
 
     @Override
-    public void unregisterObserver(ChipDataSourceObserver observer) {
+    public void removeOnChipChangedObserver(OnChipChangedObserver observer) {
         if (observers != null) {
             this.observers.remove(observer);
         }
     }
 
     @Override
-    public void unregisterAllObservers() {
+    public void removeAllOnChipChangedObservers() {
         if (observers != null) {
             this.observers.clear();
         }
@@ -225,24 +225,24 @@ public class ListChipDataSource implements ChipDataSource {
      */
     private synchronized void notifyChanged() {
         if (observers != null) {
-            for (ChipDataSourceObserver observer : observers) {
+            for (OnChipChangedObserver observer : observers) {
                 observer.onChipDataSourceChanged();
             }
         }
     }
 
     private void notifySelected(Chip chip) {
-        if (chipSelectedListener != null) {
+        if (chipSelectedObserver != null) {
             synchronized (this) {
-                this.chipSelectedListener.onChipAdded(chip);
+                this.chipSelectedObserver.onChipAdded(chip);
             }
         }
     }
 
     private void notifyDeselected(Chip chip) {
-        if (chipSelectedListener != null) {
+        if (chipSelectedObserver != null) {
             synchronized (this) {
-                this.chipSelectedListener.onChipRemoved(chip);
+                this.chipSelectedObserver.onChipRemoved(chip);
             }
         }
     }

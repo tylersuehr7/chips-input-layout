@@ -1,6 +1,5 @@
 package com.tylersuehr.chips;
 
-import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,7 +9,7 @@ import android.widget.TextView;
 
 import com.tylersuehr.library.data.Chip;
 import com.tylersuehr.library.data.ChipDataSource;
-import com.tylersuehr.library.data.ChipDataSourceObserver;
+import com.tylersuehr.library.data.OnChipChangedObserver;
 
 /**
  * Copyright © 2017 Tyler Suehr
@@ -18,12 +17,12 @@ import com.tylersuehr.library.data.ChipDataSourceObserver;
  * @author Tyler Suehr
  * @version 1.0
  */
-class ContactChipAdapter extends RecyclerView.Adapter<ContactChipAdapter.Holder> implements ChipDataSourceObserver {
+class ContactOnChipAdapter extends RecyclerView.Adapter<ContactOnChipAdapter.Holder> implements OnChipChangedObserver {
     private final OnContactClickListener listener;
     private ChipDataSource chipDataSource;
 
 
-    ContactChipAdapter(OnContactClickListener listener) {
+    ContactOnChipAdapter(OnContactClickListener listener) {
         this.listener = listener;
     }
 

@@ -12,8 +12,8 @@ import java.util.List;
  * @author Tyler Suehr
  * @version 1.0
  */
-public class ExampleChipsActivity extends ContactLoadingActivity implements ContactChipAdapter.OnContactClickListener {
-    private ContactChipAdapter contactAdapter;
+public class ExampleChipsActivity extends ContactLoadingActivity implements ContactOnChipAdapter.OnContactClickListener {
+    private ContactOnChipAdapter contactAdapter;
     private ChipsInputLayout chipsInput;
 
 
@@ -27,7 +27,7 @@ public class ExampleChipsActivity extends ContactLoadingActivity implements Cont
         setSupportActionBar(toolbar);
 
         // Setup the recycler
-        this.contactAdapter = new ContactChipAdapter(this);
+        this.contactAdapter = new ContactOnChipAdapter(this);
         RecyclerView recycler = (RecyclerView)findViewById(R.id.recycler);
         recycler.setLayoutManager(new LinearLayoutManager(this));
         recycler.setAdapter(contactAdapter);
