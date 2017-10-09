@@ -21,4 +21,36 @@ Here's some of the core features of this library:
 The basic usage of this library is to allow users to input chips and for them to be displayed like in the Material Design Guide. To achieve this functionality, you'll need to use the `ChipsInputLayout` view.
 
 ### Usage in an XML layout
-`ChipsInputLayout` can be used in any ViewGroup and supports all width and height attributes.
+`ChipsInputLayout` can be used in any ViewGroup and supports all width and height attributes. Simple usage is shown here:
+```xml
+<com.tylersuehr.library.ChipsInputLayout
+        android:id="@+id/chips_input"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Start typing for chips... "
+        android:textColorHint="#757575"
+        android:textColor="#212121"
+        app:detailedChipsEnabled="true"
+        app:customChipsEnabled="true"/>
+```
+
+Here is a table of all the XML attributes available for this view:
+
+Attribute | Type | Summary
+--- | --- | ---
+`android:hint` | `string` | Hint shown in the chips input.
+`android:textColorHint` | `color` | Text color of the hint shown in the chips input. 
+`android:textColor` | `color` | Text color of chips input.
+`app:detailedChipsEnabled` | `boolean` | True if clicking a chip should show its details.
+`app:customChipsEnabled` | `boolean` | True if user is allowed to enter custom chips.
+`app:maxRows` | `int` | Maximum number of rows used to display chips.
+`app:chipTextColor` | `color` | Text color of each chips' title and subtitle.
+`app:chipHasAvatarIcon` | `boolean` | True if each chip should show an avatar icon.
+`app:chipDeletable` | `boolean` | True if each chip should be deletable by the user.
+`app:chipDeleteIconColor` | `color` | Color of each chips' delete icon.
+`app:chipBackgroundColor` | `color` | Color of each chips' background.
+`app:detailedChipTextColor` | `color` | Text color of each detailed chips' title and subtitle.
+`app:detailedChipBackgroundColor` | `color` | Color of each detailed chips' background.
+`app:detailedChipDeleteIconColor` | `color` | Color of each detailed chips' delete icon.
+`app:filterableListBackgroundColor` | `color` | Color of the filterable list's background.
+`app:filterableListTextColor` | `color` | Text color of the filterable list's items.
