@@ -176,7 +176,7 @@ public class ChipsInput extends MaxHeightScrollView
             this.chipsEditText.setHint(chipOptions.hint);
 
             // Prevent fullscreen on landscape
-            this.chipsEditText.setImeOptions(EditorInfo.IME_FLAG_NO_EXTRACT_UI);
+            this.chipsEditText.setImeOptions(EditorInfo.IME_FLAG_NO_EXTRACT_UI|EditorInfo.IME_ACTION_DONE);
             this.chipsEditText.setPrivateImeOptions("nm");
 
             // No suggestions
