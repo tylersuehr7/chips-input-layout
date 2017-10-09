@@ -43,6 +43,7 @@ public class ChipsInputTestActivity extends AppCompatActivity implements View.On
         findViewById(R.id.button_add_selected_chip).setOnClickListener(this);
         findViewById(R.id.button_clear_filtered_chips).setOnClickListener(this);
         findViewById(R.id.button_clear_selected_chips).setOnClickListener(this);
+        findViewById(R.id.button_show_selection).setOnClickListener(this);
     }
 
     @Override
@@ -60,12 +61,23 @@ public class ChipsInputTestActivity extends AppCompatActivity implements View.On
             case R.id.button_clear_selected_chips:
                 this.chipsInputLayout.clearSelectedChips();
                 break;
+            case R.id.button_show_selection:
+                showSelection();
+                break;
         }
     }
 
     private void addFilteredChip(Chip chip) {
         chip.setFilterable(true);
         this.chipsInputLayout.addFilteredChip(chip);
+    }
+
+    private void showSelection() {
+        List<TestActivityChip> chips = (List<TestActivityChip>)chipsInputLayout.getSelectedChips();
+        System.out.println("Number of chips selected: " + chips.size());
+        for (Chip chip : chips) {
+            System.out.println("Chips: " + chip.getTitle());
+        }
     }
 
 
