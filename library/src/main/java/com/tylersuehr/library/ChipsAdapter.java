@@ -121,24 +121,14 @@ class ChipsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> impleme
     public void onKeyboardBackspace() {
         // Only remove the last chip if the input was empty
         if (chipDataSource.getSelectedChips().size() > 0 && editText.getText().length() == 0) {
-            removeChip(chipDataSource.getSelectedChips().size() - 1);
+            // Will trigger notifyDataSetChanged()
+            chipDataSource.replaceChip(chipDataSource.getSelectedChips().size() - 1);
         }
     }
 
     @Override
     public void onChipDataSourceChanged(@Nullable Chip affectedChip) {
         notifyDataSetChanged();
-    }
-
-    /**
-     * Removes the chip from the data source or directly if it was a custom chip.
-     * @param position Position of chip to remove
-     */
-    private void removeChip(int position) {
-        // TODO POSSIBLE OPTIMIZATION
-        // Create an overload to handle removing by position
-        final Chip chip = chipDataSource.getSelectedChip(position);
-        this.chipDataSource.replaceChip(chip);
     }
 
     private void autoFitEditText() {
@@ -174,7 +164,8 @@ class ChipsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> impleme
         chipView.setOnDeleteClicked(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                removeChip(position);
+                // Will trigger notifyDataSetChanged()
+                chipDataSource.replaceChip(position);
             }
         });
 
@@ -196,7 +187,8 @@ class ChipsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> impleme
                     detailedChipView.setOnDeleteClicked(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            removeChip(position);
+                            // Will trigger notifyDataSetChanged()
+                            chipDataSource.replaceChip(position);
                             detailedChipView.fadeOut();
                         }
                     });
