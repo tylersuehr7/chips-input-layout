@@ -46,6 +46,8 @@ import java.util.List;
 public class ChipsInput extends MaxHeightScrollView
         implements FilterableChipsAdapter.OnFilteredChipClickListener {
 
+    private static final String TAG = "CHIPS_INPUT";
+
     /* Stores and manages all our chips */
     private ChipDataSource chipDataSource;
 
@@ -106,23 +108,38 @@ public class ChipsInput extends MaxHeightScrollView
         hideKeyboard();
     }
 
+    /**
+     * Changes the {@link ChipDataSource} that manages chips by this view.
+     *
+     * Importantly, this will clear any existent data or observers in the
+     * current data source.
+     *
+     * @param dataSource {@link ChipDataSource}
+     */
+    public void changeChipDataSource(ChipDataSource dataSource) {
+        if (chipDataSource == dataSource) { return; }
+
+        // Set the new chips data source
+        this.chipDataSource = dataSource;
+
+        // Update the UI components
+        this.chipsAdapter.notifyDataSetChanged();
+        this.filterableChipsAdapter.notifyDataSetChanged();
+    }
+
+    /**
+     * Gets the current chips data source.
+     * @return {@link ChipDataSource}
+     */
+    public ChipDataSource getChipDataSource() {
+        return chipDataSource;
+    }
+
     public void setFilterableChipList(List<? extends Chip> chips) {
         this.chipDataSource.setFilterableChips(chips);
 
         // Setup the filterable recycler when new filterable data has been set
         createAndSetupFilterableRecyclerView();
-    }
-
-    public List<? extends Chip> getFilterableChips() {
-        return chipDataSource.getOriginalChips();
-    }
-
-    public List<? extends Chip> getSelectedChips() {
-        return chipDataSource.getSelectedChips();
-    }
-
-    ChipDataSource getChipDataSource() {
-        return chipDataSource;
     }
 
     ChipOptions getChipOptions() {
