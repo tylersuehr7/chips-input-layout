@@ -70,6 +70,9 @@ public class ChipsInputLayout extends MaxHeightScrollView
                 .setOrientation(ChipsLayoutManager.HORIZONTAL).build());
         this.chipsRecycler.setNestedScrollingEnabled(false);
         this.chipsRecycler.setAdapter(chipsAdapter);
+
+        // Set the max height from options
+        setMaxHeight(Utils.dp(40) * chipOptions.maxRows);
     }
 
     @Override
