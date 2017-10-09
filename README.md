@@ -55,3 +55,6 @@ Attribute | Type | Summary
 `app:filterableListBackgroundColor` | `color` | Color of the filterable list's background.
 `app:filterableListTextColor` | `color` | Text color of the filterable list's items.
 `app:filterableListElevation` | `dimension` | Elevation of the filterable list.
+
+### Usage in Java code
+
