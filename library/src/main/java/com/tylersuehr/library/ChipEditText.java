@@ -19,11 +19,11 @@ import android.view.inputmethod.InputConnectionWrapper;
  * @author Tyler Suehr
  * @version 1.0
  */
-public class ChipEditText extends AppCompatEditText {
+class ChipEditText extends AppCompatEditText {
     private OnKeyboardListener keyboardListener;
 
 
-    public ChipEditText(Context c) {
+    ChipEditText(Context c) {
         super(c);
     }
 
@@ -43,13 +43,14 @@ public class ChipEditText extends AppCompatEditText {
         return new ChipsInputConnection(super.onCreateInputConnection(outAttrs));
     }
 
-    public void setKeyboardListener(OnKeyboardListener listener) {
+    void setKeyboardListener(OnKeyboardListener listener) {
         this.keyboardListener = listener;
     }
 
-    public OnKeyboardListener getKeyboardListener() {
+    OnKeyboardListener getKeyboardListener() {
         return keyboardListener;
     }
+
 
     /**
      * Callbacks for simplified keyboard action events.
