@@ -8,7 +8,7 @@ import android.util.AttributeSet;
 /**
  * Copyright © 2017 Tyler Suehr
  *
- * Contains all the mutable properties for our {@link ChipsInput}.
+ * Contains all the mutable properties for our {@link ChipsInputLayout}.
  *
  * @author Tyler Suehr
  * @version 1.0
@@ -37,40 +37,40 @@ final class ChipOptions {
     ColorStateList filterableListBackgroundColor;
     ColorStateList filterableListTextColor;
 
-    /* Properties pertaining to the ChipsInput itself */
+    /* Properties pertaining to the ChipsInputLayout itself */
     boolean allowCustomChips = true;
     int maxRows;
 
 
     ChipOptions(Context c, AttributeSet attrs) {
-        TypedArray a = c.obtainStyledAttributes(attrs, R.styleable.ChipsInput);
+        TypedArray a = c.obtainStyledAttributes(attrs, R.styleable.ChipsInputLayout);
 
         // Setup the properties for the ChipEditText
-        this.textColorHint = a.getColorStateList(R.styleable.ChipsInput_android_textColorHint);
-        this.textColor = a.getColorStateList(R.styleable.ChipsInput_android_textColor);
-        this.hint = a.getString(R.styleable.ChipsInput_android_hint);
+        this.textColorHint = a.getColorStateList(R.styleable.ChipsInputLayout_android_textColorHint);
+        this.textColor = a.getColorStateList(R.styleable.ChipsInputLayout_android_textColor);
+        this.hint = a.getString(R.styleable.ChipsInputLayout_android_hint);
 
         // Setup the properties for the ChipView
-        this.chipDeleteIconColor = a.getColorStateList(R.styleable.ChipsInput_chip_deleteIconColor);
-        this.chipBackgroundColor = a.getColorStateList(R.styleable.ChipsInput_chip_backgroundColor);
-        this.chipLabelColor = a.getColorStateList(R.styleable.ChipsInput_chip_labelColor);
-        this.hasAvatarIcon = a.getBoolean(R.styleable.ChipsInput_chip_hasAvatarIcon, true);
-        this.showDetailedChip = a.getBoolean(R.styleable.ChipsInput_showChipDetailed, true);
-        this.chipDeletable = a.getBoolean(R.styleable.ChipsInput_chip_deletable, true);
-        this.chipDeleteIcon = a.getDrawable(R.styleable.ChipsInput_chip_deleteIcon);
+        this.chipDeleteIconColor = a.getColorStateList(R.styleable.ChipsInputLayout_chip_deleteIconColor);
+        this.chipBackgroundColor = a.getColorStateList(R.styleable.ChipsInputLayout_chip_backgroundColor);
+        this.chipLabelColor = a.getColorStateList(R.styleable.ChipsInputLayout_chip_labelColor);
+        this.hasAvatarIcon = a.getBoolean(R.styleable.ChipsInputLayout_chip_hasAvatarIcon, true);
+        this.showDetailedChip = a.getBoolean(R.styleable.ChipsInputLayout_showChipDetailed, true);
+        this.chipDeletable = a.getBoolean(R.styleable.ChipsInputLayout_chip_deletable, true);
+        this.chipDeleteIcon = a.getDrawable(R.styleable.ChipsInputLayout_chip_deleteIcon);
 
         // Setup the properties for the DetailedChipView
-        this.detailedChipDeleteIconColor = a.getColorStateList(R.styleable.ChipsInput_chip_detailed_deleteIconColor);
-        this.detailedChipBackgroundColor = a.getColorStateList(R.styleable.ChipsInput_chip_backgroundColor);
-        this.detailedChipTextColor = a.getColorStateList(R.styleable.ChipsInput_chip_detailed_textColor);
+        this.detailedChipDeleteIconColor = a.getColorStateList(R.styleable.ChipsInputLayout_chip_detailed_deleteIconColor);
+        this.detailedChipBackgroundColor = a.getColorStateList(R.styleable.ChipsInputLayout_chip_backgroundColor);
+        this.detailedChipTextColor = a.getColorStateList(R.styleable.ChipsInputLayout_chip_detailed_textColor);
 
         // Setup the properties for the FilterableRecyclerView
-        this.filterableListBackgroundColor = a.getColorStateList(R.styleable.ChipsInput_filterable_list_backgroundColor);
-        this.filterableListTextColor = a.getColorStateList(R.styleable.ChipsInput_filterable_list_textColor);
+        this.filterableListBackgroundColor = a.getColorStateList(R.styleable.ChipsInputLayout_filterable_list_backgroundColor);
+        this.filterableListTextColor = a.getColorStateList(R.styleable.ChipsInputLayout_filterable_list_textColor);
 
         // Setup the properties for the ChipsInput itself
-        this.allowCustomChips = a.getBoolean(R.styleable.ChipsInput_customChipsEnabled, true);
-        this.maxRows = a.getInt(R.styleable.ChipsInput_maxRows, 3);
+        this.allowCustomChips = a.getBoolean(R.styleable.ChipsInputLayout_customChipsEnabled, true);
+        this.maxRows = a.getInt(R.styleable.ChipsInputLayout_maxRows, 3);
 
         a.recycle();
     }

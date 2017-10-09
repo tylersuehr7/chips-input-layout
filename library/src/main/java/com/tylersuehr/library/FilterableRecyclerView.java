@@ -24,7 +24,7 @@ import android.widget.Filterable;
  */
 class FilterableRecyclerView extends RecyclerView {
     /* Used to determine location in window */
-    private ChipsInput chipsInput;
+    private ChipsInputLayout chipsInput;
 
     /* Used to trigger filtering and receive callbacks to show or hide this */
     private Filter chipsFilter;
@@ -36,7 +36,7 @@ class FilterableRecyclerView extends RecyclerView {
         setVisibility(GONE);
     }
 
-    <T extends RecyclerView.Adapter & Filterable> void setAdapter(ChipsInput chipsInput, T adapter) {
+    <T extends RecyclerView.Adapter & Filterable> void setAdapter(ChipsInputLayout chipsInput, T adapter) {
         setAdapter(adapter);
         this.chipsInput = chipsInput;
         this.chipsFilter = adapter.getFilter();

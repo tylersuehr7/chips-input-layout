@@ -11,7 +11,7 @@
         <attr name="android:maxHeight"/>
     </declare-styleable>
 
-    <declare-styleable name="ChipsInput">
+    <declare-styleable name="ChipsInputLayout">
         <attr name="android:hint"/>
         <attr name="android:textColorHint"/>
         <attr name="android:textColor"/>

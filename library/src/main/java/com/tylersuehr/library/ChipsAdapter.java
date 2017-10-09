@@ -14,7 +14,7 @@ import com.tylersuehr.library.data.ChipDataSourceObserver;
 /**
  * Copyright © 2017 Tyler Suehr
  *
- * Used by {@link ChipsInput} to adapt the selected chips into views and display
+ * Used by {@link ChipsInputLayout} to adapt the selected chips into views and display
  * the EditText to allow the user to type text in for chips.
  *
  * This adapter should also afford the following abilities/features:
@@ -34,11 +34,11 @@ class ChipsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> impleme
 
     private final ChipDataSource chipDataSource;
     private final ChipOptions chipOptions;
-    private final ChipsInput chipsInput;
+    private final ChipsInputLayout chipsInput;
     private final ChipEditText editText;
 
 
-    ChipsAdapter(ChipsInput chipsInput) {
+    ChipsAdapter(ChipsInputLayout chipsInput) {
         this.chipsInput = chipsInput;
         this.chipDataSource = chipsInput.getChipDataSource();
         this.chipOptions = chipsInput.getChipOptions();

@@ -3,7 +3,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import com.tylersuehr.library.ChipsInput;
+import com.tylersuehr.library.ChipsInputLayout;
 import java.util.List;
 
 /**
@@ -14,7 +14,7 @@ import java.util.List;
  */
 public class ExampleChipsActivity extends ContactLoadingActivity implements ContactChipAdapter.OnContactClickListener {
     private ContactChipAdapter contactAdapter;
-    private ChipsInput chipsInput;
+    private ChipsInputLayout chipsInput;
 
 
     @Override
@@ -33,7 +33,7 @@ public class ExampleChipsActivity extends ContactLoadingActivity implements Cont
         recycler.setAdapter(contactAdapter);
 
         // Setup chips input
-        this.chipsInput = (ChipsInput)findViewById(R.id.chips_input);
+        this.chipsInput = (ChipsInputLayout)findViewById(R.id.chips_input);
 
         // Load the current user's contact information
         loadContactsWithRuntimePermission();

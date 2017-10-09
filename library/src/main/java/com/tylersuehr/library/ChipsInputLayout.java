@@ -28,7 +28,7 @@ import java.util.List;
  * @author Tyler Suehr
  * @version 1.0
  */
-public class ChipsInput extends MaxHeightScrollView
+public class ChipsInputLayout extends MaxHeightScrollView
         implements FilterableChipsAdapter.OnFilteredChipClickListener {
 
     private static final String TAG = "CHIPS_INPUT";
@@ -51,11 +51,11 @@ public class ChipsInput extends MaxHeightScrollView
     private FilterableChipsAdapter filterableChipsAdapter;
 
 
-    public ChipsInput(Context context) {
+    public ChipsInputLayout(Context context) {
         this(context, null);
     }
 
-    public ChipsInput(Context c, AttributeSet attrs) {
+    public ChipsInputLayout(Context c, AttributeSet attrs) {
         super(c, attrs);
         this.chipOptions = new ChipOptions(c, attrs);
         this.chipDataSource = new ListChipDataSource();

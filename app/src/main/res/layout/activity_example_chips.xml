@@ -16,7 +16,7 @@
             android:theme="@style/MaterialActionBar"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
     </android.support.design.widget.AppBarLayout>
-    <com.tylersuehr.library.ChipsInput
+    <com.tylersuehr.library.ChipsInputLayout
         android:id="@+id/chips_input"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
