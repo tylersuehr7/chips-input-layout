@@ -142,11 +142,13 @@ class FilterableChipsAdapter extends RecyclerView.Adapter<FilterableChipsAdapter
         @Override
         public void onClick(View v) {
             // TODO: POSSIBLE OPTIMIZATION
-            // Add some convenience methods to ChipDataSource to take and replace filterable chips
-            // using indexes instead of the Chip model
-            final Chip chip = chipDataSource.getFilteredChips().get(getAdapterPosition());
+            // Have takeChip(int) return a Chip object; which can be null checked for callback
+
+            // Take the chip from the filtered chip list
+            final Chip chip = chipDataSource.getFilteredChip(getAdapterPosition());
             chipDataSource.takeChip(chip);
 
+            // Trigger callback with the clicked chip
             listener.onFilteredChipClick(chip);
         }
     }
