@@ -21,7 +21,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Start typing for chips... "
-        app:maxRows="3"/>
+        android:textColorHint="#757575"
+        android:textColor="#212121"
+        app:detailedChipsEnabled="true"
+        app:customChipsEnabled="true"/>
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler"
         android:layout_width="match_parent"

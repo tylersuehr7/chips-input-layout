@@ -53,14 +53,14 @@ final class ChipOptions {
         // Setup the properties for the ChipView
         this.chipDeleteIconColor = a.getColorStateList(R.styleable.ChipsInputLayout_chipDeleteIconColor);
         this.chipBackgroundColor = a.getColorStateList(R.styleable.ChipsInputLayout_chipBackgroundColor);
-        this.chipLabelColor = a.getColorStateList(R.styleable.ChipsInputLayout_chipLabelColor);
+        this.chipLabelColor = a.getColorStateList(R.styleable.ChipsInputLayout_chipTextColor);
         this.hasAvatarIcon = a.getBoolean(R.styleable.ChipsInputLayout_chipHasAvatarIcon, true);
         this.showDetailedChips = a.getBoolean(R.styleable.ChipsInputLayout_detailedChipsEnabled, true);
         this.chipDeletable = a.getBoolean(R.styleable.ChipsInputLayout_chipDeletable, true);
         this.chipDeleteIcon = a.getDrawable(R.styleable.ChipsInputLayout_chipDeleteIcon);
 
         // Setup the properties for the DetailedChipView
-        this.detailedChipDeleteIconColor = a.getColorStateList(R.styleable.ChipsInputLayout_detailedDeleteIconColor);
+        this.detailedChipDeleteIconColor = a.getColorStateList(R.styleable.ChipsInputLayout_detailedChipDeleteIconColor);
         this.detailedChipBackgroundColor = a.getColorStateList(R.styleable.ChipsInputLayout_chipBackgroundColor);
         this.detailedChipTextColor = a.getColorStateList(R.styleable.ChipsInputLayout_detailedChipTextColor);
 
