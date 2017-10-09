@@ -35,6 +35,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Add New Selected Chip"/>
+            <Button
+                android:id="@+id/button_clear_filtered_chips"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Clear Filtered Chips"/>
+            <Button
+                android:id="@+id/button_clear_selected_chips"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Clear Selected Chips"/>
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

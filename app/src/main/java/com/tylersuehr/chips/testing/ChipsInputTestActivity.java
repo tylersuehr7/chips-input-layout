@@ -41,6 +41,8 @@ public class ChipsInputTestActivity extends AppCompatActivity implements View.On
         // Setup test action listeners
         findViewById(R.id.button_add_filtered_chip).setOnClickListener(this);
         findViewById(R.id.button_add_selected_chip).setOnClickListener(this);
+        findViewById(R.id.button_clear_filtered_chips).setOnClickListener(this);
+        findViewById(R.id.button_clear_selected_chips).setOnClickListener(this);
     }
 
     @Override
@@ -51,6 +53,12 @@ public class ChipsInputTestActivity extends AppCompatActivity implements View.On
                 break;
             case R.id.button_add_selected_chip:
                 this.chipsInputLayout.addSelectedChip(new TestActivityChip("Added Chip!"));
+                break;
+            case R.id.button_clear_filtered_chips:
+                this.chipsInputLayout.clearFilteredChips();
+                break;
+            case R.id.button_clear_selected_chips:
+                this.chipsInputLayout.clearSelectedChips();
                 break;
         }
     }

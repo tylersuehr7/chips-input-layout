@@ -144,10 +144,10 @@ public class ChipsInputLayout extends MaxHeightScrollView
         this.chipDataSource.getOriginalChips().add(chip);
         this.chipDataSource.getFilteredChips().add(chip);
 
-        // Update the filtered chips UI, if its visible, or create filtered list if not
-        if (filterableRecyclerView != null && filterableRecyclerView.getVisibility() == VISIBLE) {
+        // Update the filtered chips UI, needs notified if visible or not!
+        if (filterableRecyclerView != null) {
             this.filterableChipsAdapter.notifyDataSetChanged();
-        } else if (filterableRecyclerView == null) {
+        } else {
             createAndSetupFilterableRecyclerView();
         }
     }
@@ -165,6 +165,39 @@ public class ChipsInputLayout extends MaxHeightScrollView
         // Since this is a new chip, add it directly to the selected list
         // in the data source itself
         this.chipDataSource.getSelectedChips().add(chip);
+        this.chipsAdapter.notifyDataSetChanged();
+    }
+
+    /**
+     * Clears all the filterable chips in the chip data source.
+     */
+    public void clearFilteredChips() {
+        // If any filtered chips are selected, let's set them as not filterable
+        // so they don't get put back into the filtered chip lists
+        for (Chip chip : chipDataSource.getOriginalChips()) {
+            int index = chipDataSource.getSelectedChips().indexOf(chip);
+            if (index > -1) {
+                Chip filteredChip = chipDataSource.getSelectedChip(index);
+                filteredChip.setFilterable(false);
+            }
+        }
+
+        // Clear both the original filtered and filtered chip lists
+        this.chipDataSource.getOriginalChips().clear();
+        this.chipDataSource.getFilteredChips().clear();
+
+        // Update the filtered chips UI, needs notified if visible or not!
+        if (filterableRecyclerView != null) {
+            this.filterableChipsAdapter.notifyDataSetChanged();
+        }
+    }
+
+    /**
+     * Clears all the selected chips in the chip data source.
+     */
+    public void clearSelectedChips() {
+        // Clear the selected chip list
+        this.chipDataSource.getSelectedChips().clear();
         this.chipsAdapter.notifyDataSetChanged();
     }
 
