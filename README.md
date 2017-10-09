@@ -20,7 +20,7 @@ Here's some of the core features of this library:
 ## Usage as Chips Input
 The basic usage of this library is to allow users to input chips and for them to be displayed like in the Material Design Guide. To achieve this functionality, you'll need to use the `ChipsInputLayout` view.
 
-### Usage in an XML layout
+### Using in an XML layout
 `ChipsInputLayout` can be used in any ViewGroup and supports all width and height attributes. Simple usage is shown here:
 ```xml
 <com.tylersuehr.library.ChipsInputLayout
@@ -56,5 +56,16 @@ Attribute | Type | Summary
 `app:filterableListTextColor` | `color` | Text color of the filterable list's items.
 `app:filterableListElevation` | `dimension` | Elevation of the filterable list.
 
-### Usage in Java code
-
+### Using in Java code
+`ChipsInputLayout` can be programmatically added into any ViewGroup. Simple usage in an Activity is shown here:
+```java
+@Override
+protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    
+    ChipsInputLayout chipsInputLayout = new ChipsInputLayout(this);
+    // Set any properties for chips input layout
+    
+    setContentView(chipsInputLayout);
+}
+```
