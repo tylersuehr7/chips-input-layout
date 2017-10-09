@@ -12,5 +12,5 @@ import android.support.annotation.Nullable;
  * @version 1.0
  */
 public interface ChipDataSourceObserver {
-    void onChipDataSourceChanged(@Nullable Chip affectedChip);
+    void onChipDataSourceChanged();
 }

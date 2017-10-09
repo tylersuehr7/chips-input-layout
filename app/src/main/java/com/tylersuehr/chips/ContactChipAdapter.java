@@ -54,7 +54,7 @@ class ContactChipAdapter extends RecyclerView.Adapter<ContactChipAdapter.Holder>
     }
 
     @Override
-    public void onChipDataSourceChanged(@Nullable Chip affectedChip) {
+    public void onChipDataSourceChanged() {
         notifyDataSetChanged();
     }
 

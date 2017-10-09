@@ -127,7 +127,7 @@ class ChipsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> impleme
     }
 
     @Override
-    public void onChipDataSourceChanged(@Nullable Chip affectedChip) {
+    public void onChipDataSourceChanged() {
         notifyDataSetChanged();
     }
 

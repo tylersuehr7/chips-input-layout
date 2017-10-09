@@ -114,7 +114,7 @@ class FilterableChipsAdapter extends RecyclerView.Adapter<FilterableChipsAdapter
     }
 
     @Override
-    public void onChipDataSourceChanged(@Nullable Chip affectedChip) {
+    public void onChipDataSourceChanged() {
         notifyDataSetChanged();
     }
 
