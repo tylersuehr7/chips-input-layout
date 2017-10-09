@@ -85,6 +85,10 @@ public class ChipsInput extends MaxHeightScrollView
         hideKeyboard();
     }
 
+    /**
+     * Sets and stores a list of filterable chips on the data source.
+     * @param chips List of {@link Chip}
+     */
     public void setFilterableChipList(List<? extends Chip> chips) {
         this.chipDataSource.setFilterableChips(chips);
 
