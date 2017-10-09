@@ -15,6 +15,10 @@ import java.util.List;
  * @version 1.0
  */
 public class ListChipDataSource implements ChipDataSource {
+    /* Stores listener to receive chip selection callbacks */
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    OnChipSelectedListener chipSelectedListener;
+
     /* Aggregation of observers listening to chip data changes */
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
     List<ChipDataSourceObserver> observers;
@@ -100,7 +104,7 @@ public class ListChipDataSource implements ChipDataSource {
                 this.originalChips.remove(chip);
                 this.filteredChips.remove(chip);
                 this.selectedChips.add(chip);
-
+                notifySelected(chip);
                 notifyChanged();
             } else {
                 throw new IllegalArgumentException("Chip is not in filtered chip list!");
@@ -108,6 +112,7 @@ public class ListChipDataSource implements ChipDataSource {
         } else {
             // Just add it to the selected list only
             this.selectedChips.add(chip);
+            notifySelected(chip);
             notifyChanged();
         }
     }
@@ -125,11 +130,12 @@ public class ListChipDataSource implements ChipDataSource {
             this.originalChips.remove(foundChip);
             this.filteredChips.remove(foundChip);
             this.selectedChips.add(foundChip);
-
+            notifySelected(foundChip);
             notifyChanged();
         } else {
             // Just add it to the selected list only
             this.selectedChips.add(foundChip);
+            notifySelected(foundChip);
             notifyChanged();
         }
     }
@@ -150,6 +156,7 @@ public class ListChipDataSource implements ChipDataSource {
                 this.originalChips.add(chip);
             }
 
+            notifyDeselected(chip);
             notifyChanged();
         } else {
             throw new IllegalArgumentException("Chip is not in selected chip list!");
@@ -172,7 +179,13 @@ public class ListChipDataSource implements ChipDataSource {
             this.originalChips.add(foundChip);
         }
 
+        notifyDeselected(foundChip);
         notifyChanged();
+    }
+
+    @Override
+    public void setOnChipSelectedListener(OnChipSelectedListener listener) {
+        this.chipSelectedListener = listener;
     }
 
     @Override
@@ -214,6 +227,22 @@ public class ListChipDataSource implements ChipDataSource {
         if (observers != null) {
             for (ChipDataSourceObserver observer : observers) {
                 observer.onChipDataSourceChanged();
+            }
+        }
+    }
+
+    private void notifySelected(Chip chip) {
+        if (chipSelectedListener != null) {
+            synchronized (this) {
+                this.chipSelectedListener.onChipAdded(chip);
+            }
+        }
+    }
+
+    private void notifyDeselected(Chip chip) {
+        if (chipSelectedListener != null) {
+            synchronized (this) {
+                this.chipSelectedListener.onChipRemoved(chip);
             }
         }
     }

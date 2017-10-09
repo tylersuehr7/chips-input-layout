@@ -39,6 +39,8 @@ public interface ChipDataSource {
 
     boolean existsInDataSource(Chip chip);
 
+    void setOnChipSelectedListener(OnChipSelectedListener listener);
+
     void registerObserver(ChipDataSourceObserver observer);
     void unregisterObserver(ChipDataSourceObserver observer);
     void unregisterAllObservers();
