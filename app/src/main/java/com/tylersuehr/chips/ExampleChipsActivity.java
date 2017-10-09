@@ -1,13 +1,9 @@
 package com.tylersuehr.chips;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuItem;
-
 import com.tylersuehr.library.ChipsInput;
-import com.tylersuehr.library.data.Chip;
-
 import java.util.List;
 
 /**
@@ -16,7 +12,8 @@ import java.util.List;
  * @author Tyler Suehr
  * @version 1.0
  */
-public class ExampleChipsActivity extends AppCompatActivity {
+public class ExampleChipsActivity extends ContactLoadingActivity implements ContactChipAdapter.OnContactClickListener {
+    private ContactChipAdapter contactAdapter;
     private ChipsInput chipsInput;
 
 
@@ -29,32 +26,35 @@ public class ExampleChipsActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        // Setup the recycler
+        this.contactAdapter = new ContactChipAdapter(this);
+        RecyclerView recycler = (RecyclerView)findViewById(R.id.recycler);
+        recycler.setLayoutManager(new LinearLayoutManager(this));
+        recycler.setAdapter(contactAdapter);
+
         // Setup chips input
         this.chipsInput = (ChipsInput)findViewById(R.id.chips_input);
+
+        // Load the current user's contact information
+        loadContactsWithRuntimePermission();
+    }
+
+    /**
+     * When we have contact chips available, let's make them filterable in our ChipsInputView!
+     */
+    @Override
+    protected void onContactsAvailable(List<ContactChip> chips) {
+        System.out.println("Number of contacts: " + chips.size());
+        this.chipsInput.setFilterableChipList(chips);
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return super.onCreateOptionsMenu(menu);
+    protected void onContactsReset() {
+
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_check:
-                checkSelectedChips();
-                break;
-        }
-        return super.onOptionsItemSelected(item);
-    }
+    public void onContactClicked(ContactChip chip) {
 
-    private void checkSelectedChips() {
-        final List<? extends Chip> chips = chipsInput.getSelectedChips();
-
-        System.out.println("Number of chips selected: " + chips.size());
-        for (Chip chip : chipsInput.getSelectedChips()) {
-            System.out.println("Selected chip: " + chip.getTitle());
-        }
     }
 }

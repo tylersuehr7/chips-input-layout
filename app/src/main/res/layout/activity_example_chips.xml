@@ -20,7 +20,10 @@
         android:id="@+id/chips_input"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Start typing for chips... "
-        app:filterable_list_backgroundColor="@color/colorPrimary"
-        app:filterable_list_textColor="#fafafa"/>
+        android:hint="Start typing for chips... "/>
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
 </LinearLayout>
