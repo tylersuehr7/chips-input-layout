@@ -32,5 +32,6 @@
 
         <attr name="filterableListBackgroundColor" format="color" />
         <attr name="filterableListTextColor" format="color" />
+        <attr name="filterableListElevation" format="dimension"/>
     </declare-styleable>
 </resources>

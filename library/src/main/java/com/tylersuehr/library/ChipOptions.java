@@ -36,6 +36,7 @@ final class ChipOptions {
     /* Properties pertaining to FilterableRecyclerView */
     ColorStateList filterableListBackgroundColor;
     ColorStateList filterableListTextColor;
+    float filterableListElevation;
 
     /* Properties pertaining to the ChipsInputLayout itself */
     boolean allowCustomChips = true;
@@ -67,6 +68,7 @@ final class ChipOptions {
         // Setup the properties for the FilterableRecyclerView
         this.filterableListBackgroundColor = a.getColorStateList(R.styleable.ChipsInputLayout_filterableListBackgroundColor);
         this.filterableListTextColor = a.getColorStateList(R.styleable.ChipsInputLayout_filterableListTextColor);
+        this.filterableListElevation = a.getDimension(R.styleable.ChipsInputLayout_filterableListElevation, Utils.dp(2));
 
         // Setup the properties for the ChipsInput itself
         this.allowCustomChips = a.getBoolean(R.styleable.ChipsInputLayout_customChipsEnabled, true);

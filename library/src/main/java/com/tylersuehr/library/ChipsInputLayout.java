@@ -203,7 +203,7 @@ public class ChipsInputLayout extends MaxHeightScrollView
 
         // Set the filterable properties from the options
         this.filterableRecyclerView.setBackgroundColor(Color.WHITE);
-        ViewCompat.setElevation(filterableRecyclerView, 4f);
+        ViewCompat.setElevation(filterableRecyclerView, chipOptions.filterableListElevation);
 
         if (chipOptions.filterableListBackgroundColor != null) {
             this.filterableRecyclerView.getBackground().setColorFilter(
