@@ -101,14 +101,14 @@ public class ListChipDataSource implements ChipDataSource {
                 this.filteredChips.remove(chip);
                 this.selectedChips.add(chip);
 
-                notifyChanged(chip);
+                notifyChanged();
             } else {
                 throw new IllegalArgumentException("Chip is not in filtered chip list!");
             }
         } else {
             // Just add it to the selected list only
             this.selectedChips.add(chip);
-            notifyChanged(chip);
+            notifyChanged();
         }
     }
 
@@ -126,11 +126,11 @@ public class ListChipDataSource implements ChipDataSource {
             this.filteredChips.remove(foundChip);
             this.selectedChips.add(foundChip);
 
-            notifyChanged(foundChip);
+            notifyChanged();
         } else {
             // Just add it to the selected list only
             this.selectedChips.add(foundChip);
-            notifyChanged(foundChip);
+            notifyChanged();
         }
     }
 
@@ -150,7 +150,7 @@ public class ListChipDataSource implements ChipDataSource {
                 this.originalChips.add(chip);
             }
 
-            notifyChanged(chip);
+            notifyChanged();
         } else {
             throw new IllegalArgumentException("Chip is not in selected chip list!");
         }
@@ -172,7 +172,7 @@ public class ListChipDataSource implements ChipDataSource {
             this.originalChips.add(foundChip);
         }
 
-        notifyChanged(foundChip);
+        notifyChanged();
     }
 
     @Override
@@ -209,9 +209,8 @@ public class ListChipDataSource implements ChipDataSource {
 
     /**
      * Notifies the observers of a change to the data source.
-     * @param affectedChip {@link Chip}
      */
-    private synchronized void notifyChanged(final Chip affectedChip) {
+    private synchronized void notifyChanged() {
         if (observers != null) {
             for (ChipDataSourceObserver observer : observers) {
                 observer.onChipDataSourceChanged();
