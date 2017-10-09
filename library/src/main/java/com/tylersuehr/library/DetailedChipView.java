@@ -69,6 +69,18 @@ public class DetailedChipView extends FrameLayout {
         anim.setDuration(200);
         startAnimation(anim);
         setVisibility(VISIBLE);
+
+        // Force this view to hide when it loses focus
+        setOnFocusChangeListener(new OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus) {
+                    fadeOut();
+                    setOnFocusChangeListener(null);
+                }
+            }
+        });
+
         requestFocus();
     }
 

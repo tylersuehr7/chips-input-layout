@@ -1,13 +1,8 @@
 package com.tylersuehr.library;
-import android.app.Activity;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
-import android.graphics.Rect;
-import android.os.Build;
-import android.support.annotation.Nullable;
-import android.support.annotation.RequiresApi;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
@@ -15,18 +10,8 @@ import android.text.InputType;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
-import android.view.ActionMode;
-import android.view.KeyEvent;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.MotionEvent;
-import android.view.SearchEvent;
-import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
-import android.view.Window;
-import android.view.WindowManager;
-import android.view.accessibility.AccessibilityEvent;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
@@ -85,14 +70,6 @@ public class ChipsInput extends MaxHeightScrollView
                 .setOrientation(ChipsLayoutManager.HORIZONTAL).build());
         this.chipsRecycler.setNestedScrollingEnabled(false);
         this.chipsRecycler.setAdapter(chipsAdapter);
-
-        // Set the window callbacks to hide when the detailed chip view is visible
-        Activity activity = Utils.scanForActivity(c);
-        if (activity == null) {
-            throw new ClassCastException("android.view.Context cannot be cast to android.app.Activity");
-        }
-        Window.Callback localCallback = activity.getWindow().getCallback();
-        activity.getWindow().setCallback(new WindowCallback(localCallback, activity));
     }
 
     @Override
@@ -307,160 +284,5 @@ public class ChipsInput extends MaxHeightScrollView
 
         @Override
         public void afterTextChanged(Editable s) {}
-    }
-
-
-    /**
-     * This is what we use to hide the DetailedChipView when it's shown when the user
-     * presses outside of the bounds of its visible space.
-     *
-     * This also hides the software keyboard when anything other than the bounds of our
-     * chips EditText visible space is pressed.
-     *
-     * Importantly, we also need to wrap the existing window callback so we don't mess
-     * up its functionality or prevent other things from working.
-     */
-    private static final class WindowCallback implements Window.Callback {
-        private final Window.Callback localCallback;
-        private final Activity activity;
-
-
-        private WindowCallback(Window.Callback localCallback, Activity activity) {
-            this.localCallback = localCallback;
-            this.activity = activity;
-        }
-
-        @Override
-        public boolean dispatchTouchEvent(MotionEvent event) {
-            if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                View v = activity.getCurrentFocus();
-                if (v instanceof DetailedChipView) {
-                    Rect outRect = new Rect();
-                    v.getGlobalVisibleRect(outRect);
-
-                    // If the touch was outside the visible bounds of the detailed chip view,
-                    // then we want to fade it out
-                    if (!outRect.contains((int)event.getRawX(), (int)event.getRawY())) {
-                        ((DetailedChipView)v).fadeOut();
-                    }
-                }
-            }
-            return localCallback.dispatchTouchEvent(event);
-        }
-
-        @Override
-        public boolean dispatchKeyEvent(KeyEvent event) {
-            return localCallback.dispatchKeyEvent(event);
-        }
-
-        @Override
-        public boolean dispatchKeyShortcutEvent(KeyEvent event) {
-            return localCallback.dispatchKeyShortcutEvent(event);
-        }
-
-        @Override
-        public boolean dispatchTrackballEvent(MotionEvent event) {
-            return localCallback.dispatchTrackballEvent(event);
-        }
-
-        @Override
-        public boolean dispatchGenericMotionEvent(MotionEvent event) {
-            return localCallback.dispatchGenericMotionEvent(event);
-        }
-
-        @Override
-        public boolean dispatchPopulateAccessibilityEvent(AccessibilityEvent event) {
-            return localCallback.dispatchPopulateAccessibilityEvent(event);
-        }
-
-        @Nullable
-        @Override
-        public View onCreatePanelView(int featureId) {
-            return localCallback.onCreatePanelView(featureId);
-        }
-
-        @Override
-        public boolean onCreatePanelMenu(int featureId, Menu menu) {
-            return localCallback.onCreatePanelMenu(featureId, menu);
-        }
-
-        @Override
-        public boolean onPreparePanel(int featureId, View view, Menu menu) {
-            return localCallback.onPreparePanel(featureId, view, menu);
-        }
-
-        @Override
-        public boolean onMenuOpened(int featureId, Menu menu) {
-            return localCallback.onMenuOpened(featureId, menu);
-        }
-
-        @Override
-        public boolean onMenuItemSelected(int featureId, MenuItem item) {
-            return localCallback.onMenuItemSelected(featureId, item);
-        }
-
-        @Override
-        public void onWindowAttributesChanged(WindowManager.LayoutParams attrs) {
-            this.localCallback.onWindowAttributesChanged(attrs);
-        }
-
-        @Override
-        public void onContentChanged() {
-            this.localCallback.onContentChanged();
-        }
-
-        @Override
-        public void onWindowFocusChanged(boolean hasFocus) {
-            this.localCallback.onWindowFocusChanged(hasFocus);
-        }
-
-        @Override
-        public void onAttachedToWindow() {
-            this.localCallback.onAttachedToWindow();
-        }
-
-        @Override
-        public void onDetachedFromWindow() {
-            this.localCallback.onDetachedFromWindow();
-        }
-
-        @Override
-        public void onPanelClosed(int featureId, Menu menu) {
-            this.localCallback.onPanelClosed(featureId, menu);
-        }
-
-        @Override
-        public boolean onSearchRequested() {
-            return localCallback.onSearchRequested();
-        }
-
-        @RequiresApi(api = Build.VERSION_CODES.M)
-        @Override
-        public boolean onSearchRequested(SearchEvent searchEvent) {
-            return localCallback.onSearchRequested(searchEvent);
-        }
-
-        @Nullable
-        @Override
-        public ActionMode onWindowStartingActionMode(ActionMode.Callback callback) {
-            return localCallback.onWindowStartingActionMode(callback);
-        }
-
-        @RequiresApi(api = Build.VERSION_CODES.M)
-        @Nullable
-        @Override
-        public ActionMode onWindowStartingActionMode(ActionMode.Callback callback, int type) {
-            return localCallback.onWindowStartingActionMode(callback, type);
-        }
-
-        @Override
-        public void onActionModeStarted(ActionMode mode) {
-            this.localCallback.onActionModeStarted(mode);
-        }
-
-        @Override
-        public void onActionModeFinished(ActionMode mode) {
-            this.localCallback.onActionModeFinished(mode);
-        }
     }
 }
