@@ -1,21 +1,7 @@
 # Chips Input View
 A highly customizable Android ViewGroup for displaying Chips (specified in the Material Design Guide)!
 
-<div style="float:left;">
-<img src="https://github.com/tylersuehr7/chips-input-layout/blob/master/docs/screen_filterable_list.png" width="200">
-</div>
-
-<div style="float:left;">
-<img src="https://github.com/tylersuehr7/chips-input-layout/blob/master/docs/screen_contact_chip_multiple.png" width="200">
-</div>
-
-<div style="float:left;">
-<img src="https://github.com/tylersuehr7/chips-input-layout/blob/master/docs/screen_chips_multiple.png" width="200">
-</div>
-
-<div style="float:left;">
-<img src="https://github.com/tylersuehr7/chips-input-layout/blob/master/docs/screen_contact_chip_details.png" width="200">
-</div>
+<img src="https://github.com/tylersuehr7/chips-input-layout/blob/master/docs/screen_filterable_list.png" width="200"> <img src="https://github.com/tylersuehr7/chips-input-layout/blob/master/docs/screen_contact_chip_multiple.png" width="200"> <img src="https://github.com/tylersuehr7/chips-input-layout/blob/master/docs/screen_chips_multiple.png" width="200"> <img src="https://github.com/tylersuehr7/chips-input-layout/blob/master/docs/screen_contact_chip_details.png" width="200">
 
 Here's some of the core features of ChipsInputView:
 * You can allow the user to filter chips as they type
