@@ -33,20 +33,16 @@ public class ContactChip extends Chip {
     @NonNull
     @Override
     public String getTitle() {
-        return name + (phoneType != null ? " (" + phoneType + ")" : "");
+        return name;
     }
 
     @Nullable
     @Override
     public String getSubtitle() {
-        String subtitle = null;
-        if (phone != null) {
-            subtitle = "Phone number: " + phone;
+        if (phoneType != null && phone != null) {
+            return phoneType + ": " + phone;
         }
-        if (email != null) {
-            subtitle = (subtitle == null ? "" : "\n") + "Email: " + email;
-        }
-        return subtitle;
+        return null;
     }
 
     @Nullable
