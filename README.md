@@ -18,3 +18,7 @@ Here's some of the core features of this library:
 
 
 ## Usage as Chips Input
+The basic usage of this library is to allow users to input chips and for them to be displayed like in the Material Design Guide. To achieve this functionality, you'll need to use the `ChipsInputLayout` view.
+
+### Usage in an XML layout
+`ChipsInputLayout` can be used in any ViewGroup and supports all width and height attributes.
