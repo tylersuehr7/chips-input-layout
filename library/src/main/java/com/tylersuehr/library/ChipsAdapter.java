@@ -179,8 +179,8 @@ class ChipsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> impleme
                     view.getLocationInWindow(coord);
 
                     // Create a detailed chip view to show
-                    final DetailedChipView detailedChipView = chipsInput.getThemedDetailedChipView(
-                            chipDataSource.getSelectedChips().get(position));
+                    final DetailedChipView detailedChipView = chipsInput
+                            .getThemedDetailedChipView(chipDataSource.getSelectedChip(position));
                     setDetailedChipViewPosition(detailedChipView, coord);
 
                     // Remove the button when the chip is delete
