@@ -225,6 +225,24 @@ public class ListChipDataSourceTest {
     }
 
     @Test
+    public void checkNotInDataSource() throws Exception {
+        final Chip chip = new TestChip("Chip 1", "Chippy");
+        final ListChipDataSource ls = new ListChipDataSource();
+
+        assertTrue(ls.notInDataSource(chip));
+    }
+
+    @Test
+    public void checkInDataSource() throws Exception {
+        final Chip chip = new TestChip("Chip 1", "Chip");
+
+        final ListChipDataSource ls = new ListChipDataSource();
+        ls.takeChip(chip);
+
+        assertFalse(ls.notInDataSource(chip));
+    }
+
+    @Test
     public void registerObserver() throws Exception {
         final ChipDataSourceObserver result = new ChipDataSourceObserver() {
             @Override
