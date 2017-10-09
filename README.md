@@ -1,4 +1,6 @@
 # Chips Input Layout
+*Updates to documentation and project are still in progress*
+
 A highly customizable Android ViewGroup for displaying Chips (specified in the Material Design Guide)!
 
 <img src="https://github.com/tylersuehr7/chips-input-layout/blob/master/docs/screen_filterable_list.png" width="200"> <img src="https://github.com/tylersuehr7/chips-input-layout/blob/master/docs/screen_contact_chip_multiple.png" width="200"> <img src="https://github.com/tylersuehr7/chips-input-layout/blob/master/docs/screen_chips_multiple.png" width="200"> <img src="https://github.com/tylersuehr7/chips-input-layout/blob/master/docs/screen_contact_chip_details.png" width="200">
@@ -20,7 +22,7 @@ Here's some of the core features of this library:
 ## Usage as Chips Input
 The basic usage of this library is to allow users to input chips and for them to be displayed like in the Material Design Guide. To achieve this functionality, you'll need to use the `ChipsInputLayout` view.
 
-### Usage in an XML layout
+### Using in an XML layout
 `ChipsInputLayout` can be used in any ViewGroup and supports all width and height attributes. Simple usage is shown here:
 ```xml
 <com.tylersuehr.library.ChipsInputLayout
@@ -55,3 +57,17 @@ Attribute | Type | Summary
 `app:filterableListBackgroundColor` | `color` | Color of the filterable list's background.
 `app:filterableListTextColor` | `color` | Text color of the filterable list's items.
 `app:filterableListElevation` | `dimension` | Elevation of the filterable list.
+
+### Using in Java code
+`ChipsInputLayout` can be programmatically added into any ViewGroup. Simple usage in an Activity is shown here:
+```java
+@Override
+protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    
+    ChipsInputLayout chipsInputLayout = new ChipsInputLayout(this);
+    // Set any properties for chips input layout
+    
+    setContentView(chipsInputLayout);
+}
+```
