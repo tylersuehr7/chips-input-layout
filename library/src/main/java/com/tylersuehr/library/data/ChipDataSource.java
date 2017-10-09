@@ -28,9 +28,14 @@ public interface ChipDataSource {
     List<Chip> getFilteredChips();
     List<Chip> getOriginalChips();
 
+    Chip getFilteredChip(int position);
+    Chip getSelectedChip(int position);
+
     void setFilterableChips(List<? extends Chip> chips);
     void takeChip(Chip chip);
+    void takeChip(int position); // Cannot be used for non-filtered chips
     void replaceChip(Chip chip);
+    void replaceChip(int position); // Cannot be used for non-filtered chips
 
     void registerObserver(ChipDataSourceObserver observer);
     void unregisterObserver(ChipDataSourceObserver observer);

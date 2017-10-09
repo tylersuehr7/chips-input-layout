@@ -31,10 +31,10 @@ public class ListChipDataSourceTest {
         final ListChipDataSource ls = new ListChipDataSource();
 
         List<Chip> chips = new ArrayList<>();
-        chips.add(new BasicTestChip("0", "Chip"));
-        chips.add(new BasicTestChip("1", "Chip"));
-        chips.add(new BasicTestChip("2", "Chip"));
-        chips.add(new BasicTestChip("3", "Chip"));
+        chips.add(new TestChip("0", "Chip"));
+        chips.add(new TestChip("1", "Chip"));
+        chips.add(new TestChip("2", "Chip"));
+        chips.add(new TestChip("3", "Chip"));
         ls.setFilterableChips(chips);
 
         assertFalse(ls.originalChips.isEmpty());
@@ -78,7 +78,7 @@ public class ListChipDataSourceTest {
     @Test
     public void takeFilteredChip() throws Exception {
         // Create a test chip to use
-        final Chip chip = new BasicTestChip("0", "takeFilteredChip");
+        final Chip chip = new TestChip("0", "takeFilteredChip");
 
         // Create the data source
         final ListChipDataSource ls = new ListChipDataSource();
@@ -99,7 +99,7 @@ public class ListChipDataSourceTest {
     @Test
     public void replaceFilteredChip() throws Exception {
         // Create a test chip to use
-        final Chip chip = new BasicTestChip("0", "takeFilteredChip");
+        final Chip chip = new TestChip("0", "takeFilteredChip");
 
         // Create the data source
         final ListChipDataSource ls = new ListChipDataSource();
@@ -121,7 +121,7 @@ public class ListChipDataSourceTest {
     @Test
     public void takeNonFilteredChip() throws Exception {
         // Create a test chip to use
-        final Chip chip = new BasicTestChip("0", "takeNonFilteredChip");
+        final Chip chip = new TestChip("0", "takeNonFilteredChip");
         chip.setFilterable(false);
 
         // Create the data source
@@ -137,7 +137,7 @@ public class ListChipDataSourceTest {
     @Test
     public void replaceNonFilteredChip() throws Exception {
         // Create a test chip to use
-        final Chip chip = new BasicTestChip("0", "replaceNonFilteredChip");
+        final Chip chip = new TestChip("0", "replaceNonFilteredChip");
         chip.setFilterable(false);
 
         // Create the data source
@@ -150,6 +150,78 @@ public class ListChipDataSourceTest {
         assertFalse(ls.selectedChips.contains(chip));
         assertFalse(ls.filteredChips.contains(chip));
         assertFalse(ls.originalChips.contains(chip));
+    }
+
+    @Test
+    public void takeFilteredChipByPosition() throws Exception {
+        // Create the initial chip list
+        List<Chip> chips = new ArrayList<>();
+        chips.add(new TestChip("0", "Chip 1"));
+        chips.add(new TestChip("1", "Chip 2"));
+        chips.add(new TestChip("2", "Chip 3"));
+
+        // Create the data
+        final ListChipDataSource ls = new ListChipDataSource();
+        ls.setFilterableChips(chips);
+
+        ls.takeChip(1);
+
+        // Since chip was filterable, make sure it's in selected list only
+        final Chip chip = chips.get(1);
+        assertTrue(ls.selectedChips.contains(chip));
+        assertFalse(ls.filteredChips.contains(chip));
+        assertFalse(ls.originalChips.contains(chip));
+    }
+
+    @Test
+    public void replaceFilteredChipByPosition() throws Exception {
+        // Create the initial chip list
+        List<Chip> chips = new ArrayList<>();
+        chips.add(new TestChip("0", "Chip 1"));
+        chips.add(new TestChip("1", "Chip 2"));
+        chips.add(new TestChip("2", "Chip 3"));
+
+        // Create the data
+        final ListChipDataSource ls = new ListChipDataSource();
+        ls.setFilterableChips(chips);
+
+        ls.takeChip(1);
+        ls.replaceChip(0);
+
+        // Since chip was filterable, make sure it's in filtered list only
+        final Chip chip = chips.get(1);
+        assertFalse(ls.selectedChips.contains(chip));
+        assertTrue(ls.filteredChips.contains(chip));
+        assertTrue(ls.originalChips.contains(chip));
+    }
+
+    @Test
+    public void getFilteredChip() throws Exception {
+        final Chip chip = new TestChip("Chip", "Chip");
+        final List<Chip> chips = new ArrayList<>();
+        chips.add(chip);
+
+        final ListChipDataSource ls = new ListChipDataSource();
+        ls.setFilterableChips(chips);
+
+        ls.takeChip(chip);
+        ls.replaceChip(chip);
+
+        final Chip found = ls.getFilteredChip(0);
+        assertNotNull(found);
+        assertEquals(chip, found);
+    }
+
+    @Test
+    public void getSelectedChip() throws Exception {
+        final Chip chip = new TestChip("Chip", "Chip");
+        final ListChipDataSource ls = new ListChipDataSource();
+
+        ls.takeChip(chip);
+
+        final Chip found = ls.getSelectedChip(0);
+        assertNotNull(found);
+        assertEquals(chip, found);
     }
 
     @Test

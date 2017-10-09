@@ -10,12 +10,12 @@ import android.support.annotation.Nullable;
  * @author Tyler Suehr
  * @version 1.0
  */
-class BasicTestChip extends Chip {
+class TestChip extends Chip {
     private final String title;
     private final String subtitle;
 
 
-    BasicTestChip(String title, String subtitle) {
+    TestChip(String title, String subtitle) {
         this.title = title;
         this.subtitle = subtitle;
     }

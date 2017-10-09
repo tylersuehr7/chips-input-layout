@@ -55,6 +55,16 @@ public class ListChipDataSource implements ChipDataSource {
     }
 
     @Override
+    public Chip getFilteredChip(int position) {
+        return filteredChips.get(position);
+    }
+
+    @Override
+    public Chip getSelectedChip(int position) {
+        return selectedChips.get(position);
+    }
+
+    @Override
     public void setFilterableChips(List<? extends Chip> chips) {
         if (chips == null) {
             throw new NullPointerException("Chips cannot be null!");
@@ -103,6 +113,28 @@ public class ListChipDataSource implements ChipDataSource {
     }
 
     @Override
+    public void takeChip(int position) {
+        final Chip foundChip = filteredChips.get(position);
+        if (foundChip == null) {
+            throw new NullPointerException("Chip cannot be null; not found in filtered chip list!");
+        }
+
+        // Check if chip is filterable
+        if (foundChip.isFilterable()) {
+            // Since the child isn't null, we know it's in the filtered list
+            this.originalChips.remove(foundChip);
+            this.filteredChips.remove(foundChip);
+            this.selectedChips.add(foundChip);
+
+            notifyChanged(foundChip);
+        } else {
+            // Just add it to the selected list only
+            this.selectedChips.add(foundChip);
+            notifyChanged(foundChip);
+        }
+    }
+
+    @Override
     public void replaceChip(Chip chip) {
         if (chip == null) {
             throw new NullPointerException("Chip cannot be null!");
@@ -122,6 +154,25 @@ public class ListChipDataSource implements ChipDataSource {
         } else {
             throw new IllegalArgumentException("Chip is not in selected chip list!");
         }
+    }
+
+    @Override
+    public void replaceChip(int position) {
+        final Chip foundChip = selectedChips.get(position);
+        if (foundChip == null) {
+            throw new NullPointerException("Chip cannot be null; not found in selected chip list!");
+        }
+
+        // Since not null, we know the chip is selected
+        this.selectedChips.remove(foundChip);
+
+        // Check if the chip is filterable
+        if (foundChip.isFilterable()) {
+            this.filteredChips.add(foundChip);
+            this.originalChips.add(foundChip);
+        }
+
+        notifyChanged(foundChip);
     }
 
     @Override
