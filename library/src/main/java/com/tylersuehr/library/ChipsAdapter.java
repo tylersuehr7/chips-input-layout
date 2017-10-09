@@ -89,7 +89,7 @@ class ChipsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> impleme
 
     @Override
     public long getItemId(int position) {
-        return chipDataSource.getSelectedChips().get(position).hashCode();
+        return chipDataSource.getSelectedChip(position).hashCode();
     }
 
 
@@ -120,7 +120,7 @@ class ChipsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> impleme
     @Override
     public void onKeyboardBackspace() {
         // Only remove the last chip if the input was empty
-        if (chipDataSource.getSelectedChips().size() > 0 && editText.getText().toString().length() == 0) {
+        if (chipDataSource.getSelectedChips().size() > 0 && editText.getText().length() == 0) {
             removeChip(chipDataSource.getSelectedChips().size() - 1);
         }
     }
@@ -137,7 +137,7 @@ class ChipsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> impleme
     private void removeChip(int position) {
         // TODO POSSIBLE OPTIMIZATION
         // Create an overload to handle removing by position
-        final Chip chip = chipDataSource.getSelectedChips().get(position);
+        final Chip chip = chipDataSource.getSelectedChip(position);
         this.chipDataSource.replaceChip(chip);
     }
 
