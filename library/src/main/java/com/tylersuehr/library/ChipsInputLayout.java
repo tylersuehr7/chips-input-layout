@@ -97,6 +97,9 @@ public class ChipsInputLayout extends MaxHeightScrollView
 
     /**
      * Sets and stores a list of filterable chips on the data source.
+     * Note: this should only be used if you want the user to be able to filter
+     * pre-existing (filterable chip list) chips.
+     *
      * @param chips List of {@link Chip}
      */
     public void setFilterableChipList(List<? extends Chip> chips) {
@@ -104,6 +107,229 @@ public class ChipsInputLayout extends MaxHeightScrollView
 
         // Setup the filterable recycler when new filterable data has been set
         createAndSetupFilterableRecyclerView();
+    }
+
+    /**
+     * Sets and stores a list of chips that are selected on the data source.
+     * Note: this call will notify {@link #chipsRecycler} of the updates.
+     *
+     * @param chips List of {@link Chip}
+     */
+    public void setSelectedChipList(List<? extends Chip> chips) {
+        // Set the selected chips in the data source
+        this.chipDataSource.getSelectedChips().clear();
+        this.chipDataSource.getSelectedChips().addAll(chips);
+
+        // Update the chips UI display
+        this.chipsAdapter.notifyDataSetChanged();
+    }
+
+    /**
+     * Adds a new chip to the filter lists in the chip data source.
+     * @param chip {@link Chip}
+     */
+    public void addFilteredChip(Chip chip) {
+        // Ensure that the chip is actually filterable
+        if (!chip.isFilterable()) {
+            throw new IllegalArgumentException("Cannot add a non-filterable chip to the filtered chip list!");
+        }
+
+        // Ensure that the chip is not already in the data source
+        if (chipDataSource.existsInDataSource(chip)) {
+            throw new IllegalArgumentException("Chip already exists in the data source!");
+        }
+
+        // Since this is a new filtered chip, it add it directly to both the filtered
+        // and original lists in the data source itself.
+        this.chipDataSource.getOriginalChips().add(chip);
+        this.chipDataSource.getFilteredChips().add(chip);
+
+        // Update the filtered chips UI, if its visible, or create filtered list if not
+        if (filterableRecyclerView != null && filterableRecyclerView.getVisibility() == VISIBLE) {
+            this.filterableChipsAdapter.notifyDataSetChanged();
+        } else if (filterableRecyclerView == null) {
+            createAndSetupFilterableRecyclerView();
+        }
+    }
+
+    /**
+     * Adds a new chip to the selection in the chip data source.
+     * @param chip {@link Chip}
+     */
+    public void addSelectedChip(Chip chip) {
+        // Ensure that the chip is not already in the data source
+        if (chipDataSource.existsInDataSource(chip)) {
+            throw new IllegalArgumentException("Chip already exists in the data source!");
+        }
+
+        // Since this is a new chip, add it directly to the selected list
+        // in the data source itself
+        this.chipDataSource.getSelectedChips().add(chip);
+        this.chipsAdapter.notifyDataSetChanged();
+    }
+
+    /**
+     * Gets the currently selected list of chips.
+     * @return List of {@link Chip}
+     */
+    public List<? extends Chip> getSelectedChips() {
+        return chipDataSource.getSelectedChips();
+    }
+
+    /**
+     * Gets the currently filtered list of chips.
+     * @see #getOriginalFilterableChips() if you want the original list of chips
+     * @return List of {@link Chip}
+     */
+    public List<? extends Chip> getFilteredChips() {
+        return chipDataSource.getFilteredChips();
+    }
+
+    /**
+     * Gets the originally set filterable list of chips.
+     * @return List of {@link Chip}
+     */
+    public List<? extends Chip> getOriginalFilterableChips() {
+        return chipDataSource.getOriginalChips();
+    }
+
+    /**
+     * Gets a selected chip using the given index from the chip data source.
+     * @param position Position of chip
+     * @return {@link Chip}
+     */
+    public Chip getSelectedChipByPosition(int position) {
+        return chipDataSource.getSelectedChip(position);
+    }
+
+    /**
+     * Gets a selected chip using the given ID, if possible.
+     * @param id ID of the selected chip
+     * @return {@link Chip}
+     */
+    public Chip getSelectedChipById(Object id) {
+        for (Chip chip : chipDataSource.getSelectedChips()) {
+            if (chip.getId() != null && chip.getId().equals(id)) {
+                return chip;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Gets a selected chip with exactly the given title or like the given title.
+     * @param title Title to search for
+     * @param exactlyEqual True if chip title should exactly match title
+     * @return {@link Chip}
+     */
+    public Chip getSelectedChipByTitle(String title, boolean exactlyEqual) {
+        for (Chip chip : chipDataSource.getSelectedChips()) {
+            if ((exactlyEqual && chip.getTitle().equals(title)) ||
+                    (!exactlyEqual && chip.getTitle().toLowerCase().contains(title.toLowerCase()))) {
+                return chip;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Gets a selected chip with exactly the given title or like the given title.
+     * @param subtitle Subtitle to search for
+     * @param exactlyEqual True if chip subtitle should exactly match subtitle
+     * @return {@link Chip}
+     */
+    public Chip getSelectedChipBySubtitle(String subtitle, boolean exactlyEqual) {
+        for (Chip chip : chipDataSource.getSelectedChips()) {
+            if (chip.getSubtitle() == null) { continue; }
+            if ((exactlyEqual && chip.getSubtitle().equals(subtitle)) ||
+                    (!exactlyEqual && chip.getSubtitle().toLowerCase().contains(subtitle.toLowerCase()))) {
+                return chip;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Gets a filtered chip using the given index from the chip data source.
+     * @param position Position of chip
+     * @return {@link Chip}
+     */
+    public Chip getFilteredChipPosition(int position) {
+        return chipDataSource.getFilteredChip(position);
+    }
+
+    /**
+     * Gets a filtered chip using the given ID, if possible.
+     * @param id Filtered chip's ID
+     * @return {@link Chip}
+     */
+    public Chip getFilteredChipById(Object id) {
+        for (Chip chip : chipDataSource.getFilteredChips()) {
+            if (chip.getId() != null && chip.getId().equals(id)) {
+                return chip;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Gets a filtered chip with exactly the given title or like the given title.
+     * @param title Title to search for
+     * @param exactlyEqual True if filtered chip title should exactly match title
+     * @return {@link Chip}
+     */
+    public Chip getFilteredChipByTitle(String title, boolean exactlyEqual) {
+        for (Chip chip : chipDataSource.getFilteredChips()) {
+            if ((exactlyEqual && chip.getTitle().equals(title)) ||
+                    (!exactlyEqual && chip.getTitle().toLowerCase().contains(title.toLowerCase()))) {
+                return chip;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Gets a filtered chip with exactly the given subtitle or like the given subtitle.
+     * @param subtitle Subtitle to search for
+     * @param exactlyEqual True if filtered chip subtitle should exactly match subtitle
+     * @return {@link Chip}
+     */
+    public Chip getFilteredChipBySubtitle(String subtitle, boolean exactlyEqual) {
+        for (Chip chip : chipDataSource.getFilteredChips()) {
+            if (chip.getSubtitle() == null) { continue; }
+            if ((exactlyEqual && chip.getSubtitle().equals(subtitle)) ||
+                    (!exactlyEqual && chip.getSubtitle().toLowerCase().contains(subtitle.toLowerCase()))) {
+                return chip;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Checks if a given chip exists within any list of our chip data source.
+     * @param chip {@link Chip}
+     * @return True if chip exists in any list of our data source
+     */
+    public boolean doesChipExist(Chip chip) {
+        return chipDataSource.existsInDataSource(chip);
+    }
+
+    /**
+     * Checks if a given chip exists in the filtered list of our chip data source.
+     * @param chip {@link Chip}
+     * @return True if chip exists in filtered chip list of our data source
+     */
+    public boolean isFiltered(Chip chip) {
+        return chipDataSource.getOriginalChips().contains(chip);
+    }
+
+    /**
+     * Checks if a given chip exists in the selected list of our chip data source.
+     * @param chip {@link Chip}
+     * @return True if chip exists in selected chip list of our data source
+     */
+    public boolean isSelected(Chip chip) {
+        return chipDataSource.getSelectedChips().contains(chip);
     }
 
     ChipDataSource getChipDataSource() {
@@ -214,32 +440,46 @@ public class ChipsInputLayout extends MaxHeightScrollView
         this.filterableChipsAdapter = new FilterableChipsAdapter(getContext(), this, chipOptions, chipDataSource);
         this.filterableRecyclerView.setAdapter(this, filterableChipsAdapter);
 
-        // To show our filterable recycler view, we need to make sure our ChipsInput has already
-        // been displayed on the screen so we can access its root view
-        getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout() {
-                // Get the root view of the ChipsInput
-                ViewGroup rootView = (ViewGroup)getRootView();
+        // To show our filterable recycler view, we need to make sure our ChipsInputLayout has
+        // already been displayed on the screen so we can access its root view
+        ViewGroup rootView = (ViewGroup)getRootView();
+        RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(
+                Utils.getWindowWidth(getContext()),
+                ViewGroup.LayoutParams.MATCH_PARENT
+        );
+        lp.addRule(RelativeLayout.ALIGN_PARENT_TOP);
+        lp.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+            lp.bottomMargin = Utils.getNavBarHeight(getContext());
+        }
+        rootView.addView(filterableRecyclerView, lp);
 
-                // Create the layout params for our filterable recycler view
-                RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(
-                        Utils.getWindowWidth(getContext()),
-                        ViewGroup.LayoutParams.MATCH_PARENT
-                );
-                lp.addRule(RelativeLayout.ALIGN_PARENT_TOP);
-                lp.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
-                if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
-                    lp.bottomMargin = Utils.getNavBarHeight(getContext());
-                }
-
-                // Add the filterable recycler to our root with the specified layout params
-                rootView.addView(filterableRecyclerView, lp);
-
-                // Remove the view tree listener
-                getViewTreeObserver().removeOnGlobalLayoutListener(this);
-            }
-        });
+//        // To show our filterable recycler view, we need to make sure our ChipsInput has already
+//        // been displayed on the screen so we can access its root view
+//        getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+//            @Override
+//            public void onGlobalLayout() {
+//                // Get the root view of the ChipsInput
+//                ViewGroup rootView = (ViewGroup)getRootView();
+//
+//                // Create the layout params for our filterable recycler view
+//                RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(
+//                        Utils.getWindowWidth(getContext()),
+//                        ViewGroup.LayoutParams.MATCH_PARENT
+//                );
+//                lp.addRule(RelativeLayout.ALIGN_PARENT_TOP);
+//                lp.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
+//                if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+//                    lp.bottomMargin = Utils.getNavBarHeight(getContext());
+//                }
+//
+//                // Add the filterable recycler to our root with the specified layout params
+//                rootView.addView(filterableRecyclerView, lp);
+//
+//                // Remove the view tree listener
+//                getViewTreeObserver().removeOnGlobalLayoutListener(this);
+//            }
+//        });
     }
 
     /**

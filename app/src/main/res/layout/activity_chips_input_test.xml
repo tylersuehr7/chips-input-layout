@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+    <com.tylersuehr.library.ChipsInputLayout
+        android:id="@+id/chips_input"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:textSize="14sp"
+                android:textColor="#757575"
+                android:text="Test Options:"/>
+            <Button
+                android:id="@+id/button_add_filtered_chip"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Add New Filtered Chip"/>
+            <Button
+                android:id="@+id/button_add_selected_chip"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Add New Selected Chip"/>
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>
