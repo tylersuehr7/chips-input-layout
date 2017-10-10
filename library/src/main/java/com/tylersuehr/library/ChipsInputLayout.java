@@ -17,6 +17,7 @@ import android.widget.EditText;
 import android.widget.RelativeLayout;
 import com.beloo.widget.chipslayoutmanager.ChipsLayoutManager;
 import com.tylersuehr.library.data.Chip;
+import com.tylersuehr.library.data.ChipChangedObserver;
 import com.tylersuehr.library.data.ChipDataSource;
 import com.tylersuehr.library.data.ListChipDataSource;
 import com.tylersuehr.library.data.ChipSelectionObserver;
@@ -172,16 +173,6 @@ public class ChipsInputLayout extends MaxHeightScrollView
      * Clears all the filterable chips in the chip data source.
      */
     public void clearFilteredChips() {
-        // If any filtered chips are selected, let's set them as not filterable
-        // so they don't get put back into the filtered chip lists
-        for (Chip chip : chipDataSource.getOriginalChips()) {
-            int index = chipDataSource.getSelectedChips().indexOf(chip);
-            if (index > -1) {
-                Chip filteredChip = chipDataSource.getSelectedChip(index);
-                filteredChip.setFilterable(false);
-            }
-        }
-
         // Clear both the original filtered and filtered chip lists
         this.chipDataSource.getOriginalChips().clear();
         this.chipDataSource.getFilteredChips().clear();
@@ -366,11 +357,19 @@ public class ChipsInputLayout extends MaxHeightScrollView
     }
 
     /**
-     * Sets a listener for chip selection events on the chip data source.
-     * @param listener {@link ChipSelectionObserver}
+     * Adds an observer to watch selection events on the chip data source.
+     * @param observer {@link ChipSelectionObserver}
      */
-    public void addChipSelectionObserver(ChipSelectionObserver listener) {
-        this.chipDataSource.addChipSelectionObserver(listener);
+    public void addChipSelectionObserver(ChipSelectionObserver observer) {
+        this.chipDataSource.addChipSelectionObserver(observer);
+    }
+
+    /**
+     * Adds an observer to watch for any changes to the chip data source.
+     * @param observer {@link ChipChangedObserver}
+     */
+    public void addChipChangedObserver(ChipChangedObserver observer) {
+        this.chipDataSource.addChipChangedObserver(observer);
     }
 
     ChipDataSource getChipDataSource() {
