@@ -193,6 +193,8 @@ class ChipsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> impleme
                     });
                 }
             });
+        } else {
+            chipView.setOnChipClicked(null);
         }
     }
 
