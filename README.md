@@ -71,3 +71,27 @@ protected void onCreate(Bundle savedInstanceState) {
     setContentView(chipsInputLayout);
 }
 ```
+
+Here is a table of all the accessible attributes available for this view:
+
+Method | Summary
+--- | ---
+`setInputHint(CharSequence)` | Changes hint shown in the chips input.
+`setInputHintTextColor(ColorStateList)` | Changes text color of the hint shown in the chips input. 
+`setInputTextColor(ColorStateList)` | Changes text color of chips input.
+`setShowDetailedChipsEnabled(boolean)` |  True if clicking a chip should show its details.
+`setCustomChipsEnabled(boolean)` | True if user is allowed to enter custom chips.
+`setMaxRows(int)` | Changes maximum number of rows used to display chips.
+`setChipTitleTextColor(ColorStateList)` | Changes text color of each chips' title and subtitle.
+`setShowChipAvatarEnabled(boolean)` | True if each chip should show an avatar icon.
+`setChipsDeletable(boolean)` | True if each chip should be deletable by the user.
+`setChipDeleteIconColor(ColorStateList)` | Changes color of each chips' delete icon.
+`setChipBackgroundColor(ColorStateList)` | Changes color of each chips' background.
+`setChipDeleteIcon(Drawable)` | Changes the each chips' delete icon.
+`setChipDeleteIcon(int)` | Overload of setChipDeleteIcon(Drawable).
+`setDetailedChipTextColor(ColorStateList)` | Changes text color of each detailed chips' title and subtitle.
+`setDetailedChipBackgroundColor(ColorStateList)` | Changes color of each detailed chips' background.
+`setDetailedChipDeleteIconColor(ColorStateList)` | Changes color of each detailed chips' delete icon.
+`setFilterableListBackgroundColor(ColorStateList)` | Changes color of the filterable list's background.
+`setFilterableListTextColor(ColorStateList)` | Changes text color of the filterable list's items.
+`setFilterableListElevation(float)` | Changes elevation of the filterable list.
