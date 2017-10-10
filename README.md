@@ -104,9 +104,11 @@ All chips are managed by, `ChipDataSource`, which is an abstraction to decouple 
 The current default implementation of `ChipDataSource` is `ListChipDataSource`, and it uses `ArrayList` as the list implementation for selected and filtered chip lists.
 
 ### Observing any change to the chip data source
-`ChipDataSource` has the ability to notify observers that want to observe any type of change to the data in `ChipDataSource`. This is used internally by the library to trigger UI updates on `RecyclerView` adapters when the data has changed.
+`ChipDataSource` has the ability to notify observers that want to observe any type of change to the data in `ChipDataSource`. The observers will be notified if a chip has been added or removed from either the selected or filtered lists in the `ChipDataSource`; however, there's no information about the event though. 
 
-*Currently, `ChipsInputLayout`, does not have a method to set this type of observer on the `ChipDataSource` because this is for internal components of the library. However, this may be an addition to the library, if needed\requested, in the future.
+This is used internally by the library to trigger UI updates on `RecyclerView` adapters when the data has changed.
+
+*Currently, `ChipsInputLayout`, does not have a method to set this type of observer on the `ChipDataSource` because this is for internal components of the library. However, this may be an addition to the library, if needed\requested, in the future.*
 
 To use this functionality, you'll want to implement the `ChipChangedObserver` and register it on `ChipDataSource`. Be sure to manage unregistering the observer, if need be, as well.
 
