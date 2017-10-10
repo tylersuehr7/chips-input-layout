@@ -103,6 +103,38 @@ All chips are managed by, `ChipDataSource`, which is an abstraction to decouple 
 
 The current default implementation of `ChipDataSource` is `ListChipDataSource`, and it uses `ArrayList` as the list implementation for selected and filtered chip lists.
 
+### Observing chip selection changes
+`ChipDataSource` has the ability to notify observers that want to observe specific chip selection events in `ChipDataSource`. The observers will be notified if a chip has been selected or unselected from the selected chip list in `ChipDataSource`. Both selection and deselection events will afford the chip that was selected or deselected respectively.
+
+To use this functionality, you'll want to implement the 'ChipSelectionObserver` and register it on `ChipDataSource`. Be sure to manage unregistering the observer, if need be, as well. 
+
+Since components outside of the library cannot, and should not, directly access `ChipDataSouce`, you'll use `ChipsInputLayout` to set the observer; using its `setChipSelectionObserver(ChipSelectionObserver)` method.
+
+Here is a simple example:
+```java
+public class CoolActivity extends AppCompatActivity implements ChipSelectionObserver {
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_cool);
+        
+        // Get the ChipsInputLayout from the layout file
+        ChipsInputLayout chipsInput = (ChipsInputLayout)findViewById(R.id.chips);
+        chipsInput.setChipSelectionObserver(this);
+    }
+    
+    @Override
+    public void onChipSelected(Chip selectedChip) {
+        // Cool chip selection stuff here...
+    }
+    
+    @Override
+    public void onChipUnselected(Chip unselectedChip) {
+        // Cool chip unselection stuff here...
+    }
+}
+```
+
 ### Observing any change to the chip data source
 `ChipDataSource` has the ability to notify observers that want to observe any type of change to the data in `ChipDataSource`. The observers will be notified if a chip has been added or removed from either the selected or filtered lists in the `ChipDataSource`; however, there's no information about the event though. 
 
