@@ -1,8 +1,13 @@
 package com.tylersuehr.library;
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
+import android.support.annotation.ColorInt;
+import android.support.annotation.DrawableRes;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
@@ -363,14 +368,115 @@ public class ChipsInputLayout extends MaxHeightScrollView
         this.chipDataSource.addChipSelectionObserver(observer);
     }
 
+    public void setInputTextColor(ColorStateList textColor) {
+        this.chipOptions.textColor = textColor;
+        if (chipsEditText != null) { // Can be null because its lazy loaded
+            this.chipsEditText.setTextColor(textColor);
+        }
+    }
+
+    public void setInputHintTextColor(ColorStateList textColorHint) {
+        this.chipOptions.textColorHint = textColorHint;
+        if (chipsEditText != null) { // Can be null because its lazy loaded
+            this.chipsEditText.setHintTextColor(textColorHint);
+        }
+    }
+
+    public void setInputHint(CharSequence hint) {
+        this.chipOptions.hint = hint;
+        if (chipsEditText != null) { // Can be null because its lazy loaded
+            this.chipsEditText.setHint(hint);
+        }
+    }
+
+    public void setChipDeleteIconColor(ColorStateList deleteIconColor) {
+        this.chipOptions.chipDeleteIconColor = deleteIconColor;
+    }
+
+    public void setChipBackgroundColor(ColorStateList chipBackgroundColor) {
+        this.chipOptions.chipBackgroundColor = chipBackgroundColor;
+    }
+
+    public void setChipTitleTextColor(ColorStateList chipTitleTextColor) {
+        this.chipOptions.chipLabelColor = chipTitleTextColor;
+    }
+
+    public void setChipDeleteIcon(Drawable chipDeleteIcon) {
+        this.chipOptions.chipDeleteIcon = chipDeleteIcon;
+    }
+
+    public void setChipDeleteIcon(@DrawableRes int res) {
+        this.chipOptions.chipDeleteIcon = ContextCompat.getDrawable(getContext(), res);
+    }
+
+    public void setShowChipAvatarEnabled(boolean hasAvatar) {
+        this.chipOptions.hasAvatarIcon = hasAvatar;
+    }
+
+    public void setShowDetailedChipsEnabled(boolean enabled) {
+        this.chipOptions.showDetailedChips = enabled;
+    }
+
+    public void setChipsDeletable(boolean enabled) {
+        this.chipOptions.chipDeletable = enabled;
+    }
+
+    public void setDetailedChipDeleteIconColor(ColorStateList detailedChipIconColor) {
+        this.chipOptions.detailedChipDeleteIconColor = detailedChipIconColor;
+    }
+
+    public void setDetailedChipBackgroundColor(ColorStateList detailedChipBackgroundColor) {
+        this.chipOptions.detailedChipBackgroundColor = detailedChipBackgroundColor;
+    }
+
+    public void setDetailedChipTextColor(ColorStateList detailedChipTextColor) {
+        this.chipOptions.detailedChipTextColor = detailedChipTextColor;
+    }
+
+    public void setFilterableListBackgroundColor(ColorStateList backgroundColor) {
+        this.chipOptions.filterableListBackgroundColor = backgroundColor;
+    }
+
+    public void setFilterableListTextColor(ColorStateList textColor) {
+        this.chipOptions.filterableListTextColor = textColor;
+    }
+
+    public void setFilterableListElevation(float elevation) {
+        this.chipOptions.filterableListElevation = elevation;
+    }
+
+    public void setCustomChipsEnabled(boolean enabled) {
+        this.chipOptions.allowCustomChips = enabled;
+    }
+
+    public void setMaxRows(int rows) {
+        this.chipOptions.maxRows = rows;
+        setMaxHeight(Utils.dp(40) * chipOptions.maxRows);
+    }
+
+    /**
+     * Gets the current chip data source being used.
+     * Note: package-private for now because no outside component should access this.
+     * @return {@link ChipDataSource}
+     */
     ChipDataSource getChipDataSource() {
         return chipDataSource;
     }
 
+    /**
+     * Gets the current chip options.
+     * Note: package-private for now because outside components should use accessors instead.
+     * @return {@link ChipOptions}
+     */
     ChipOptions getChipOptions() {
         return chipOptions;
     }
 
+    /**
+     * Gets the current chips recycler view.
+     * Note: package-private because no outside components should access this.
+     * @return {@link RecyclerView}
+     */
     RecyclerView getChipsRecyclerView() {
         return chipsRecycler;
     }
