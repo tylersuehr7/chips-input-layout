@@ -5,7 +5,6 @@ import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
-import android.support.annotation.ColorInt;
 import android.support.annotation.DrawableRes;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewCompat;
@@ -398,7 +397,7 @@ public class ChipsInputLayout extends MaxHeightScrollView
     }
 
     public void setChipTitleTextColor(ColorStateList chipTitleTextColor) {
-        this.chipOptions.chipLabelColor = chipTitleTextColor;
+        this.chipOptions.chipTextColor = chipTitleTextColor;
     }
 
     public void setChipDeleteIcon(Drawable chipDeleteIcon) {
@@ -528,7 +527,7 @@ public class ChipsInputLayout extends MaxHeightScrollView
         int padding = Utils.dp(4);
 
         ChipView chipView = new ChipView.Builder(getContext())
-                .titleTextColor(chipOptions.chipLabelColor)
+                .titleTextColor(chipOptions.chipTextColor)
                 .hasAvatarIcon(chipOptions.hasAvatarIcon)
                 .deletable(chipOptions.chipDeletable)
                 .deleteIcon(chipOptions.chipDeleteIcon)
