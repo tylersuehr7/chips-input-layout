@@ -223,10 +223,12 @@ public class ListChipDataSource implements ChipDataSource {
     /**
      * Notifies the observers of a change to the data source.
      */
-    private synchronized void notifyChanged() {
+    private void notifyChanged() {
         if (observers != null) {
-            for (OnChipChangedObserver observer : observers) {
-                observer.onChipDataSourceChanged();
+            synchronized (this) {
+                for (OnChipChangedObserver observer : observers) {
+                    observer.onChipDataSourceChanged();
+                }
             }
         }
     }
