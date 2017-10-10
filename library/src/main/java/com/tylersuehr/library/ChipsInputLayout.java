@@ -364,14 +364,6 @@ public class ChipsInputLayout extends MaxHeightScrollView
         this.chipDataSource.addChipSelectionObserver(observer);
     }
 
-    /**
-     * Adds an observer to watch for any changes to the chip data source.
-     * @param observer {@link ChipChangedObserver}
-     */
-    public void addChipChangedObserver(ChipChangedObserver observer) {
-        this.chipDataSource.addChipChangedObserver(observer);
-    }
-
     ChipDataSource getChipDataSource() {
         return chipDataSource;
     }
