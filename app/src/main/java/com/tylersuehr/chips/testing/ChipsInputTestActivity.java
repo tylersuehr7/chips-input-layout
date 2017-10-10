@@ -1,5 +1,7 @@
 package com.tylersuehr.chips.testing;
 
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -48,6 +50,29 @@ public class ChipsInputTestActivity extends AppCompatActivity
         findViewById(R.id.button_clear_filtered_chips).setOnClickListener(this);
         findViewById(R.id.button_clear_selected_chips).setOnClickListener(this);
         findViewById(R.id.button_show_selection).setOnClickListener(this);
+
+        findViewById(R.id.button_text_color).setOnClickListener(this);
+        findViewById(R.id.button_text_color_hint).setOnClickListener(this);
+        findViewById(R.id.button_hint).setOnClickListener(this);
+
+        findViewById(R.id.button_chip_delete_icon_color).setOnClickListener(this);
+        findViewById(R.id.button_chip_bg_color).setOnClickListener(this);
+        findViewById(R.id.button_chip_label_color).setOnClickListener(this);
+        findViewById(R.id.button_delete_icon).setOnClickListener(this);
+        findViewById(R.id.button_toggle_avatar).setOnClickListener(this);
+        findViewById(R.id.button_toggle_detailed_chips).setOnClickListener(this);
+        findViewById(R.id.button_toggle_deletable_chips).setOnClickListener(this);
+
+        findViewById(R.id.button_detailed_icon_color).setOnClickListener(this);
+        findViewById(R.id.button_detailed_bg_color).setOnClickListener(this);
+        findViewById(R.id.button_detailed_text_color).setOnClickListener(this);
+
+        findViewById(R.id.button_filterable_bg_color).setOnClickListener(this);
+        findViewById(R.id.button_filterable_text_color).setOnClickListener(this);
+        findViewById(R.id.button_filterable_elevation).setOnClickListener(this);
+
+        findViewById(R.id.button_toggle_custom_chips).setOnClickListener(this);
+        findViewById(R.id.button_max_rows).setOnClickListener(this);
     }
 
     @Override
@@ -77,6 +102,125 @@ public class ChipsInputTestActivity extends AppCompatActivity
                 break;
             case R.id.button_show_selection:
                 showSelection();
+                break;
+
+            case R.id.button_text_color:
+                this.chipsInputLayout.setInputTextColor(new ColorStateList(
+                        new int[][] {
+                                new int[] { android.R.attr.state_enabled },
+                                new int[] { -android.R.attr.state_enabled }
+                        },
+                        new int[] { Color.RED, Color.GREEN }
+                ));
+                break;
+            case R.id.button_text_color_hint:
+                this.chipsInputLayout.setInputHintTextColor(new ColorStateList(
+                        new int[][] {
+                                new int[] { android.R.attr.state_enabled },
+                                new int[] { -android.R.attr.state_enabled }
+                        },
+                        new int[] { Color.BLUE, Color.CYAN }
+                ));
+                break;
+            case R.id.button_hint:
+                this.chipsInputLayout.setInputHint("New hint!...");
+                break;
+
+            case R.id.button_chip_delete_icon_color:
+                this.chipsInputLayout.setChipDeleteIconColor(new ColorStateList(
+                        new int[][] {
+                                new int[] { android.R.attr.state_pressed },
+                                new int[] { -android.R.attr.state_pressed }
+                        },
+                        new int[] { Color.BLUE, Color.RED }
+                ));
+                break;
+            case R.id.button_chip_bg_color:
+                this.chipsInputLayout.setChipBackgroundColor(new ColorStateList(
+                        new int[][] {
+                                new int[] { android.R.attr.state_pressed },
+                                new int[] { -android.R.attr.state_pressed }
+                        },
+                        new int[] { Color.BLUE, Color.RED }
+                ));
+                break;
+            case R.id.button_chip_label_color:
+                this.chipsInputLayout.setChipTitleTextColor(new ColorStateList(
+                        new int[][] {
+                                new int[] { android.R.attr.state_pressed },
+                                new int[] { -android.R.attr.state_pressed }
+                        },
+                        new int[] { Color.BLUE, Color.RED }
+                ));
+                break;
+            case R.id.button_delete_icon:
+                this.chipsInputLayout.setChipDeleteIcon(R.drawable.ic_clear_black_24dp);
+                break;
+            case R.id.button_toggle_avatar:
+                this.chipsInputLayout.setShowChipAvatarEnabled(false);
+                break;
+            case R.id.button_toggle_detailed_chips:
+                this.chipsInputLayout.setShowDetailedChipsEnabled(false);
+                break;
+            case R.id.button_toggle_deletable_chips:
+                this.chipsInputLayout.setChipsDeletable(false);
+                break;
+
+            case R.id.button_detailed_icon_color:
+                this.chipsInputLayout.setDetailedChipDeleteIconColor(new ColorStateList(
+                        new int[][] {
+                                new int[] { android.R.attr.state_enabled },
+                                new int[] { -android.R.attr.state_enabled }
+                        },
+                        new int[] { Color.BLUE, Color.RED }
+                ));
+                break;
+            case R.id.button_detailed_bg_color:
+                this.chipsInputLayout.setDetailedChipBackgroundColor(new ColorStateList(
+                        new int[][] {
+                                new int[] { android.R.attr.state_enabled },
+                                new int[] { -android.R.attr.state_enabled }
+                        },
+                        new int[] { Color.BLUE, Color.RED }
+                ));
+                break;
+            case R.id.button_detailed_text_color:
+                this.chipsInputLayout.setDetailedChipTextColor(new ColorStateList(
+                        new int[][] {
+                                new int[] { android.R.attr.state_enabled },
+                                new int[] { -android.R.attr.state_enabled }
+                        },
+                        new int[] { Color.RED, Color.BLUE  }
+                ));
+                break;
+
+            case R.id.button_filterable_bg_color:
+                this.chipsInputLayout.setFilterableListBackgroundColor(new ColorStateList(
+                        new int[][] {
+                                new int[] { android.R.attr.state_enabled },
+                                new int[] { -android.R.attr.state_enabled }
+                        },
+                        new int[] { Color.BLUE, Color.RED }
+                ));
+                break;
+            case R.id.button_filterable_text_color:
+                this.chipsInputLayout.setFilterableListTextColor(new ColorStateList(
+                        new int[][] {
+                                new int[] { android.R.attr.state_enabled },
+                                new int[] { -android.R.attr.state_enabled }
+                        },
+                        new int[] { Color.RED, Color.BLUE }
+                ));
+                break;
+            case R.id.button_filterable_elevation:
+                this.chipsInputLayout.setFilterableListElevation(0f);
+                break;
+
+            case R.id.button_toggle_custom_chips:
+                this.chipsInputLayout.setCustomChipsEnabled(false);
+                break;
+            case R.id.button_max_rows:
+                this.chipsInputLayout.setMaxRows(6);
                 break;
         }
     }

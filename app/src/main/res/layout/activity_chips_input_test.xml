@@ -51,6 +51,106 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Show Selection"/>
+
+
+            <Button
+                android:id="@+id/button_text_color"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="Change Text Color"/>
+            <Button
+                android:id="@+id/button_text_color_hint"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Change Text Color Hint"/>
+            <Button
+                android:id="@+id/button_hint"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Change Hint"/>
+
+            <Button
+                android:id="@+id/button_chip_delete_icon_color"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="Chip Delete Icon Color"/>
+            <Button
+                android:id="@+id/button_chip_bg_color"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Chip BG Color"/>
+            <Button
+                android:id="@+id/button_chip_label_color"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Chip Text Color"/>
+            <Button
+                android:id="@+id/button_delete_icon"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Change Delete Icon"/>
+            <Button
+                android:id="@+id/button_toggle_avatar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Toggle Avatar Icon"/>
+            <Button
+                android:id="@+id/button_toggle_detailed_chips"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Toggle Detailed Chips"/>
+            <Button
+                android:id="@+id/button_toggle_deletable_chips"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Toggle Deletable Chips"/>
+
+            <Button
+                android:id="@+id/button_detailed_icon_color"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="Detailed Chip Icon Color"/>
+            <Button
+                android:id="@+id/button_detailed_bg_color"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Detailed Chip BG Color"/>
+            <Button
+                android:id="@+id/button_detailed_text_color"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Detailed Chip Text Color"/>
+
+            <Button
+                android:id="@+id/button_filterable_bg_color"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="Filtered List BG Color"/>
+            <Button
+                android:id="@+id/button_filterable_text_color"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Filtered List Text Color"/>
+            <Button
+                android:id="@+id/button_filterable_elevation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Filtered List Elevation"/>
+
+            <Button
+                android:id="@+id/button_toggle_custom_chips"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Toggle Custom Chips"/>
+            <Button
+                android:id="@+id/button_max_rows"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Change Max Rows"/>
         </LinearLayout>
     </ScrollView>
 </LinearLayout>
