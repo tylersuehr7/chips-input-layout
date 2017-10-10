@@ -11,7 +11,6 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
@@ -20,6 +19,7 @@ import com.beloo.widget.chipslayoutmanager.ChipsLayoutManager;
 import com.tylersuehr.library.data.Chip;
 import com.tylersuehr.library.data.ChipDataSource;
 import com.tylersuehr.library.data.ListChipDataSource;
+import com.tylersuehr.library.data.ChipSelectionObserver;
 import java.util.List;
 
 /**
@@ -363,6 +363,14 @@ public class ChipsInputLayout extends MaxHeightScrollView
      */
     public boolean isSelected(Chip chip) {
         return chipDataSource.getSelectedChips().contains(chip);
+    }
+
+    /**
+     * Sets a listener for chip selection events on the chip data source.
+     * @param listener {@link ChipSelectionObserver}
+     */
+    public void addChipSelectionObserver(ChipSelectionObserver listener) {
+        this.chipDataSource.addChipSelectionObserver(listener);
     }
 
     ChipDataSource getChipDataSource() {

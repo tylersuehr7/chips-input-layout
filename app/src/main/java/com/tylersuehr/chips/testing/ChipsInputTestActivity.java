@@ -7,10 +7,12 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.Toast;
 
 import com.tylersuehr.chips.R;
 import com.tylersuehr.library.ChipsInputLayout;
 import com.tylersuehr.library.data.Chip;
+import com.tylersuehr.library.data.ChipSelectionObserver;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +28,8 @@ import java.util.List;
  * @author Tyler Suehr
  * @version 1.0
  */
-public class ChipsInputTestActivity extends AppCompatActivity implements View.OnClickListener {
+public class ChipsInputTestActivity extends AppCompatActivity
+        implements View.OnClickListener, ChipSelectionObserver {
     private ChipsInputLayout chipsInputLayout;
 
 
@@ -37,6 +40,7 @@ public class ChipsInputTestActivity extends AppCompatActivity implements View.On
 
         // Setup chips input layout
         this.chipsInputLayout = (ChipsInputLayout)findViewById(R.id.chips_input);
+        this.chipsInputLayout.addChipSelectionObserver(this);
 
         // Setup test action listeners
         findViewById(R.id.button_add_filtered_chip).setOnClickListener(this);
@@ -44,6 +48,16 @@ public class ChipsInputTestActivity extends AppCompatActivity implements View.On
         findViewById(R.id.button_clear_filtered_chips).setOnClickListener(this);
         findViewById(R.id.button_clear_selected_chips).setOnClickListener(this);
         findViewById(R.id.button_show_selection).setOnClickListener(this);
+    }
+
+    @Override
+    public void onChipSelected(Chip addedChip) {
+        Toast.makeText(this, "Chip added!", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onChipDeselected(Chip removedChip) {
+        Toast.makeText(this, "Chip removed!", Toast.LENGTH_SHORT).show();
     }
 
     @Override

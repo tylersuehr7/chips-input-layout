@@ -15,9 +15,13 @@ import java.util.List;
  * @version 1.0
  */
 public class ListChipDataSource implements ChipDataSource {
-    /* Aggregation of observers listening to chip data changes */
+    /* Aggregation of changeObservers to watch changes to chip selection */
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-    List<ChipDataSourceObserver> observers;
+    List<ChipSelectionObserver> selectionObservers;
+
+    /* Aggregation of changeObservers to watch changes to data source */
+    @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+    List<ChipChangedObserver> changeObservers;
 
     /* Stores all the original chips */
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
@@ -88,6 +92,27 @@ public class ListChipDataSource implements ChipDataSource {
     }
 
     @Override
+    public void createFilteredChip(Chip chip) {
+        if (chip == null) {
+            throw new NullPointerException("Chip cannot be null!");
+        }
+        chip.setFilterable(true);
+        this.originalChips.add(chip);
+        this.filteredChips.add(chip);
+        notifyDataSourceChanged();
+    }
+
+    @Override
+    public void createSelectedChip(Chip chip) {
+        if (chip == null) {
+            throw new NullPointerException("Chip cannot be null!");
+        }
+        this.selectedChips.add(chip);
+        notifyChipSelected(chip);
+        notifyDataSourceChanged();
+    }
+
+    @Override
     public void takeChip(Chip chip) {
         if (chip == null) {
             throw new NullPointerException("Chip cannot be null!");
@@ -100,16 +125,16 @@ public class ListChipDataSource implements ChipDataSource {
                 this.originalChips.remove(chip);
                 this.filteredChips.remove(chip);
                 this.selectedChips.add(chip);
-
-                notifyChanged();
             } else {
                 throw new IllegalArgumentException("Chip is not in filtered chip list!");
             }
         } else {
             // Just add it to the selected list only
             this.selectedChips.add(chip);
-            notifyChanged();
         }
+
+        notifyChipSelected(chip);
+        notifyDataSourceChanged();
     }
 
     @Override
@@ -125,13 +150,13 @@ public class ListChipDataSource implements ChipDataSource {
             this.originalChips.remove(foundChip);
             this.filteredChips.remove(foundChip);
             this.selectedChips.add(foundChip);
-
-            notifyChanged();
         } else {
             // Just add it to the selected list only
             this.selectedChips.add(foundChip);
-            notifyChanged();
         }
+
+        notifyChipSelected(foundChip);
+        notifyDataSourceChanged();
     }
 
     @Override
@@ -150,7 +175,8 @@ public class ListChipDataSource implements ChipDataSource {
                 this.originalChips.add(chip);
             }
 
-            notifyChanged();
+            notifyChipUnselected(chip);
+            notifyDataSourceChanged();
         } else {
             throw new IllegalArgumentException("Chip is not in selected chip list!");
         }
@@ -172,7 +198,8 @@ public class ListChipDataSource implements ChipDataSource {
             this.originalChips.add(foundChip);
         }
 
-        notifyChanged();
+        notifyChipUnselected(foundChip);
+        notifyDataSourceChanged();
     }
 
     @Override
@@ -186,34 +213,96 @@ public class ListChipDataSource implements ChipDataSource {
     }
 
     @Override
-    public void registerObserver(ChipDataSourceObserver observer) {
-        if (observers == null) {
-            this.observers = new LinkedList<>();
+    public void addChipSelectionObserver(ChipSelectionObserver observer) {
+        if (observer == null) {
+            throw new NullPointerException("ChipSelectionObserver cannot be null!");
         }
-        this.observers.add(observer);
+        if (selectionObservers == null) {
+            this.selectionObservers = new LinkedList<>();
+        }
+        this.selectionObservers.add(observer);
     }
 
     @Override
-    public void unregisterObserver(ChipDataSourceObserver observer) {
-        if (observers != null) {
-            this.observers.remove(observer);
+    public void removeChipSelectionObserver(ChipSelectionObserver observer) {
+        if (observer == null) {
+            throw new NullPointerException("ChipSelectionObserver cannot be null!");
+        }
+        if (selectionObservers != null) {
+            this.selectionObservers.remove(observer);
         }
     }
 
     @Override
-    public void unregisterAllObservers() {
-        if (observers != null) {
-            this.observers.clear();
+    public void addChipChangedObserver(ChipChangedObserver observer) {
+        if (observer == null) {
+            throw new NullPointerException("ChipChangedObserver cannot be null!");
+        }
+        if (changeObservers == null) {
+            this.changeObservers = new LinkedList<>();
+        }
+        this.changeObservers.add(observer);
+    }
+
+    @Override
+    public void removeChipChangedObserver(ChipChangedObserver observer) {
+        if (observer == null) {
+            throw new NullPointerException("ChipChangedObserver cannot be null!");
+        }
+        if (changeObservers != null) {
+            this.changeObservers.remove(observer);
+        }
+    }
+
+    @Override
+    public void removeAllObservers() {
+        if (selectionObservers != null) {
+            this.selectionObservers.clear();
+            this.selectionObservers = null;
+        }
+        if (changeObservers != null) {
+            this.changeObservers.clear();
+            this.changeObservers = null;
         }
     }
 
     /**
-     * Notifies the observers of a change to the data source.
+     * Notifies {@link #changeObservers} that a change to the data source happened.
      */
-    private synchronized void notifyChanged() {
-        if (observers != null) {
-            for (ChipDataSourceObserver observer : observers) {
-                observer.onChipDataSourceChanged();
+    private void notifyDataSourceChanged() {
+        if (changeObservers != null) {
+            synchronized (this) {
+                for (ChipChangedObserver ob : changeObservers) {
+                    ob.onChipDataSourceChanged();
+                }
+            }
+        }
+    }
+
+    /**
+     * Notifies {@link #selectionObservers} that a chip was selected in the data source.
+     * @param chip {@link Chip} selected
+     */
+    private void notifyChipSelected(Chip chip) {
+        if (selectionObservers != null) {
+            synchronized (this) {
+                for (ChipSelectionObserver ob : selectionObservers) {
+                    ob.onChipSelected(chip);
+                }
+            }
+        }
+    }
+
+    /**
+     * Notifies {@link #selectionObservers} that a chip was unselected in the data source.
+     * @param chip {@link Chip} unselected
+     */
+    private void notifyChipUnselected(Chip chip) {
+        if (selectionObservers != null) {
+            synchronized (this) {
+                for (ChipSelectionObserver ob : selectionObservers) {
+                    ob.onChipDeselected(chip);
+                }
             }
         }
     }

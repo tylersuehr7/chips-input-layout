@@ -2,7 +2,6 @@ package com.tylersuehr.library;
 
 import android.content.Context;
 import android.graphics.PorterDuff;
-import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -14,7 +13,7 @@ import android.widget.TextView;
 
 import com.tylersuehr.library.data.Chip;
 import com.tylersuehr.library.data.ChipDataSource;
-import com.tylersuehr.library.data.ChipDataSourceObserver;
+import com.tylersuehr.library.data.ChipChangedObserver;
 
 /**
  * Copyright © 2017 Tyler Suehr
@@ -32,7 +31,7 @@ import com.tylersuehr.library.data.ChipDataSourceObserver;
  * @version 1.0
  */
 class FilterableChipsAdapter extends RecyclerView.Adapter<FilterableChipsAdapter.Holder>
-        implements ChipDataSourceObserver, Filterable {
+        implements ChipChangedObserver, Filterable {
     private static LetterTileProvider tileProvider;
     private final ChipDataSource chipDataSource;
     private final ChipOptions chipOptions;
@@ -51,7 +50,7 @@ class FilterableChipsAdapter extends RecyclerView.Adapter<FilterableChipsAdapter
         this.chipOptions = chipOptions;
 
         // Register an observer on chip data source
-        this.chipDataSource.registerObserver(this);
+        this.chipDataSource.addChipChangedObserver(this);
     }
 
     @Override

@@ -1,5 +1,4 @@
 package com.tylersuehr.library.data;
-import android.support.annotation.Nullable;
 
 /**
  * Copyright © 2017 Tyler Suehr
@@ -11,6 +10,6 @@ import android.support.annotation.Nullable;
  * @author Tyler Suehr
  * @version 1.0
  */
-public interface ChipDataSourceObserver {
+public interface ChipChangedObserver {
     void onChipDataSourceChanged();
 }
