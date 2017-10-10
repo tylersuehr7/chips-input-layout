@@ -67,7 +67,7 @@ class FilterableChipsAdapter extends RecyclerView.Adapter<FilterableChipsAdapter
 
     @Override
     public void onBindViewHolder(Holder holder, int position) {
-        final Chip chip = chipDataSource.getFilteredChips().get(position);
+        final Chip chip = chipDataSource.getFilteredChip(position);
 
         // Set the chip avatar, if possible
         if (chipOptions.hasAvatarIcon && chip.getAvatarUri() != null) {
