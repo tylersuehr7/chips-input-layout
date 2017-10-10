@@ -12,14 +12,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".testing.ChipsInputTestActivity"
-            android:label="Chips Examples Testing">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        <activity
             android:name=".ExampleChipsActivity"
             android:label="Chips Examples">
             <intent-filter>
@@ -27,5 +19,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".testing.ChipsInputTestActivity"
+            android:label="Chips Examples Testing"/>
     </application>
 </manifest>

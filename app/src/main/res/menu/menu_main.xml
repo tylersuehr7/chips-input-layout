@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/action_check"
-        android:title="Check Selected Chips"
+        android:id="@+id/action_test"
+        android:title="Chip Test Activity"
         app:showAsAction="never"/>
 </menu>
