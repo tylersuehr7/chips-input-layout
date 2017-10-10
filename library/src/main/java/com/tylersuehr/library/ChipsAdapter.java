@@ -66,7 +66,7 @@ class ChipsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> impleme
             autoFitEditText();
         } else if (getItemCount() > 1) { // For chips
             ChipHolder cHolder = (ChipHolder)holder;
-            cHolder.chipView.inflateWithChip(chipDataSource.getSelectedChips().get(position));
+            cHolder.chipView.inflateWithChip(chipDataSource.getSelectedChip(position));
 
             // TODO POSSIBLE OPTIMIZATION
             // Add custom listeners for click and delete on ChipView and then implement them on
@@ -109,7 +109,7 @@ class ChipsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> impleme
         this.editText.setText("");
 
         // This will trigger callback, which calls notifyDataSetChanged()
-        this.chipDataSource.takeChip(chip);
+        this.chipDataSource.createSelectedChip(chip);
     }
 
     /**
