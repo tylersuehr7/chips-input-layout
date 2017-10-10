@@ -129,8 +129,7 @@ public class ListChipDataSource implements ChipDataSource {
                 throw new IllegalArgumentException("Chip is not in filtered chip list!");
             }
         } else {
-            // Just add it to the selected list only
-            this.selectedChips.add(chip);
+            throw new IllegalArgumentException("Cannot take a non-filterable chip!");
         }
 
         notifyChipSelected(chip);
