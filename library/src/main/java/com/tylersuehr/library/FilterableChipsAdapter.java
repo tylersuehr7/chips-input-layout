@@ -13,7 +13,7 @@ import android.widget.TextView;
 
 import com.tylersuehr.library.data.Chip;
 import com.tylersuehr.library.data.ChipDataSource;
-import com.tylersuehr.library.data.OnChipChangedObserver;
+import com.tylersuehr.library.data.ChipChangedObserver;
 
 /**
  * Copyright © 2017 Tyler Suehr
@@ -31,7 +31,7 @@ import com.tylersuehr.library.data.OnChipChangedObserver;
  * @version 1.0
  */
 class FilterableChipsAdapter extends RecyclerView.Adapter<FilterableChipsAdapter.Holder>
-        implements OnChipChangedObserver, Filterable {
+        implements ChipChangedObserver, Filterable {
     private static LetterTileProvider tileProvider;
     private final ChipDataSource chipDataSource;
     private final ChipOptions chipOptions;
@@ -50,7 +50,7 @@ class FilterableChipsAdapter extends RecyclerView.Adapter<FilterableChipsAdapter
         this.chipOptions = chipOptions;
 
         // Register an observer on chip data source
-        this.chipDataSource.addOnChipChangedObserver(this);
+        this.chipDataSource.addChipChangedObserver(this);
     }
 
     @Override

@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import com.tylersuehr.library.data.Chip;
 import com.tylersuehr.library.data.ChipDataSource;
-import com.tylersuehr.library.data.OnChipChangedObserver;
+import com.tylersuehr.library.data.ChipChangedObserver;
 
 /**
  * Copyright © 2017 Tyler Suehr
@@ -17,7 +17,7 @@ import com.tylersuehr.library.data.OnChipChangedObserver;
  * @author Tyler Suehr
  * @version 1.0
  */
-class ContactOnChipAdapter extends RecyclerView.Adapter<ContactOnChipAdapter.Holder> implements OnChipChangedObserver {
+class ContactOnChipAdapter extends RecyclerView.Adapter<ContactOnChipAdapter.Holder> implements ChipChangedObserver {
     private final OnContactClickListener listener;
     private ChipDataSource chipDataSource;
 

@@ -19,7 +19,7 @@ import com.beloo.widget.chipslayoutmanager.ChipsLayoutManager;
 import com.tylersuehr.library.data.Chip;
 import com.tylersuehr.library.data.ChipDataSource;
 import com.tylersuehr.library.data.ListChipDataSource;
-import com.tylersuehr.library.data.OnChipSelectedObserver;
+import com.tylersuehr.library.data.ChipSelectionObserver;
 import java.util.List;
 
 /**
@@ -367,10 +367,10 @@ public class ChipsInputLayout extends MaxHeightScrollView
 
     /**
      * Sets a listener for chip selection events on the chip data source.
-     * @param listener {@link OnChipSelectedObserver}
+     * @param listener {@link ChipSelectionObserver}
      */
-    public void setOnChipSelectedObserver(OnChipSelectedObserver listener) {
-        this.chipDataSource.setOnChipSelectedObserver(listener);
+    public void addChipSelectionObserver(ChipSelectionObserver listener) {
+        this.chipDataSource.addChipSelectionObserver(listener);
     }
 
     ChipDataSource getChipDataSource() {

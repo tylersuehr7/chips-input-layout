@@ -8,7 +8,7 @@ import android.widget.EditText;
 import android.widget.RelativeLayout;
 import com.tylersuehr.library.data.Chip;
 import com.tylersuehr.library.data.ChipDataSource;
-import com.tylersuehr.library.data.OnChipChangedObserver;
+import com.tylersuehr.library.data.ChipChangedObserver;
 
 /**
  * Copyright © 2017 Tyler Suehr
@@ -27,7 +27,7 @@ import com.tylersuehr.library.data.OnChipChangedObserver;
  * @version 1.0
  */
 class ChipsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements
-        ChipEditText.OnKeyboardListener, OnChipChangedObserver {
+        ChipEditText.OnKeyboardListener, ChipChangedObserver {
     private static final int TYPE_INPUT = 0;
     private static final int TYPE_ITEM  = 1;
 
@@ -45,7 +45,7 @@ class ChipsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> impleme
         this.editText.setKeyboardListener(this);
 
         // Register an observer on the chip data source
-        this.chipDataSource.addOnChipChangedObserver(this);
+        this.chipDataSource.addChipChangedObserver(this);
     }
 
     @Override

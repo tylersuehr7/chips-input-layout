@@ -10,6 +10,6 @@ package com.tylersuehr.library.data;
  * @author Tyler Suehr
  * @version 1.0
  */
-public interface OnChipChangedObserver {
+public interface ChipChangedObserver {
     void onChipDataSourceChanged();
 }

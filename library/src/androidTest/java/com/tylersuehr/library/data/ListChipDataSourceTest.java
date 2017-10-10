@@ -1,8 +1,12 @@
 package com.tylersuehr.library.data;
 
-import org.junit.Test;
+import android.support.test.runner.AndroidJUnit4;
 
-import java.util.ArrayList;
+import com.tylersuehr.library.Mocker;
+
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
 import java.util.List;
 
 import static org.junit.Assert.*;
@@ -10,360 +14,206 @@ import static org.junit.Assert.*;
 /**
  * Copyright © 2017 Tyler Suehr
  *
- * Tests the concrete functionality of {@link ListChipDataSource}.
+ * Tests the full functionality of {@link ListChipDataSource}.
  *
  * @author Tyler Suehr
  * @version 1.0
  */
+@RunWith(AndroidJUnit4.class)
 public class ListChipDataSourceTest {
     @Test
-    public void constructTest() throws Exception {
+    public void getSelectedChips() throws Exception {
         final ListChipDataSource ls = new ListChipDataSource();
-        assertTrue(ls.originalChips.isEmpty());
-        assertTrue(ls.filteredChips.isEmpty());
-        assertTrue(ls.selectedChips.isEmpty());
+        assertNotNull(ls.getSelectedChips());
+    }
+
+    @Test
+    public void getFilteredChips() throws Exception {
+        final ListChipDataSource ls = new ListChipDataSource();
+        assertNotNull(ls.getFilteredChips());
+    }
+
+    @Test
+    public void getOriginalChips() throws Exception {
+        final ListChipDataSource ls = new ListChipDataSource();
+        assertNotNull(ls.getOriginalChips());
     }
 
     @Test
     public void setFilterableChips() throws Exception {
-        final ListChipDataSource ls = new ListChipDataSource();
+        final List<Mocker.TestChip> chips = Mocker.mockChips(4);
 
-        List<Chip> chips = new ArrayList<>();
-        chips.add(new TestChip("0", "Chip"));
-        chips.add(new TestChip("1", "Chip"));
-        chips.add(new TestChip("2", "Chip"));
-        chips.add(new TestChip("3", "Chip"));
+        final ListChipDataSource ls = new ListChipDataSource();
         ls.setFilterableChips(chips);
 
+        assertTrue(ls.selectedChips.isEmpty());
+        assertTrue(ls.filteredChips.size() == chips.size());
+        assertTrue(ls.originalChips.size() == chips.size());
+    }
+
+    @Test
+    public void createFilteredChip() throws Exception {
+        final ListChipDataSource ls = new ListChipDataSource();
+        ls.createFilteredChip(Mocker.mock());
         assertFalse(ls.originalChips.isEmpty());
         assertFalse(ls.filteredChips.isEmpty());
-        assertTrue(ls.selectedChips.isEmpty());
     }
 
     @Test
-    public void selectedListTest() throws Exception {
+    public void createSelectedChip() throws Exception {
         final ListChipDataSource ls = new ListChipDataSource();
-
-        List<Chip> chips = new ArrayList<>();
-        ls.selectedChips = chips;
-
-        assertNotNull(ls.selectedChips);
-        assertEquals(chips, ls.getSelectedChips());
-    }
-
-    @Test
-    public void filteredListTest() throws Exception {
-        final ListChipDataSource ls = new ListChipDataSource();
-
-        List<Chip> chips = new ArrayList<>();
-        ls.filteredChips = chips;
-
-        assertNotNull(ls.filteredChips);
-        assertEquals(chips, ls.getFilteredChips());
-    }
-
-    @Test
-    public void originalListTest() throws Exception {
-        final ListChipDataSource ls = new ListChipDataSource();
-
-        List<Chip> chips = new ArrayList<>();
-        ls.originalChips = chips;
-
-        assertNotNull(ls.originalChips);
-        assertEquals(chips, ls.getOriginalChips());
-    }
-
-    @Test
-    public void takeFilteredChip() throws Exception {
-        // Create a test chip to use
-        final Chip chip = new TestChip("0", "takeFilteredChip");
-
-        // Create the data source
-        final ListChipDataSource ls = new ListChipDataSource();
-
-        // Set chips as filterable
-        List<Chip> chips = new ArrayList<>();
-        chips.add(chip);
-        ls.setFilterableChips(chips);
-
-        ls.takeChip(chip);
-
-        // Since chip was filterable, make sure it's in selected list only
-        assertTrue(ls.selectedChips.contains(chip));
-        assertFalse(ls.filteredChips.contains(chip));
-        assertFalse(ls.originalChips.contains(chip));
-    }
-
-    @Test
-    public void replaceFilteredChip() throws Exception {
-        // Create a test chip to use
-        final Chip chip = new TestChip("0", "takeFilteredChip");
-
-        // Create the data source
-        final ListChipDataSource ls = new ListChipDataSource();
-
-        // Set chips as filterable
-        List<Chip> chips = new ArrayList<>();
-        chips.add(chip);
-        ls.setFilterableChips(chips);
-
-        ls.takeChip(chip);
-        ls.replaceChip(chip);
-
-        // Since chip was filterable, make sure it's in filtered list only
-        assertFalse(ls.selectedChips.contains(chip));
-        assertTrue(ls.filteredChips.contains(chip));
-        assertTrue(ls.originalChips.contains(chip));
-    }
-
-    @Test
-    public void takeNonFilteredChip() throws Exception {
-        // Create a test chip to use
-        final Chip chip = new TestChip("0", "takeNonFilteredChip");
-        chip.setFilterable(false);
-
-        // Create the data source
-        final ListChipDataSource ls = new ListChipDataSource();
-        ls.takeChip(chip);
-
-        // Since chip was not filterable, make sure it's in selected list only
-        assertTrue(ls.selectedChips.contains(chip));
-        assertFalse(ls.filteredChips.contains(chip));
-        assertFalse(ls.originalChips.contains(chip));
-    }
-
-    @Test
-    public void replaceNonFilteredChip() throws Exception {
-        // Create a test chip to use
-        final Chip chip = new TestChip("0", "replaceNonFilteredChip");
-        chip.setFilterable(false);
-
-        // Create the data source
-        final ListChipDataSource ls = new ListChipDataSource();
-        ls.takeChip(chip);
-
-        ls.replaceChip(chip);
-
-        // Since chip was not filterable, make sure it's not in selected or filtered list
-        assertFalse(ls.selectedChips.contains(chip));
-        assertFalse(ls.filteredChips.contains(chip));
-        assertFalse(ls.originalChips.contains(chip));
-    }
-
-    @Test
-    public void takeFilteredChipByPosition() throws Exception {
-        // Create the initial chip list
-        List<Chip> chips = new ArrayList<>();
-        chips.add(new TestChip("0", "Chip 1"));
-        chips.add(new TestChip("1", "Chip 2"));
-        chips.add(new TestChip("2", "Chip 3"));
-
-        // Create the data
-        final ListChipDataSource ls = new ListChipDataSource();
-        ls.setFilterableChips(chips);
-
-        ls.takeChip(1);
-
-        // Since chip was filterable, make sure it's in selected list only
-        final Chip chip = chips.get(1);
-        assertTrue(ls.selectedChips.contains(chip));
-        assertFalse(ls.filteredChips.contains(chip));
-        assertFalse(ls.originalChips.contains(chip));
-    }
-
-    @Test
-    public void replaceFilteredChipByPosition() throws Exception {
-        // Create the initial chip list
-        List<Chip> chips = new ArrayList<>();
-        chips.add(new TestChip("0", "Chip 1"));
-        chips.add(new TestChip("1", "Chip 2"));
-        chips.add(new TestChip("2", "Chip 3"));
-
-        // Create the data
-        final ListChipDataSource ls = new ListChipDataSource();
-        ls.setFilterableChips(chips);
-
-        ls.takeChip(1);
-        ls.replaceChip(0);
-
-        // Since chip was filterable, make sure it's in filtered list only
-        final Chip chip = chips.get(1);
-        assertFalse(ls.selectedChips.contains(chip));
-        assertTrue(ls.filteredChips.contains(chip));
-        assertTrue(ls.originalChips.contains(chip));
+        ls.createSelectedChip(Mocker.mock());
+        assertFalse(ls.selectedChips.isEmpty());
     }
 
     @Test
     public void getFilteredChip() throws Exception {
-        final Chip chip = new TestChip("Chip", "Chip");
-        final List<Chip> chips = new ArrayList<>();
-        chips.add(chip);
+        final Mocker.TestChip chip = Mocker.mock();
 
         final ListChipDataSource ls = new ListChipDataSource();
-        ls.setFilterableChips(chips);
+        ls.createFilteredChip(chip);
 
-        ls.takeChip(chip);
-        ls.replaceChip(chip);
-
-        final Chip found = ls.getFilteredChip(0);
-        assertNotNull(found);
-        assertEquals(chip, found);
+        assertEquals(ls.getFilteredChip(0), chip);
     }
 
     @Test
     public void getSelectedChip() throws Exception {
-        final Chip chip = new TestChip("Chip", "Chip");
+        final Mocker.TestChip chip = Mocker.mock();
+
         final ListChipDataSource ls = new ListChipDataSource();
+        ls.createSelectedChip(chip);
 
-        ls.takeChip(chip);
-
-        final Chip found = ls.getSelectedChip(0);
-        assertNotNull(found);
-        assertEquals(chip, found);
+        assertEquals(ls.getSelectedChip(0), chip);
     }
 
     @Test
-    public void checkNotInDataSource() throws Exception {
-        final Chip chip = new TestChip("Chip 1", "Chippy");
-        final ListChipDataSource ls = new ListChipDataSource();
+    public void takeChip() throws Exception {
+        final Mocker.TestChip chip = Mocker.mock();
 
-        assertFalse(ls.existsInDataSource(chip));
+        final ListChipDataSource ls = new ListChipDataSource();
+        ls.createFilteredChip(chip);
+        ls.takeChip(chip);
+
+        assertFalse(ls.originalChips.contains(chip));
+        assertFalse(ls.filteredChips.contains(chip));
+        assertTrue(ls.selectedChips.contains(chip));
     }
 
     @Test
-    public void checkInDataSource() throws Exception {
-        final Chip chip = new TestChip("Chip 1", "Chip");
+    public void takeChipNonExistent() throws Exception {
+        final Mocker.TestChip chip = Mocker.mock();
 
         final ListChipDataSource ls = new ListChipDataSource();
         ls.takeChip(chip);
+
+        assertFalse(ls.originalChips.contains(chip));
+        assertFalse(ls.filteredChips.contains(chip));
+        assertTrue(ls.selectedChips.contains(chip));
+        assertFalse(ls.selectedChips.get(0).isFilterable());
+    }
+
+    @Test
+    public void takeChipByPosition() throws Exception {
+        final Mocker.TestChip chip = Mocker.mock();
+
+        final ListChipDataSource ls = new ListChipDataSource();
+        ls.createFilteredChip(chip);
+        ls.takeChip(0);
+
+        assertFalse(ls.originalChips.contains(chip));
+        assertFalse(ls.filteredChips.contains(chip));
+        assertTrue(ls.selectedChips.contains(chip));
+    }
+
+    @Test
+    public void replaceChip() throws Exception {
+        final Mocker.TestChip chip = Mocker.mock();
+        chip.setFilterable(true);
+
+        final ListChipDataSource ls = new ListChipDataSource();
+        ls.createSelectedChip(chip);
+        ls.replaceChip(chip);
+
+        assertFalse(ls.selectedChips.contains(chip));
+        assertTrue(ls.originalChips.contains(chip));
+        assertTrue(ls.filteredChips.contains(chip));
+    }
+
+    @Test
+    public void replaceChipByPosition() throws Exception {
+        final Mocker.TestChip chip = Mocker.mock();
+        chip.setFilterable(true);
+
+        final ListChipDataSource ls = new ListChipDataSource();
+        ls.createSelectedChip(chip);
+        ls.replaceChip(0);
+
+        assertFalse(ls.selectedChips.contains(chip));
+        assertTrue(ls.originalChips.contains(chip));
+        assertTrue(ls.filteredChips.contains(chip));
+    }
+
+    @Test
+    public void existsInDataSource_filtered() throws Exception {
+        final Mocker.TestChip chip = Mocker.mock();
+
+        final ListChipDataSource ls = new ListChipDataSource();
+        ls.createFilteredChip(chip);
 
         assertTrue(ls.existsInDataSource(chip));
     }
 
     @Test
-    public void triggerChipAddedCallback() throws Exception {
-        final OnChipSelectedObserver observer = new OnChipSelectedObserver() {
-            @Override
-            public void onChipAdded(Chip addedChip) {
-                System.out.println("triggerChipAddedCallback() -> SUCCESS!");
-            }
-
-            @Override
-            public void onChipRemoved(Chip removedChip) {
-                fail("Chip should have been added, not removed!");
-            }
-        };
+    public void existsInDataSource_selected() throws Exception {
+        final Mocker.TestChip chip = Mocker.mock();
 
         final ListChipDataSource ls = new ListChipDataSource();
-        ls.setFilterableChips(mockChips());
-        ls.setOnChipSelectedObserver(observer);
+        ls.createSelectedChip(chip);
 
-        ls.takeChip(1);
+        assertTrue(ls.existsInDataSource(chip));
     }
 
     @Test
-    public void triggerChipRemovedCallback() throws Exception {
-        final OnChipSelectedObserver observer = new OnChipSelectedObserver() {
-            @Override
-            public void onChipAdded(Chip addedChip) {
-                fail("Chip should have been removed, not added!");
-            }
-
-            @Override
-            public void onChipRemoved(Chip removedChip) {
-                System.out.println("triggerChipRemovedCallback() -> SUCCESS!");
-            }
-        };
-
+    public void addChipSelectionObserver() throws Exception {
         final ListChipDataSource ls = new ListChipDataSource();
-        ls.setFilterableChips(mockChips());
-        ls.takeChip(1);
-
-        ls.setOnChipSelectedObserver(observer);
-        ls.replaceChip(0);
+        ls.addChipSelectionObserver(Mocker.mockSelectionObserver());
+        assertFalse(ls.selectionObservers.isEmpty());
     }
 
     @Test
-    public void setOnChipSelectedListener() throws Exception {
-        final OnChipSelectedObserver observer = new OnChipSelectedObserver() {
-            @Override
-            public void onChipAdded(Chip addedChip) {
-
-            }
-
-            @Override
-            public void onChipRemoved(Chip removedChip) {
-
-            }
-        };
+    public void removeChipSelectionObserver() throws Exception {
+        final ChipSelectionObserver observer = Mocker.mockSelectionObserver();
         final ListChipDataSource ls = new ListChipDataSource();
-        ls.setOnChipSelectedObserver(observer);
-
-        assertTrue(ls.chipSelectedObserver == observer);
+        ls.addChipSelectionObserver(observer);
+        ls.removeChipSelectionObserver(observer);
+        assertTrue(ls.selectionObservers.isEmpty());
     }
 
     @Test
-    public void registerObserver() throws Exception {
-        final OnChipChangedObserver result = new OnChipChangedObserver() {
-            @Override
-            public void onChipDataSourceChanged() {
-
-            }
-        };
-        final ListChipDataSource cm = new ListChipDataSource();
-
-        cm.addOnChipChangedObserver(result);
-        assertTrue(cm.observers.contains(result));
+    public void addChipChangedObserver() throws Exception {
+        final ListChipDataSource ls = new ListChipDataSource();
+        ls.addChipChangedObserver(Mocker.mockChangedObserver());
+        assertFalse(ls.changeObservers.isEmpty());
     }
 
     @Test
-    public void unregisterObserver() throws Exception {
-        final OnChipChangedObserver result = new OnChipChangedObserver() {
-            @Override
-            public void onChipDataSourceChanged() {
-
-            }
-        };
-        final ListChipDataSource cm = new ListChipDataSource();
-
-        cm.addOnChipChangedObserver(result);
-        assertTrue(cm.observers.contains(result));
-
-        cm.removeOnChipChangedObserver(result);
-        assertFalse(cm.observers.contains(result));
+    public void removeChipChangedObserver() throws Exception {
+        final ChipChangedObserver observer = Mocker.mockChangedObserver();
+        final ListChipDataSource ls = new ListChipDataSource();
+        ls.addChipChangedObserver(observer);
+        ls.removeChipChangedObserver(observer);
+        assertTrue(ls.changeObservers.isEmpty());
     }
 
     @Test
-    public void unregisterAllObservers() throws Exception {
-        final OnChipChangedObserver result = new OnChipChangedObserver() {
-            @Override
-            public void onChipDataSourceChanged() {
-
-            }
-        };
-        final OnChipChangedObserver result2 = new OnChipChangedObserver() {
-            @Override
-            public void onChipDataSourceChanged() {
-
-            }
-        };
-        final ListChipDataSource cm = new ListChipDataSource();
-
-        cm.addOnChipChangedObserver(result);
-        cm.addOnChipChangedObserver(result2);
-
-        cm.removeAllOnChipChangedObservers();
-        assertTrue(cm.observers.isEmpty());
-    }
-
-    private static List<TestChip> mockChips() {
-        List<TestChip> chips = new ArrayList<>();
-        chips.add(new TestChip("Chip 1", ""));
-        chips.add(new TestChip("Chip 2", ""));
-        chips.add(new TestChip("Chip 3", ""));
-        chips.add(new TestChip("Chip 4", ""));
-        chips.add(new TestChip("Chip 5", ""));
-        chips.add(new TestChip("Chip 6", ""));
-        return chips;
+    public void removeAllObservers() throws Exception {
+        final ListChipDataSource ls = new ListChipDataSource();
+        ls.addChipChangedObserver(Mocker.mockChangedObserver());
+        ls.addChipChangedObserver(Mocker.mockChangedObserver());
+        ls.addChipSelectionObserver(Mocker.mockSelectionObserver());
+        ls.addChipSelectionObserver(Mocker.mockSelectionObserver());
+        ls.removeAllObservers();
+        assertNull(ls.changeObservers);
+        assertNull(ls.selectionObservers);
     }
 }
