@@ -96,6 +96,47 @@ Method | Summary
 `setFilterableListTextColor(ColorStateList)` | Changes text color of the filterable list's items.
 `setFilterableListElevation(float)` | Changes elevation of the filterable list.
 
+### How to use the chips
+There are a plethora of ways you can manipulate chips in `ChipsInputLayout`. However, the main abilities afforded by `ChipsInputLayout` are that you can set a list of chips that can be filtered by user input and set a list of chips that are pre-selected. Other features are listed in the table below.
+
+#### Setting a filterable list of chips
+`ChipsInputLayout` supports the ability to show/hide a list of chips that are filterable as the user inputs text into it. To use this feature, simply call `setFilterableChipList(List)` in `ChipsInputLayout`.
+
+Not calling `setFilterableChipList(List)` will imply you don't wish to use that feature, therefore, `ChipsInputLayout`, will not show/hide the filterable list as the user inputs text.
+
+Here is a simple example:
+``` java
+@Override
+protected void onCreate(List<ContactChip> chips) {
+    // ...Cool onCreate stuff in activity
+    
+    ChipsInputLayout chipsInput = (ChipsInputLayout)findViewById(R.id.chips_input);
+    
+    // ...Cool logic to acquire chips
+    List<AwesomeChip> chips = getReallyCoolChips();
+        
+    this.chipsInput.setFilterableChipList(chips);
+}
+```
+
+#### Setting a pre-selected list of chips:
+`ChipsInputLayout` supports the ability to set an already-selected list of chips. To use this feature, simply call `setSelectedChipList(List)` in `ChipsInputLayout`.
+
+Here is a simple example:
+```java
+@Override
+protected void onCreate(List<ContactChip> chips) {
+    // ...Cool onCreate stuff in activity
+    
+    ChipsInputLayout chipsInput = (ChipsInputLayout)findViewById(R.id.chips_input);
+    
+    // ...Cool logic to acquire chips
+    List<TagChip> defaultChips = getDefaultTagChips();
+        
+    this.chipsInput.setSelectedChipList(chips);
+}
+```
+
 ## Managing Chips
 Where this library capitalizes, is how it decentralizes where and how the selected and filterable chips are stored. This makes accessing and receiving updates to data source changes from various Android components really simple. 
 
