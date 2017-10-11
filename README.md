@@ -1,5 +1,5 @@
 # Chips Input Layout
-*Updates to documentation and project are still in progress*
+Similar to the 'master' branch, except this version abstract the `ChipDataSource` all the way to the `Collection` interface and allows you to set a new chip data source on `ChipsInputLayout`. This version is for coding enthusiests :D
 
 A highly customizable Android ViewGroup for displaying Chips (specified in the Material Design Guide)!
 
