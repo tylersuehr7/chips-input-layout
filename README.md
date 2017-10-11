@@ -99,6 +99,34 @@ Method | Summary
 ### How to use the chips
 There are a plethora of ways you can manipulate chips in `ChipsInputLayout`. However, the main abilities afforded by `ChipsInputLayout` are that you can set a list of chips that can be filtered by user input and set a list of chips that are pre-selected. Other features are listed in the table below.
 
+#### Using a chip
+`Chip` is the base object needed for `ChipsInputLayout`, and associated components in the library, to work properly. `ChipsInputLayout` can work with anything that is a `Chip`. So, that means that you can create any type of 'chip' data you want... simply inherit the `Chip` class and you're good to go! 
+
+Here's a small example:
+```java
+public class CoolChip extends Chip {
+    private final String coolName;
+    private final Uri coolPic;
+    
+    public CoolChip(String coolName, Uri coolPic) {
+        this.coolName = coolName;
+        this.coolPic = coolPic;
+    }
+    
+    Override
+    public String getTitle() {
+        return coolName;
+    }
+    
+    @Override
+    public Uri getAvatarUri() {
+        return coolPic;
+    }
+    
+    // ...other chip methods that are required to implement
+}
+```
+
 #### Setting a filterable list of chips
 `ChipsInputLayout` supports the ability to show/hide a list of chips that are filterable as the user inputs text into it. To use this feature, simply call `setFilterableChipList(List)` in `ChipsInputLayout`.
 
