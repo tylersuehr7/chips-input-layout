@@ -106,7 +106,7 @@ The current default implementation of `ChipDataSource` is `ListChipDataSource`, 
 ### Observing chip selection changes
 `ChipDataSource` has the ability to notify observers that want to observe specific chip selection events in `ChipDataSource`. The observers will be notified if a chip has been selected or unselected from the selected chip list in `ChipDataSource`. Both selection and deselection events will afford the chip that was selected or deselected respectively.
 
-To use this functionality, you'll want to implement the 'ChipSelectionObserver` and register it on `ChipDataSource`. Be sure to manage unregistering the observer, if need be, as well. 
+To use this functionality, you'll want to implement the `ChipSelectionObserver` and register it on `ChipDataSource`. Be sure to manage unregistering the observer, if need be, as well. 
 
 Since components outside of the library cannot, and should not, directly access `ChipDataSouce`, you'll use `ChipsInputLayout` to set the observer; using its `setChipSelectionObserver(ChipSelectionObserver)` method.
 
