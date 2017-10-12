@@ -163,10 +163,6 @@ public class ChipsInputLayout extends MaxHeightScrollView
      */
     public void clearSelectedChips() {
         this.chipDataSource.clearSelectedChips();
-
-//        // Clear the selected chip list
-//        this.chipDataSource.getSelectedChips().clear();
-//        this.chipsAdapter.notifyDataSetChanged();
     }
 
     /**
