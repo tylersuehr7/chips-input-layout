@@ -1,5 +1,7 @@
 # Chips Input Layout
-Similar to the 'master' branch, except this version abstracts the `ChipDataSource` all the way to the `Collection` interface and allows you to set a new chip data source on `ChipsInputLayout`. This version is for coding enthusiests :D
+*This version is for coding enthusiests :D and not really meant for production usage*
+
+This version abstracts the `ChipDataSource` all the way to the `Collection` interface and allows you to set a new chip data source on `ChipsInputLayout`. <a href="https://github.com/tylersuehr7/chips-input-layout/blob/abstract_datasource/README.md#managing-chips">See details below</a>
 
 A highly customizable Android ViewGroup for displaying Chips (specified in the Material Design Guide)!
 
