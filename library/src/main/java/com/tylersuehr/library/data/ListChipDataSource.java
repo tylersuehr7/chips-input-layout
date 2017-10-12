@@ -121,7 +121,7 @@ public class ListChipDataSource extends ChipDataSource {
      */
     @Override
     public void clearSelectedChips() {
-        // Clone the chips to appropriate handle telling observers
+        // Clone the chips to appropriately handle telling observers
         List<Chip> clone = new ArrayList<>(selectedChips);
         this.selectedChips.clear();
 
