@@ -168,9 +168,12 @@ protected void onCreate(List<ContactChip> chips) {
 ## Managing Chips
 Where this library capitalizes, is how it decentralizes where and how the selected and filterable chips are stored. This makes accessing and receiving updates to data source changes from various Android components really simple. 
 
-All chips are managed by, `ChipDataSource`, which is an abstraction to decouple the concrete implementation of how the abstract methods manage the chips. This means that other implementations of `ChipDataSource` can be made at your own leisure. *Currently, there is no method on `ChipsInputLayout` to programmatically change the data source; however, these will be future additions to the library.*
+In this branch, it utilizes as much abstraction as possible. All chips are managed by, `IChipDataSource`, which is an abstraction that manages chips with the `Collection` interface. However, there is a base implementation of `IChipDataSource` called, `ChipDataSource`, and it is another abstraction that manages default implementations of chips in the `Collection` interface.
 
-The current default implementation of `ChipDataSource` is `ListChipDataSource`, and it uses `ArrayList` as the list implementation for selected and filtered chip lists.
+This means that other implementations of `ChipDataSource` can be made at your own leisure, using any type of `Collection`!
+*This version contains a method on `ChipsInputLayout` to programmatically change the data source!*
+
+The current default subclass of `ChipDataSource` is `ListChipDataSource`, and it uses `ArrayList` as the the data structure to manage selected and filtered chips.
 
 ### Observing chip selection changes
 `ChipDataSource` has the ability to notify observers that want to observe specific chip selection events in `ChipDataSource`. The observers will be notified if a chip has been selected or unselected from the selected chip list in `ChipDataSource`. Both selection and deselection events will afford the chip that was selected or deselected respectively.
