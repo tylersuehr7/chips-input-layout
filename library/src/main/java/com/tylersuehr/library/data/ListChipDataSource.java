@@ -10,6 +10,10 @@ import java.util.List;
 /**
  * Copyright © 2017 Tyler Suehr
  *
+ * Subclass of {@link ChipDataSource} that manages chips using the {@link ArrayList} data structure.
+ *
+ * Note: this is the default {@link IChipDataSource} used by ChipsInputLayout.
+ *
  * @author Tyler Suehr
  * @version 1.0
  */
