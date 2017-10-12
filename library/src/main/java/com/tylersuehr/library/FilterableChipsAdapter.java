@@ -1,5 +1,4 @@
 package com.tylersuehr.library;
-
 import android.content.Context;
 import android.graphics.PorterDuff;
 import android.support.v7.widget.RecyclerView;
@@ -10,10 +9,9 @@ import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.TextView;
-
 import com.tylersuehr.library.data.Chip;
-import com.tylersuehr.library.data.ChipDataSource;
 import com.tylersuehr.library.data.ChipChangedObserver;
+import com.tylersuehr.library.data.IChipDataSource;
 
 /**
  * Copyright © 2017 Tyler Suehr
@@ -25,7 +23,7 @@ import com.tylersuehr.library.data.ChipChangedObserver;
  * the UI accordingly. It should also allow the user to press on a filterable chip item to
  * select it.
  *
- * We should also observe changes to {@link ChipDataSource} to update the UI accordingly.
+ * We should also observe changes to {@link IChipDataSource} to update the UI accordingly.
  *
  * @author Tyler Suehr
  * @version 1.0
@@ -33,7 +31,7 @@ import com.tylersuehr.library.data.ChipChangedObserver;
 class FilterableChipsAdapter extends RecyclerView.Adapter<FilterableChipsAdapter.Holder>
         implements ChipChangedObserver, Filterable {
     private static LetterTileProvider tileProvider;
-    private final ChipDataSource chipDataSource;
+    private final IChipDataSource chipDataSource;
     private final ChipOptions chipOptions;
     private final OnFilteredChipClickListener listener;
     private ChipFilter filter;
@@ -42,7 +40,7 @@ class FilterableChipsAdapter extends RecyclerView.Adapter<FilterableChipsAdapter
     FilterableChipsAdapter(Context c,
                            OnFilteredChipClickListener listener,
                            ChipOptions chipOptions,
-                           ChipDataSource chipDataSource) {
+                           IChipDataSource chipDataSource) {
         tileProvider = getTileProvider(c);
 
         this.listener = listener;
@@ -145,7 +143,7 @@ class FilterableChipsAdapter extends RecyclerView.Adapter<FilterableChipsAdapter
 
             // Take the chip from the filtered chip list
             final Chip chip = chipDataSource.getFilteredChip(getAdapterPosition());
-            chipDataSource.takeChip(chip);
+            chipDataSource.takeFilteredChip(chip);
 
             // Trigger callback with the clicked chip
             listener.onFilteredChipClick(chip);

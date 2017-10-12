@@ -7,8 +7,8 @@ import android.view.ViewTreeObserver;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 import com.tylersuehr.library.data.Chip;
-import com.tylersuehr.library.data.ChipDataSource;
 import com.tylersuehr.library.data.ChipChangedObserver;
+import com.tylersuehr.library.data.IChipDataSource;
 
 /**
  * Copyright © 2017 Tyler Suehr
@@ -21,7 +21,7 @@ import com.tylersuehr.library.data.ChipChangedObserver;
  * (2) Allow user to remove any chip by pressing delete on an empty input.
  * (3) Allow the user to see chip details, if the options permit it.
  *
- * We should also observe changes to {@link ChipDataSource} to update the UI accordingly.
+ * We should also observe changes to {@link IChipDataSource} to update the UI accordingly.
  *
  * @author Tyler Suehr
  * @version 1.0
@@ -31,7 +31,7 @@ class ChipsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> impleme
     private static final int TYPE_INPUT = 0;
     private static final int TYPE_ITEM  = 1;
 
-    private final ChipDataSource chipDataSource;
+    private final IChipDataSource chipDataSource;
     private final ChipOptions chipOptions;
     private final ChipsInputLayout chipsInput;
     private final ChipEditText editText;
@@ -109,7 +109,7 @@ class ChipsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> impleme
         this.editText.setText("");
 
         // This will trigger callback, which calls notifyDataSetChanged()
-        this.chipDataSource.createSelectedChip(chip);
+        this.chipDataSource.addSelectedChip(chip);
     }
 
     /**
@@ -121,7 +121,7 @@ class ChipsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> impleme
         // Only remove the last chip if the input was empty
         if (chipDataSource.getSelectedChips().size() > 0 && editText.getText().length() == 0) {
             // Will trigger notifyDataSetChanged()
-            chipDataSource.replaceChip(chipDataSource.getSelectedChips().size() - 1);
+            chipDataSource.replaceFilteredChip(chipDataSource.getSelectedChips().size() - 1);
         }
     }
 
@@ -164,7 +164,7 @@ class ChipsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> impleme
             @Override
             public void onClick(View view) {
                 // Will trigger notifyDataSetChanged()
-                chipDataSource.replaceChip(position);
+                chipDataSource.replaceFilteredChip(position);
             }
         });
 
@@ -187,7 +187,7 @@ class ChipsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> impleme
                         @Override
                         public void onClick(View v) {
                             // Will trigger notifyDataSetChanged()
-                            chipDataSource.replaceChip(position);
+                            chipDataSource.replaceFilteredChip(position);
                             detailedChipView.fadeOut();
                         }
                     });

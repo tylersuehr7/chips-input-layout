@@ -10,6 +10,7 @@ import com.tylersuehr.library.data.ChipChangedObserver;
 import com.tylersuehr.library.data.ChipSelectionObserver;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -19,6 +20,18 @@ import java.util.List;
  * @version 1.0
  */
 public final class Mocker {
+    public static Collection<Chip> mockChips2(int size) {
+        List<Chip> chips = new ArrayList<>(size);
+        for (int i = 0; i < size; i++) {
+            if ((i&1) == 1) {
+                chips.add(new TestChip("Chip " + i, "Chippy subtitle!"));
+            } else {
+                chips.add(new TestChip("Chip " + i));
+            }
+        }
+        return chips;
+    }
+
     public static List<TestChip> mockChips(int size) {
         List<TestChip> chips = new ArrayList<>(size);
         for (int i = 0; i < size; i++) {

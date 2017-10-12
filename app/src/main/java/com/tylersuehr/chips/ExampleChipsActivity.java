@@ -6,7 +6,6 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-
 import com.tylersuehr.chips.testing.ChipsInputTestActivity;
 import com.tylersuehr.library.ChipsInputLayout;
 import java.util.List;

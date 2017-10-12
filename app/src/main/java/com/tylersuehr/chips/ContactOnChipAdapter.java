@@ -1,15 +1,13 @@
 package com.tylersuehr.chips;
-
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.tylersuehr.library.data.Chip;
-import com.tylersuehr.library.data.ChipDataSource;
 import com.tylersuehr.library.data.ChipChangedObserver;
+import com.tylersuehr.library.data.IChipDataSource;
 
 /**
  * Copyright © 2017 Tyler Suehr
@@ -19,7 +17,7 @@ import com.tylersuehr.library.data.ChipChangedObserver;
  */
 class ContactOnChipAdapter extends RecyclerView.Adapter<ContactOnChipAdapter.Holder> implements ChipChangedObserver {
     private final OnContactClickListener listener;
-    private ChipDataSource chipDataSource;
+    private IChipDataSource chipDataSource;
 
 
     ContactOnChipAdapter(OnContactClickListener listener) {
@@ -40,7 +38,7 @@ class ContactOnChipAdapter extends RecyclerView.Adapter<ContactOnChipAdapter.Hol
 
     @Override
     public void onBindViewHolder(Holder holder, int position) {
-        Chip chip = chipDataSource.getFilteredChips().get(position);
+        Chip chip = chipDataSource.getFilteredChip(position);
         holder.text.setText(chip.getTitle());
         holder.subtitle.setText(chip.getSubtitle());
         if (chip.getAvatarUri() != null) {
@@ -57,7 +55,7 @@ class ContactOnChipAdapter extends RecyclerView.Adapter<ContactOnChipAdapter.Hol
         notifyDataSetChanged();
     }
 
-    void setChipDataSource(ChipDataSource chipDataSource) {
+    void setChipDataSource(IChipDataSource chipDataSource) {
         this.chipDataSource = chipDataSource;
         notifyDataSetChanged();
     }
