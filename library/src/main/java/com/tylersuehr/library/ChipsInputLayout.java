@@ -61,6 +61,9 @@ public class ChipsInputLayout extends MaxHeightScrollView
     private FilterableRecyclerView filterableRecyclerView;
     private FilterableChipsAdapter filterableChipsAdapter;
 
+    /* Used to validate selected chips */
+    private ChipValidator validator;
+
 
     public ChipsInputLayout(Context context) {
         this(context, null);
@@ -343,6 +346,39 @@ public class ChipsInputLayout extends MaxHeightScrollView
     }
 
     /**
+     * Uses {@link #validator} to check if a chip is valid.
+     * @param chip {@link Chip}
+     * @return True if chip is valid
+     */
+    public boolean validateChip(Chip chip) {
+        return validator == null || validator.validate(chip);
+    }
+
+    /**
+     * Uses {@link #validator} to check if all the selected chips are valid.
+     * @return True if all selected chips are valid
+     */
+    public boolean validateSelectedChips() {
+        if (validator != null) {
+            for (Chip chip : chipDataSource.getSelectedChips()) {
+                if (!validator.validate(chip)) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Sets the chip validator to valid chips. Used by {@link #validateChip(Chip)}
+     * and {@link #validateSelectedChips()}.
+     * @param validator {@link ChipValidator}
+     */
+    public void setChipValidator(ChipValidator validator) {
+        this.validator = validator;
+    }
+
+    /**
      * Adds an observer to watch selection events on the chip data source.
      * @param observer {@link ChipSelectionObserver}
      */
@@ -591,6 +627,14 @@ public class ChipsInputLayout extends MaxHeightScrollView
     private void hideKeyboard() {
         ((InputMethodManager)getContext().getSystemService(Context.INPUT_METHOD_SERVICE))
                 .hideSoftInputFromWindow(chipsEditText.getWindowToken(), 0);
+    }
+
+
+    /**
+     * This is used to ensure that selected chips are... well... valid lol.
+     */
+    public interface ChipValidator {
+        boolean validate(Chip chip);
     }
 
 

@@ -73,6 +73,8 @@ public class ChipsInputTestActivity extends AppCompatActivity
 
         findViewById(R.id.button_toggle_custom_chips).setOnClickListener(this);
         findViewById(R.id.button_max_rows).setOnClickListener(this);
+
+        findViewById(R.id.button_validate).setOnClickListener(this);
     }
 
     @Override
@@ -222,6 +224,10 @@ public class ChipsInputTestActivity extends AppCompatActivity
             case R.id.button_max_rows:
                 this.chipsInputLayout.setMaxRows(6);
                 break;
+
+            case R.id.button_validate:
+                validateChips();
+                break;
         }
     }
 
@@ -236,6 +242,11 @@ public class ChipsInputTestActivity extends AppCompatActivity
         for (Chip chip : chips) {
             System.out.println("Chips: " + chip.getTitle());
         }
+    }
+
+    private void validateChips() {
+        Toast.makeText(this, (chipsInputLayout.validateSelectedChips() ?
+                "Chips are valid!" : "Chips are NOT valid!"), Toast.LENGTH_SHORT).show();
     }
 
 
