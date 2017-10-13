@@ -193,7 +193,7 @@ public class ListChipDataSource extends ObservableChipDataSource {
 
     @Override
     public void clearFilteredChips() {
-        // Just simply clear the filtered chips list
+        this.originalChips.clear();
         this.filteredChips.clear();
         notifyDataSourceChanged();
     }

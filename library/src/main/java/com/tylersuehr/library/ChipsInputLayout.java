@@ -134,24 +134,18 @@ public class ChipsInputLayout extends MaxHeightScrollView
      */
     public void addFilteredChip(Chip chip) {
         // Ensure that the chip is actually filterable
-        if (!chip.isFilterable()) {
-            throw new IllegalArgumentException("Cannot add a non-filterable chip to the filtered chip list!");
-        }
+        chip.setFilterable(true);
 
         // Ensure that the chip is not already in the data source
         if (chipDataSource.existsInDataSource(chip)) {
             throw new IllegalArgumentException("Chip already exists in the data source!");
         }
 
-        // Since this is a new filtered chip, it add it directly to both the filtered
-        // and original lists in the data source itself.
-        this.chipDataSource.getOriginalChips().add(chip);
-        this.chipDataSource.getFilteredChips().add(chip);
+        // Using the method on data source will update UI
+        this.chipDataSource.addFilteredChip(chip);
 
-        // Update the filtered chips UI, needs notified if visible or not!
-        if (filterableRecyclerView != null) {
-            this.filterableChipsAdapter.notifyDataSetChanged();
-        } else {
+        // Create the filterable recycler at this point, if needed
+        if (filterableRecyclerView == null) {
             createAndSetupFilterableRecyclerView();
         }
     }
@@ -166,33 +160,22 @@ public class ChipsInputLayout extends MaxHeightScrollView
             throw new IllegalArgumentException("Chip already exists in the data source!");
         }
 
-        // Since this is a new chip, add it directly to the selected list
-        // in the data source itself
-        this.chipDataSource.getSelectedChips().add(chip);
-        this.chipsAdapter.notifyDataSetChanged();
+        // Using the method on data source will update UI
+        this.chipDataSource.addSelectedChip(chip);
     }
 
     /**
      * Clears all the filterable chips in the chip data source.
      */
     public void clearFilteredChips() {
-        // Clear both the original filtered and filtered chip lists
-        this.chipDataSource.getOriginalChips().clear();
-        this.chipDataSource.getFilteredChips().clear();
-
-        // Update the filtered chips UI, needs notified if visible or not!
-        if (filterableRecyclerView != null) {
-            this.filterableChipsAdapter.notifyDataSetChanged();
-        }
+        this.chipDataSource.clearFilteredChips();
     }
 
     /**
      * Clears all the selected chips in the chip data source.
      */
     public void clearSelectedChips() {
-        // Clear the selected chip list
-        this.chipDataSource.getSelectedChips().clear();
-        this.chipsAdapter.notifyDataSetChanged();
+        this.chipDataSource.clearSelectedChips();
     }
 
     /**
@@ -347,7 +330,7 @@ public class ChipsInputLayout extends MaxHeightScrollView
      * @return True if chip exists in filtered chip list of our data source
      */
     public boolean isFiltered(Chip chip) {
-        return chipDataSource.getOriginalChips().contains(chip);
+        return chipDataSource.existsInFiltered(chip);
     }
 
     /**
@@ -356,7 +339,7 @@ public class ChipsInputLayout extends MaxHeightScrollView
      * @return True if chip exists in selected chip list of our data source
      */
     public boolean isSelected(Chip chip) {
-        return chipDataSource.getSelectedChips().contains(chip);
+        return chipDataSource.existsInSelected(chip);
     }
 
     /**
@@ -589,33 +572,6 @@ public class ChipsInputLayout extends MaxHeightScrollView
             lp.bottomMargin = Utils.getNavBarHeight(getContext());
         }
         rootView.addView(filterableRecyclerView, lp);
-
-//        // To show our filterable recycler view, we need to make sure our ChipsInput has already
-//        // been displayed on the screen so we can access its root view
-//        getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-//            @Override
-//            public void onGlobalLayout() {
-//                // Get the root view of the ChipsInput
-//                ViewGroup rootView = (ViewGroup)getRootView();
-//
-//                // Create the layout params for our filterable recycler view
-//                RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(
-//                        Utils.getWindowWidth(getContext()),
-//                        ViewGroup.LayoutParams.MATCH_PARENT
-//                );
-//                lp.addRule(RelativeLayout.ALIGN_PARENT_TOP);
-//                lp.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
-//                if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
-//                    lp.bottomMargin = Utils.getNavBarHeight(getContext());
-//                }
-//
-//                // Add the filterable recycler to our root with the specified layout params
-//                rootView.addView(filterableRecyclerView, lp);
-//
-//                // Remove the view tree listener
-//                getViewTreeObserver().removeOnGlobalLayoutListener(this);
-//            }
-//        });
     }
 
     /**

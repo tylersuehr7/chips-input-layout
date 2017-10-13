@@ -165,6 +165,7 @@ public class ListChipDataSourceTest {
         ls.addFilteredChip(Mocker.mock());
         ls.clearFilteredChips();
 
+        assertTrue(ls.originalChips.isEmpty());
         assertTrue(ls.filteredChips.isEmpty());
     }
 
