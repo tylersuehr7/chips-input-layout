@@ -18,7 +18,6 @@ Here's some of the core features of this library:
 * This was based on the design of: https://github.com/pchmn/MaterialChipsInput
 * This uses a RecyclerView layout manager: https://github.com/BelooS/ChipsLayoutManager
 
-
 ## Using the Chips Input Layout
 The basic usage of this library is to allow users to input chips and for them to be displayed like in the Material Design Guide. To achieve this functionality, you'll need to use the `ChipsInputLayout` view.
 
@@ -169,24 +168,24 @@ protected void onCreate(List<ContactChip> chips) {
 
 Method | Summary
 --- | ---
-`addFilteredChip(Chip)` | Adds a new chip to the filter lists in the chip data source.
-`addSelectedChip(Chip)` | Adds a new chip to the selection in the chip data source.
-`clearFilteredChips()` | Clears all the filterable chips in the chip data source.
-`clearSelectedChips()` | Clears all the selected chips in the chip data source.
-`getSelectedChips()` | Gets the currently selected list of chips.
-`getFilteredChips()` | Gets the currently filtered list of chips.
-`getOriginalFilterableChips()` | Gets the originally set filterable list of chips.
-`getSelectedChipByPosition(int)` | Gets a selected chip using the given index from the chip data source.
+`addFilteredChip(Chip)` | Adds a new chip to the filterable chips, which will update the UI accordingly because of the change observers.
+`addSelectedChip(Chip)` | Adds a new chip to the selected chips, which will update the UI accordingly because of the change observers.
+`clearFilteredChips()` | Clears all the filterable chips, which will update the UI accordingly because of the change observers.
+`clearSelectedChips()` | Clears all the selected chips, which will update the UI accordingly because of the change observers.
+`getSelectedChips()` | Gets all the currently selected chips.
+`getFilteredChips()` | Gets all the currently filtered chips.
+`getOriginalFilterableChips()` | Gets all the originally set filterable chips.
+`getSelectedChipByPosition(int)` | Gets a selected chip using the given index.
 `getSelectedChipById(Object id)` | Gets a selected chip using the given ID, if possible.
 `getSelectedChipByTitle(String, boolean)` | Gets a selected chip with exactly the given title or like the given title.
 `getSelectedChipBySubtitle(String, boolean)` | Gets a selected chip with exactly the given subtitle or like the given subtitle.
-`getFilteredChipPosition(int)` | Gets a filtered chip using the given index from the chip data source.
+`getFilteredChipPosition(int)` | Gets a filtered chip using the given index.
 `getFilteredChipById(Object)` | Gets a filtered chip using the given ID, if possible.
 `getFilteredChipByTitle(String, boolean)` | Gets a filtered chip with exactly the given title or like the given title.
 `getFilteredChipBySubtitle(String, boolean)` | Gets a filtered chip with exactly the given subtitle or like the given subtitle.
-`doesChipExist(Chip)` | Checks if a given chip exists within any list of our chip data source.
-`isChipFiltered(Chip)` | Checks if a given chip exists in the filtered list of our chip data source.
-`isChipSelected(Chip)` | Checks if a given chip exists in the selected list of our chip data source.
+`doesChipExist(Chip)` | Checks if the given chip exists in either the filterable or selected chips.
+`isChipFiltered(Chip)` | Checks if the given chip exists in the filtered chips.
+`isChipSelected(Chip)` | Checks if the given chip exists in the selected chips.
 
 ## Managing the Chips
 Where this library capitalizes, is how it decentralizes where and how the selected and filterable chips are stored. This makes accessing and receiving updates to data source changes from various Android components really simple. 
