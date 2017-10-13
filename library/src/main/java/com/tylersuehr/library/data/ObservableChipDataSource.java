@@ -10,6 +10,9 @@ import java.util.List;
  * observers ONLY. It manages the observers in a {@link java.util.LinkedList}, and
  * includes convenience methods for notifying them too.
  *
+ * Note: when notifying observers, it's a good idea to notify change observers first
+ * because that will update the internal components before any other observers.
+ *
  * @author Tyler Suehr
  * @version 1.0
  */

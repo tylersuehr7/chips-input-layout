@@ -79,6 +79,9 @@ public class ListChipDataSource extends ObservableChipDataSource {
         // Sort the lists
         Collections.sort(originalChips, Chip.getComparator());
         Collections.sort(filteredChips, Chip.getComparator());
+
+        // Tell our observers!
+        notifyDataSourceChanged();
     }
 
     @Override
@@ -98,8 +101,8 @@ public class ListChipDataSource extends ObservableChipDataSource {
             throw new NullPointerException("Chip cannot be null!");
         }
         this.selectedChips.add(chip);
-        notifyChipSelected(chip);
         notifyDataSourceChanged();
+        notifyChipSelected(chip);
     }
 
     @Override
@@ -122,8 +125,8 @@ public class ListChipDataSource extends ObservableChipDataSource {
             throw new IllegalArgumentException("Cannot take a non-filterable chip!");
         }
 
-        notifyChipSelected(chip);
         notifyDataSourceChanged();
+        notifyChipSelected(chip);
     }
 
     @Override
@@ -144,8 +147,8 @@ public class ListChipDataSource extends ObservableChipDataSource {
             this.selectedChips.add(foundChip);
         }
 
-        notifyChipSelected(foundChip);
         notifyDataSourceChanged();
+        notifyChipSelected(foundChip);
     }
 
     @Override
@@ -164,8 +167,8 @@ public class ListChipDataSource extends ObservableChipDataSource {
                 this.originalChips.add(chip);
             }
 
-            notifyChipUnselected(chip);
             notifyDataSourceChanged();
+            notifyChipUnselected(chip);
         } else {
             throw new IllegalArgumentException("Chip is not in selected chip list!");
         }
@@ -187,8 +190,8 @@ public class ListChipDataSource extends ObservableChipDataSource {
             this.originalChips.add(foundChip);
         }
 
-        notifyChipUnselected(foundChip);
         notifyDataSourceChanged();
+        notifyChipUnselected(foundChip);
     }
 
     @Override
