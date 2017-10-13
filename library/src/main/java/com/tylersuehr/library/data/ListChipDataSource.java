@@ -7,8 +7,7 @@ import java.util.List;
 /**
  * Copyright © 2017 Tyler Suehr
  *
- * Simple implementation of {@link ChipDataSource} that will aggregate chips
- * using an {@link ArrayList}.
+ * Subclass of {@link ObservableChipDataSource} that stores chips using an {@link ArrayList}.
  *
  * @author Tyler Suehr
  * @version 1.0

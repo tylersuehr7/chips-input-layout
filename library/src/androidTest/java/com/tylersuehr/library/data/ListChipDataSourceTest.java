@@ -172,48 +172,4 @@ public class ListChipDataSourceTest {
 
         assertTrue(ls.existsInDataSource(chip));
     }
-
-    @Test
-    public void addChipSelectionObserver() throws Exception {
-        final ListChipDataSource ls = new ListChipDataSource();
-        ls.addChipSelectionObserver(Mocker.mockSelectionObserver());
-        assertFalse(ls.selectionObservers.isEmpty());
-    }
-
-    @Test
-    public void removeChipSelectionObserver() throws Exception {
-        final ChipSelectionObserver observer = Mocker.mockSelectionObserver();
-        final ListChipDataSource ls = new ListChipDataSource();
-        ls.addChipSelectionObserver(observer);
-        ls.removeChipSelectionObserver(observer);
-        assertTrue(ls.selectionObservers.isEmpty());
-    }
-
-    @Test
-    public void addChipChangedObserver() throws Exception {
-        final ListChipDataSource ls = new ListChipDataSource();
-        ls.addChipChangedObserver(Mocker.mockChangedObserver());
-        assertFalse(ls.changeObservers.isEmpty());
-    }
-
-    @Test
-    public void removeChipChangedObserver() throws Exception {
-        final ChipChangedObserver observer = Mocker.mockChangedObserver();
-        final ListChipDataSource ls = new ListChipDataSource();
-        ls.addChipChangedObserver(observer);
-        ls.removeChipChangedObserver(observer);
-        assertTrue(ls.changeObservers.isEmpty());
-    }
-
-    @Test
-    public void removeAllObservers() throws Exception {
-        final ListChipDataSource ls = new ListChipDataSource();
-        ls.addChipChangedObserver(Mocker.mockChangedObserver());
-        ls.addChipChangedObserver(Mocker.mockChangedObserver());
-        ls.addChipSelectionObserver(Mocker.mockSelectionObserver());
-        ls.addChipSelectionObserver(Mocker.mockSelectionObserver());
-        ls.removeAllObservers();
-        assertNull(ls.changeObservers);
-        assertNull(ls.selectionObservers);
-    }
 }
