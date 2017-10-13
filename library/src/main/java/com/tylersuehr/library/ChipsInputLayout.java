@@ -103,9 +103,11 @@ public class ChipsInputLayout extends MaxHeightScrollView
     }
 
     /**
-     * Sets and stores a list of filterable chips on the data source.
-     * Note: this should only be used if you want the user to be able to filter
-     * pre-existing (filterable chip list) chips.
+     * Sets and stores a list of chips that are filterable and updates the
+     * UI to enable the filterable RecyclerView accordingly.
+     *
+     * Note: this should only be called if you want the user to be able to
+     * filter pre-existing (filterable chip list) chips.
      *
      * @param chips List of {@link Chip}
      */
@@ -117,8 +119,8 @@ public class ChipsInputLayout extends MaxHeightScrollView
     }
 
     /**
-     * Sets and stores a list of chips that are selected on the data source.
-     * Note: this call will notify {@link #chipsRecycler} of the updates.
+     * Sets and stores a list of chips that are selected and updates the UI
+     * to display them accordingly.
      *
      * @param chips List of {@link Chip}
      */
@@ -132,7 +134,9 @@ public class ChipsInputLayout extends MaxHeightScrollView
     }
 
     /**
-     * Adds a new chip to the filter lists in the chip data source.
+     * Adds a new chip to the filterable chips, which will update the UI
+     * accordingly because of the change observers.
+     *
      * @param chip {@link Chip}
      */
     public void addFilteredChip(Chip chip) {
@@ -154,7 +158,9 @@ public class ChipsInputLayout extends MaxHeightScrollView
     }
 
     /**
-     * Adds a new chip to the selection in the chip data source.
+     * Adds a new chip to the selected chips, which will update the UI
+     * accordingly because of the change observers.
+     *
      * @param chip {@link Chip}
      */
     public void addSelectedChip(Chip chip) {
@@ -168,21 +174,24 @@ public class ChipsInputLayout extends MaxHeightScrollView
     }
 
     /**
-     * Clears all the filterable chips in the chip data source.
+     * Clears all the filterable chips, which will update the UI accordingly
+     * because of the change observers.
      */
     public void clearFilteredChips() {
         this.chipDataSource.clearFilteredChips();
     }
 
     /**
-     * Clears all the selected chips in the chip data source.
+     * Clears all the selected chips, which will update the UI accordingly
+     * because of the change observers.
      */
     public void clearSelectedChips() {
         this.chipDataSource.clearSelectedChips();
     }
 
     /**
-     * Gets the currently selected list of chips.
+     * Gets all the currently selected chips.
+     *
      * @return List of {@link Chip}
      */
     public List<? extends Chip> getSelectedChips() {
@@ -190,8 +199,9 @@ public class ChipsInputLayout extends MaxHeightScrollView
     }
 
     /**
-     * Gets the currently filtered list of chips.
+     * Gets all the currently filtered chips.
      * @see #getOriginalFilterableChips() if you want the original list of chips
+     *
      * @return List of {@link Chip}
      */
     public List<? extends Chip> getFilteredChips() {
@@ -199,7 +209,8 @@ public class ChipsInputLayout extends MaxHeightScrollView
     }
 
     /**
-     * Gets the originally set filterable list of chips.
+     * Gets all the originally set filterable chips.
+     *
      * @return List of {@link Chip}
      */
     public List<? extends Chip> getOriginalFilterableChips() {
@@ -207,7 +218,8 @@ public class ChipsInputLayout extends MaxHeightScrollView
     }
 
     /**
-     * Gets a selected chip using the given index from the chip data source.
+     * Gets a selected chip using the given index.
+     *
      * @param position Position of chip
      * @return {@link Chip}
      */
@@ -217,6 +229,7 @@ public class ChipsInputLayout extends MaxHeightScrollView
 
     /**
      * Gets a selected chip using the given ID, if possible.
+     *
      * @param id ID of the selected chip
      * @return {@link Chip}
      */
@@ -231,6 +244,7 @@ public class ChipsInputLayout extends MaxHeightScrollView
 
     /**
      * Gets a selected chip with exactly the given title or like the given title.
+     *
      * @param title Title to search for
      * @param exactlyEqual True if chip title should exactly match title
      * @return {@link Chip}
@@ -246,7 +260,8 @@ public class ChipsInputLayout extends MaxHeightScrollView
     }
 
     /**
-     * Gets a selected chip with exactly the given title or like the given title.
+     * Gets a selected chip with exactly the given subtitle or like the given subtitle.
+     *
      * @param subtitle Subtitle to search for
      * @param exactlyEqual True if chip subtitle should exactly match subtitle
      * @return {@link Chip}
@@ -263,7 +278,8 @@ public class ChipsInputLayout extends MaxHeightScrollView
     }
 
     /**
-     * Gets a filtered chip using the given index from the chip data source.
+     * Gets a filtered chip using the given index.
+     *
      * @param position Position of chip
      * @return {@link Chip}
      */
@@ -273,6 +289,7 @@ public class ChipsInputLayout extends MaxHeightScrollView
 
     /**
      * Gets a filtered chip using the given ID, if possible.
+     *
      * @param id Filtered chip's ID
      * @return {@link Chip}
      */
@@ -287,6 +304,7 @@ public class ChipsInputLayout extends MaxHeightScrollView
 
     /**
      * Gets a filtered chip with exactly the given title or like the given title.
+     *
      * @param title Title to search for
      * @param exactlyEqual True if filtered chip title should exactly match title
      * @return {@link Chip}
@@ -303,6 +321,7 @@ public class ChipsInputLayout extends MaxHeightScrollView
 
     /**
      * Gets a filtered chip with exactly the given subtitle or like the given subtitle.
+     *
      * @param subtitle Subtitle to search for
      * @param exactlyEqual True if filtered chip subtitle should exactly match subtitle
      * @return {@link Chip}
@@ -319,44 +338,49 @@ public class ChipsInputLayout extends MaxHeightScrollView
     }
 
     /**
-     * Checks if a given chip exists within any list of our chip data source.
+     * Checks if the given chip exists in either the filterable or selected chips.
+     *
      * @param chip {@link Chip}
-     * @return True if chip exists in any list of our data source
+     * @return True if chip exists in filterable or selected chips
      */
     public boolean doesChipExist(Chip chip) {
         return chipDataSource.existsInDataSource(chip);
     }
 
     /**
-     * Checks if a given chip exists in the filtered list of our chip data source.
+     * Checks if the given chip exists in the filtered chips.
+     *
      * @param chip {@link Chip}
-     * @return True if chip exists in filtered chip list of our data source
+     * @return True if chip exists in filtered chips
      */
-    public boolean isFiltered(Chip chip) {
+    public boolean isChipFiltered(Chip chip) {
         return chipDataSource.existsInFiltered(chip);
     }
 
     /**
-     * Checks if a given chip exists in the selected list of our chip data source.
+     * Checks if the given chip exists in the selected chips.
+     *
      * @param chip {@link Chip}
-     * @return True if chip exists in selected chip list of our data source
+     * @return True if chip exists in selected chips
      */
-    public boolean isSelected(Chip chip) {
+    public boolean isChipSelected(Chip chip) {
         return chipDataSource.existsInSelected(chip);
     }
 
     /**
-     * Uses {@link #validator} to check if a chip is valid.
+     * Validates the given chip using {@link #validator}.
+     *
      * @param chip {@link Chip}
-     * @return True if chip is valid
+     * @return True if chip is valid, or no chip validator is set
      */
     public boolean validateChip(Chip chip) {
         return validator == null || validator.validate(chip);
     }
 
     /**
-     * Uses {@link #validator} to check if all the selected chips are valid.
-     * @return True if all selected chips are valid
+     * Validates all the selected chips using {@link #validator}.
+     *
+     * @return True if all selected chips are valid, or no chip validator is set
      */
     public boolean validateSelectedChips() {
         if (validator != null) {
@@ -370,8 +394,8 @@ public class ChipsInputLayout extends MaxHeightScrollView
     }
 
     /**
-     * Sets the chip validator to valid chips. Used by {@link #validateChip(Chip)}
-     * and {@link #validateSelectedChips()}.
+     * Sets the chip validator to valid chips.
+     *
      * @param validator {@link ChipValidator}
      */
     public void setChipValidator(ChipValidator validator) {
@@ -380,6 +404,7 @@ public class ChipsInputLayout extends MaxHeightScrollView
 
     /**
      * Adds an observer to watch selection events on the chip data source.
+     *
      * @param observer {@link ChipSelectionObserver}
      */
     public void addChipSelectionObserver(ChipSelectionObserver observer) {
@@ -387,8 +412,12 @@ public class ChipsInputLayout extends MaxHeightScrollView
     }
 
     /**
-     * Changes the chip data source being used to manipulate chips.
-     * Note: only retains existing observers from old data source!
+     * Changes the chip data source being used to manipulate chips, which will
+     * update the UI accordingly.
+     *
+     * Note: will retain existing observers from old data source, but all chips
+     * in the old data source will be cleared!
+     *
      * @param dataSource {@link ChipDataSource}
      */
     public void changeChipDataSource(ChipDataSource dataSource) {
@@ -486,6 +515,7 @@ public class ChipsInputLayout extends MaxHeightScrollView
     /**
      * Gets the current chip data source being used.
      * Note: package-private for now because no outside component should access this.
+     *
      * @return {@link ChipDataSource}
      */
     ChipDataSource getChipDataSource() {
@@ -495,6 +525,7 @@ public class ChipsInputLayout extends MaxHeightScrollView
     /**
      * Gets the current chip options.
      * Note: package-private for now because outside components should use accessors instead.
+     *
      * @return {@link ChipOptions}
      */
     ChipOptions getChipOptions() {
@@ -504,6 +535,7 @@ public class ChipsInputLayout extends MaxHeightScrollView
     /**
      * Gets the current chips recycler view.
      * Note: package-private because no outside components should access this.
+     *
      * @return {@link RecyclerView}
      */
     RecyclerView getChipsRecyclerView() {
@@ -512,7 +544,8 @@ public class ChipsInputLayout extends MaxHeightScrollView
 
     /**
      * Lazy loads the input for the user to enter chip titles.
-     * @return {@link EditText}
+     *
+     *  @return {@link EditText}
      */
     ChipEditText getThemedChipsEditText() {
         if (chipsEditText == null) {
@@ -551,6 +584,7 @@ public class ChipsInputLayout extends MaxHeightScrollView
     /**
      * Creates a new {@link ChipView} with its theme set from properties defined
      * in {@link #chipOptions}.
+     *
      * @return {@link ChipView}
      */
     ChipView getThemedChipView() {
@@ -572,6 +606,7 @@ public class ChipsInputLayout extends MaxHeightScrollView
     /**
      * Creates a new {@link DetailedChipView} with its theme set from properties
      * defined in {@link #chipOptions}.
+     *
      * @param chip {@link Chip}
      * @return {@link DetailedChipView}
      */
