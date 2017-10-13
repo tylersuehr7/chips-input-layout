@@ -19,7 +19,7 @@ Here's some of the core features of this library:
 * This uses a RecyclerView layout manager: https://github.com/BelooS/ChipsLayoutManager
 
 
-## Usage the Chips Input Layout
+## Using the Chips Input Layout
 The basic usage of this library is to allow users to input chips and for them to be displayed like in the Material Design Guide. To achieve this functionality, you'll need to use the `ChipsInputLayout` view.
 
 ### Using in an XML layout
@@ -99,7 +99,7 @@ Method | Summary
 ## Using the Chips
 There are a plethora of ways you can manipulate chips in `ChipsInputLayout`. However, the main abilities afforded by `ChipsInputLayout` are that you can set a list of chips that can be filtered by user input and set a list of chips that are pre-selected. Other features are listed in the table below.
 
-### Using a chip
+### Creating a chip
 `Chip` is the base object needed for `ChipsInputLayout`, and associated components in the library, to work properly. `ChipsInputLayout` can work with anything that is a `Chip`. So, that means that you can create any type of 'chip' data you want... simply inherit the `Chip` class and you're good to go! 
 
 Here's a small example:
@@ -127,7 +127,7 @@ public class CoolChip extends Chip {
 }
 ```
 
-### Setting a filterable list of chips
+### Setting a filterable list of chips in `ChipsInputLayout`
 `ChipsInputLayout` supports the ability to show/hide a list of chips that are filterable as the user inputs text into it. To use this feature, simply call `setFilterableChipList(List)` in `ChipsInputLayout`.
 
 Not calling `setFilterableChipList(List)` will imply you don't wish to use that feature, therefore, `ChipsInputLayout`, will not show/hide the filterable list as the user inputs text.
@@ -147,7 +147,7 @@ protected void onCreate(List<ContactChip> chips) {
 }
 ```
 
-### Setting a pre-selected list of chips:
+### Setting a pre-selected list of chips in `ChipsInputLayout`
 `ChipsInputLayout` supports the ability to set an already-selected list of chips. To use this feature, simply call `setSelectedChipList(List)` in `ChipsInputLayout`.
 
 Here is a simple example:
@@ -165,7 +165,30 @@ protected void onCreate(List<ContactChip> chips) {
 }
 ```
 
-## Managing Chips
+### Other chip manipulation methods in `ChipsInputLayout`
+
+Method | Summary
+--- | ---
+`addFilteredChip(Chip)` | Adds a new chip to the filter lists in the chip data source.
+`addSelectedChip(Chip)` | Adds a new chip to the selection in the chip data source.
+`clearFilteredChips()` | Clears all the filterable chips in the chip data source.
+`clearSelectedChips()` | Clears all the selected chips in the chip data source.
+`getSelectedChips()` | Gets the currently selected list of chips.
+`getFilteredChips()` | Gets the currently filtered list of chips.
+`getOriginalFilterableChips()` | Gets the originally set filterable list of chips.
+`getSelectedChipByPosition(int)` | Gets a selected chip using the given index from the chip data source.
+`getSelectedChipById(Object id)` | Gets a selected chip using the given ID, if possible.
+`getSelectedChipByTitle(String, boolean)` | Gets a selected chip with exactly the given title or like the given title.
+`getSelectedChipBySubtitle(String, boolean)` | Gets a selected chip with exactly the given subtitle or like the given subtitle.
+`getFilteredChipPosition(int)` | Gets a filtered chip using the given index from the chip data source.
+`getFilteredChipById(Object)` | Gets a filtered chip using the given ID, if possible.
+`getFilteredChipByTitle(String, boolean)` | Gets a filtered chip with exactly the given title or like the given title.
+`getFilteredChipBySubtitle(String, boolean)` | Gets a filtered chip with exactly the given subtitle or like the given subtitle.
+`doesChipExist(Chip)` | Checks if a given chip exists within any list of our chip data source.
+`isChipFiltered(Chip)` | Checks if a given chip exists in the filtered list of our chip data source.
+`isChipSelected(Chip)` | Checks if a given chip exists in the selected list of our chip data source.
+
+## Managing the Chips
 Where this library capitalizes, is how it decentralizes where and how the selected and filterable chips are stored. This makes accessing and receiving updates to data source changes from various Android components really simple. 
 
 All chips are managed by, `ChipDataSource`, which is an abstraction to decouple the concrete implementation of how the abstract methods manage the chips. This means that other implementations of `ChipDataSource` can be made at your own leisure. Simply call `changeChipDataSource(ChipDataSource)` in `ChipsInputLayout` to use your implementation of `ChipDataSource`.
