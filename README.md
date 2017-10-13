@@ -19,7 +19,7 @@ Here's some of the core features of this library:
 * This uses a RecyclerView layout manager: https://github.com/BelooS/ChipsLayoutManager
 
 
-## Usage as Chips Input
+## Usage the Chips Input Layout
 The basic usage of this library is to allow users to input chips and for them to be displayed like in the Material Design Guide. To achieve this functionality, you'll need to use the `ChipsInputLayout` view.
 
 ### Using in an XML layout
@@ -96,10 +96,10 @@ Method | Summary
 `setFilterableListTextColor(ColorStateList)` | Changes text color of the filterable list's items.
 `setFilterableListElevation(float)` | Changes elevation of the filterable list.
 
-### How to use the chips
+## Using the Chips
 There are a plethora of ways you can manipulate chips in `ChipsInputLayout`. However, the main abilities afforded by `ChipsInputLayout` are that you can set a list of chips that can be filtered by user input and set a list of chips that are pre-selected. Other features are listed in the table below.
 
-#### Using a chip
+### Using a chip
 `Chip` is the base object needed for `ChipsInputLayout`, and associated components in the library, to work properly. `ChipsInputLayout` can work with anything that is a `Chip`. So, that means that you can create any type of 'chip' data you want... simply inherit the `Chip` class and you're good to go! 
 
 Here's a small example:
@@ -127,7 +127,7 @@ public class CoolChip extends Chip {
 }
 ```
 
-#### Setting a filterable list of chips
+### Setting a filterable list of chips
 `ChipsInputLayout` supports the ability to show/hide a list of chips that are filterable as the user inputs text into it. To use this feature, simply call `setFilterableChipList(List)` in `ChipsInputLayout`.
 
 Not calling `setFilterableChipList(List)` will imply you don't wish to use that feature, therefore, `ChipsInputLayout`, will not show/hide the filterable list as the user inputs text.
@@ -147,7 +147,7 @@ protected void onCreate(List<ContactChip> chips) {
 }
 ```
 
-#### Setting a pre-selected list of chips:
+### Setting a pre-selected list of chips:
 `ChipsInputLayout` supports the ability to set an already-selected list of chips. To use this feature, simply call `setSelectedChipList(List)` in `ChipsInputLayout`.
 
 Here is a simple example:
