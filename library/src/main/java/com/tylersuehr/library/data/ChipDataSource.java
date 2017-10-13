@@ -6,12 +6,16 @@ import java.util.List;
  *
  * Defines the data source for our chips.
  *
- * This is how all the chips are managed overall. This is used by most components
- * of this library to access chip data, modify chip data, or observe changes to it.
+ * This is how all the chips are managed overall. This is leveraged by components of
+ * this library to access chip data, modify chip data, or observe changes to chip data.
  *
- * This is decoupled in order to allow you to implement it using any type of concrete
- * List data structure, although a basic implementation, using ArrayList, is provided
- * for you already {@link ListChipDataSource}.
+ * This is decoupled in order to allow other implementations of this using any type of
+ * concrete {@link List} data structures. To simplify writing implementations of this,
+ * I've provided {@link ObservableChipDataSource}, which handles all the logic for using
+ * the observers. Simply inherit {@link ObservableChipDataSource}.
+ *
+ * The default implementation of this, used by the library, is {@link ListChipDataSource},
+ * and it uses the {@link java.util.ArrayList} to store chips.
  *
  * This needs to use three lists of chips:
  * (1) Selected chips: chips the user has explicitly selected.
@@ -31,21 +35,31 @@ public interface ChipDataSource {
     Chip getFilteredChip(int position);
     Chip getSelectedChip(int position);
 
-    void createFilteredChip(Chip chip);
-    void createSelectedChip(Chip chip);
-
     void setFilterableChips(List<? extends Chip> chips);
+
     void takeChip(Chip chip);
-    void takeChip(int position); // Cannot be used for non-filtered chips
+    void takeChip(int position);
+
     void replaceChip(Chip chip);
-    void replaceChip(int position); // Cannot be used for non-filtered chips
+    void replaceChip(int position);
+
+    void addFilteredChip(Chip chip);
+    void addSelectedChip(Chip chip);
+
+    void clearFilteredChips();
+    void clearSelectedChips();
+
+    boolean existsInFiltered(Chip chip);
+    boolean existsInSelected(Chip chip);
     boolean existsInDataSource(Chip chip);
 
     void addChipSelectionObserver(ChipSelectionObserver observer);
     void removeChipSelectionObserver(ChipSelectionObserver observer);
+    void removeAllChipSelectionObservers();
 
     void addChipChangedObserver(ChipChangedObserver observer);
     void removeChipChangedObserver(ChipChangedObserver observer);
+    void removeAllChipChangedObservers();
 
-    void removeAllObservers();
+    void cloneObservers(ChipDataSource to);
 }
