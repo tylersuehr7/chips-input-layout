@@ -350,6 +350,17 @@ public class ChipsInputLayout extends MaxHeightScrollView
         this.chipDataSource.addChipSelectionObserver(observer);
     }
 
+    /**
+     * Changes the chip data source being used to manipulate chips.
+     * Note: only retains existing observers from old data source!
+     * @param dataSource {@link ChipDataSource}
+     */
+    public void changeChipDataSource(ChipDataSource dataSource) {
+        this.chipDataSource.cloneObservers(dataSource);
+        this.chipDataSource = dataSource;
+        this.chipsAdapter.notifyDataSetChanged();
+    }
+
     public void setInputTextColor(ColorStateList textColor) {
         this.chipOptions.textColor = textColor;
         if (chipsEditText != null) { // Can be null because its lazy loaded
