@@ -104,12 +104,16 @@ public class ListChipDataSourceTest {
         final Mocker.TestChip chip = Mocker.mock();
 
         final ListChipDataSource ls = new ListChipDataSource();
-        ls.takeChip(chip);
+        try {
+            ls.takeChip(chip);
+            fail("Should not be allowed to take chip!");
+        } catch (Exception ex) {
+            // pass
+        }
 
         assertFalse(ls.originalChips.contains(chip));
         assertFalse(ls.filteredChips.contains(chip));
-        assertTrue(ls.selectedChips.contains(chip));
-        assertFalse(ls.selectedChips.get(0).isFilterable());
+        assertFalse(ls.selectedChips.contains(chip));
     }
 
     @Test
@@ -151,6 +155,48 @@ public class ListChipDataSourceTest {
         assertFalse(ls.selectedChips.contains(chip));
         assertTrue(ls.originalChips.contains(chip));
         assertTrue(ls.filteredChips.contains(chip));
+    }
+
+    @Test
+    public void clearFilteredChips() throws Exception {
+        final ListChipDataSource ls = new ListChipDataSource();
+        ls.createFilteredChip(Mocker.mock());
+        ls.createFilteredChip(Mocker.mock());
+        ls.createFilteredChip(Mocker.mock());
+        ls.clearFilteredChips();
+
+        assertTrue(ls.filteredChips.isEmpty());
+    }
+
+    @Test
+    public void clearSelectedChips() throws Exception {
+        final ListChipDataSource ls = new ListChipDataSource();
+        ls.createSelectedChip(Mocker.mock());
+        ls.createSelectedChip(Mocker.mock());
+        ls.createSelectedChip(Mocker.mock());
+        ls.clearSelectedChips();
+
+        assertTrue(ls.selectedChips.isEmpty());
+    }
+
+    @Test
+    public void existsInFiltered() throws Exception {
+        final Mocker.TestChip chip = Mocker.mock();
+
+        final ListChipDataSource ls = new ListChipDataSource();
+        ls.createFilteredChip(chip);
+
+        assertTrue(ls.existsInFiltered(chip));
+    }
+
+    @Test
+    public void existsInSelected() throws Exception {
+        final Mocker.TestChip chip = Mocker.mock();
+
+        final ListChipDataSource ls = new ListChipDataSource();
+        ls.createSelectedChip(chip);
+
+        assertTrue(ls.existsInSelected(chip));
     }
 
     @Test

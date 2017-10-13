@@ -161,6 +161,26 @@ public class ObservableChipDataSourceTest {
         }
 
         @Override
+        public void clearFilteredChips() {
+
+        }
+
+        @Override
+        public void clearSelectedChips() {
+
+        }
+
+        @Override
+        public boolean existsInFiltered(Chip chip) {
+            return false;
+        }
+
+        @Override
+        public boolean existsInSelected(Chip chip) {
+            return false;
+        }
+
+        @Override
         public boolean existsInDataSource(Chip chip) {
             return false;
         }

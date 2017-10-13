@@ -192,6 +192,46 @@ public class ListChipDataSource extends ObservableChipDataSource {
     }
 
     @Override
+    public void clearFilteredChips() {
+        // Just simply clear the filtered chips list
+        this.filteredChips.clear();
+        notifyDataSourceChanged();
+    }
+
+    @Override
+    public void clearSelectedChips() {
+        // Since we want to tell observers that chips have been unselected,
+        // we need to store a clone of the selected list of chips
+        final List<Chip> clone = new ArrayList<>(selectedChips);
+        this.selectedChips.clear();
+
+        // Let's notify our change observers first (so internal components can
+        // instantly get notified of the data source change
+        notifyDataSourceChanged();
+
+        // Now let's tell our selection observers!
+        for (Chip chip : clone) {
+            notifyChipUnselected(chip);
+        }
+    }
+
+    @Override
+    public boolean existsInFiltered(Chip chip) {
+        if (chip == null) {
+            throw new NullPointerException("Chip cannot be null!");
+        }
+        return filteredChips.contains(chip);
+    }
+
+    @Override
+    public boolean existsInSelected(Chip chip) {
+        if (chip == null) {
+            throw new NullPointerException("Chip cannot be null!");
+        }
+        return selectedChips.contains(chip);
+    }
+
+    @Override
     public boolean existsInDataSource(Chip chip) {
         if (chip == null) {
             throw new NullPointerException("Chip cannot be null!");

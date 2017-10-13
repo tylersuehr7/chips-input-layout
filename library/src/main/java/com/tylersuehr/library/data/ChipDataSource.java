@@ -35,14 +35,22 @@ public interface ChipDataSource {
     Chip getFilteredChip(int position);
     Chip getSelectedChip(int position);
 
+    void setFilterableChips(List<? extends Chip> chips);
+
+    void takeChip(Chip chip);
+    void takeChip(int position);
+
+    void replaceChip(Chip chip);
+    void replaceChip(int position);
+
     void createFilteredChip(Chip chip);
     void createSelectedChip(Chip chip);
 
-    void setFilterableChips(List<? extends Chip> chips);
-    void takeChip(Chip chip);
-    void takeChip(int position); // Cannot be used for non-filtered chips
-    void replaceChip(Chip chip);
-    void replaceChip(int position); // Cannot be used for non-filtered chips
+    void clearFilteredChips();
+    void clearSelectedChips();
+
+    boolean existsInFiltered(Chip chip);
+    boolean existsInSelected(Chip chip);
     boolean existsInDataSource(Chip chip);
 
     void addChipSelectionObserver(ChipSelectionObserver observer);
