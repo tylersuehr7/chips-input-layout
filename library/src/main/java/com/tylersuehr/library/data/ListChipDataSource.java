@@ -82,7 +82,7 @@ public class ListChipDataSource extends ObservableChipDataSource {
     }
 
     @Override
-    public void createFilteredChip(Chip chip) {
+    public void addFilteredChip(Chip chip) {
         if (chip == null) {
             throw new NullPointerException("Chip cannot be null!");
         }
@@ -93,7 +93,7 @@ public class ListChipDataSource extends ObservableChipDataSource {
     }
 
     @Override
-    public void createSelectedChip(Chip chip) {
+    public void addSelectedChip(Chip chip) {
         if (chip == null) {
             throw new NullPointerException("Chip cannot be null!");
         }

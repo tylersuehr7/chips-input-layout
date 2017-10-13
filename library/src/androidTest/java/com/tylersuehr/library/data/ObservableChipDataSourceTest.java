@@ -126,12 +126,12 @@ public class ObservableChipDataSourceTest {
         }
 
         @Override
-        public void createFilteredChip(Chip chip) {
+        public void addFilteredChip(Chip chip) {
 
         }
 
         @Override
-        public void createSelectedChip(Chip chip) {
+        public void addSelectedChip(Chip chip) {
 
         }
 

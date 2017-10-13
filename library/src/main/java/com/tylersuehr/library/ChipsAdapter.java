@@ -109,7 +109,7 @@ class ChipsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> impleme
         this.editText.setText("");
 
         // This will trigger callback, which calls notifyDataSetChanged()
-        this.chipDataSource.createSelectedChip(chip);
+        this.chipDataSource.addSelectedChip(chip);
     }
 
     /**

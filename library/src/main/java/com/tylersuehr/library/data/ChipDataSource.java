@@ -43,8 +43,8 @@ public interface ChipDataSource {
     void replaceChip(Chip chip);
     void replaceChip(int position);
 
-    void createFilteredChip(Chip chip);
-    void createSelectedChip(Chip chip);
+    void addFilteredChip(Chip chip);
+    void addSelectedChip(Chip chip);
 
     void clearFilteredChips();
     void clearSelectedChips();
