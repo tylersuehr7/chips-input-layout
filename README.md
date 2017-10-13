@@ -170,9 +170,9 @@ Where this library capitalizes, is how it decentralizes where and how the select
 
 All chips are managed by, `ChipDataSource`, which is an abstraction to decouple the concrete implementation of how the abstract methods manage the chips. This means that other implementations of `ChipDataSource` can be made at your own leisure. Simply call `changeChipDataSource(ChipDataSource)` in `ChipsInputLayout` to use your implementation of `ChipDataSource`.
 
-Although not required, but definitely recommeneded, you can inherit the semi-concrete, `ObservableChipDataSource`, which is an implementation of `ChipDataSource` that handles the observer functionality for you properly so that it simplifies writing other `ChipDataSource` impelementations.
+Although not required, but definitely recommeneded, you can inherit the semi-concrete, `ObservableChipDataSource`, which is an implementation of `ChipDataSource` that handles the observer functionality for you properly so that it simplifies writing other `ChipDataSource` implementations.
 
-By default, `ChipsInputLayout`, will automatically use `ListChipDataSource`; which is out-of-the-box really good at being processing and memory efficient. It relies on the `ArrayList` to manage chips.
+By default, `ChipsInputLayout` will automatically use `ListChipDataSource`; which is out-of-the-box really good at being processing and memory efficient, and it relies on the `ArrayList` to manage chips.
 
 ### Observing chip selection changes
 `ChipDataSource` has the ability to notify observers that want to observe specific chip selection events in `ChipDataSource`. The observers will be notified if a chip has been selected or unselected from the selected chip list in `ChipDataSource`. Both selection and deselection events will afford the chip that was selected or deselected respectively.
