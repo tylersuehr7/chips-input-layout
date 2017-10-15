@@ -11,7 +11,7 @@
     android:paddingEnd="4dp"
     android:clickable="true">
 
-    <com.tylersuehr.library.CircleImageView
+    <com.tylersuehr.chips.CircleImageView
         android:id="@+id/icon"
         android:layout_width="32dp"
         android:layout_height="32dp"

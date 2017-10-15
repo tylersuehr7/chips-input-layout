@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="16dp">
-    <com.tylersuehr.library.ChipsInputLayout
+    <com.tylersuehr.chips.ChipsInputLayout
         android:id="@+id/chips_input"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -151,6 +151,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Change Max Rows"/>
+
+            <Button
+                android:id="@+id/button_validate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="Validate Chips"/>
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

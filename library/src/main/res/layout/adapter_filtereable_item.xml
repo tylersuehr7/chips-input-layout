@@ -8,7 +8,7 @@
     android:layout_height="wrap_content"
     android:padding="16dp"
     android:clickable="true">
-    <com.tylersuehr.library.CircleImageView
+    <com.tylersuehr.chips.CircleImageView
         android:id="@+id/image"
         android:layout_width="40dp"
         android:layout_height="40dp"
