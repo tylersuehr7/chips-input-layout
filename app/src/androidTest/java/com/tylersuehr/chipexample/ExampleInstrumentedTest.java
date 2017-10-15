@@ -1,4 +1,4 @@
-package com.tylersuehr.chips;
+package com.tylersuehr.chipexample;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

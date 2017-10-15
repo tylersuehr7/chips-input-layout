@@ -1,4 +1,4 @@
-package com.tylersuehr.chips;
+package com.tylersuehr.chipexample;
 
 import org.junit.Test;
 

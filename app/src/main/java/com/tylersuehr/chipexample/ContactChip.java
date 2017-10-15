@@ -1,4 +1,4 @@
-package com.tylersuehr.chips;
+package com.tylersuehr.chipexample;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.support.annotation.NonNull;

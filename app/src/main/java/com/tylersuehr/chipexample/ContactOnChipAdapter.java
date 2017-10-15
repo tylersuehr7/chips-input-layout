@@ -1,4 +1,4 @@
-package com.tylersuehr.chips;
+package com.tylersuehr.chipexample;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;

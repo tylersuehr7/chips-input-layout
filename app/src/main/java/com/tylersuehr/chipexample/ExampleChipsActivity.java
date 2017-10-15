@@ -1,4 +1,4 @@
-package com.tylersuehr.chips;
+package com.tylersuehr.chipexample;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -7,7 +7,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.tylersuehr.chips.testing.ChipsInputTestActivity;
+import com.tylersuehr.chipexample.testing.ChipsInputTestActivity;
 import com.tylersuehr.library.ChipsInputLayout;
 import java.util.List;
 

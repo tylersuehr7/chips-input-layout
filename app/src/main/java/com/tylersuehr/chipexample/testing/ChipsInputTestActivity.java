@@ -1,4 +1,4 @@
-package com.tylersuehr.chips.testing;
+package com.tylersuehr.chipexample.testing;
 
 import android.content.res.ColorStateList;
 import android.graphics.Color;
@@ -11,7 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Toast;
 
-import com.tylersuehr.chips.R;
+import com.tylersuehr.chipexample.R;
 import com.tylersuehr.library.ChipsInputLayout;
 import com.tylersuehr.library.data.Chip;
 import com.tylersuehr.library.data.ChipSelectionObserver;

@@ -1,4 +1,4 @@
-package com.tylersuehr.chips;
+package com.tylersuehr.chipexample;
 import android.Manifest;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
