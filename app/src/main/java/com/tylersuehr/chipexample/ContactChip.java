@@ -3,7 +3,7 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import com.tylersuehr.library.data.Chip;
+import com.tylersuehr.chips.data.Chip;
 
 /**
  * Copyright © 2017 Tyler Suehr

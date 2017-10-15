@@ -12,9 +12,9 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.tylersuehr.chipexample.R;
-import com.tylersuehr.library.ChipsInputLayout;
-import com.tylersuehr.library.data.Chip;
-import com.tylersuehr.library.data.ChipSelectionObserver;
+import com.tylersuehr.chips.ChipsInputLayout;
+import com.tylersuehr.chips.data.Chip;
+import com.tylersuehr.chips.data.ChipSelectionObserver;
 
 import java.util.ArrayList;
 import java.util.List;

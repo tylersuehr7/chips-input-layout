@@ -8,7 +8,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.tylersuehr.chipexample.testing.ChipsInputTestActivity;
-import com.tylersuehr.library.ChipsInputLayout;
+import com.tylersuehr.chips.ChipsInputLayout;
 import java.util.List;
 
 /**

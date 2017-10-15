@@ -1,4 +1,4 @@
-package com.tylersuehr.library;
+package com.tylersuehr.chips;
 
 import android.content.Context;
 import android.graphics.PorterDuff;
@@ -11,9 +11,9 @@ import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.TextView;
 
-import com.tylersuehr.library.data.Chip;
-import com.tylersuehr.library.data.ChipDataSource;
-import com.tylersuehr.library.data.ChipChangedObserver;
+import com.tylersuehr.chips.data.Chip;
+import com.tylersuehr.chips.data.ChipDataSource;
+import com.tylersuehr.chips.data.ChipChangedObserver;
 
 /**
  * Copyright © 2017 Tyler Suehr

@@ -1,4 +1,4 @@
-package com.tylersuehr.library;
+package com.tylersuehr.chips;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.PorterDuff;
@@ -11,7 +11,7 @@ import android.util.AttributeSet;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import com.tylersuehr.library.data.Chip;
+import com.tylersuehr.chips.data.Chip;
 
 /**
  * Copyright © 2017 Tyler Suehr

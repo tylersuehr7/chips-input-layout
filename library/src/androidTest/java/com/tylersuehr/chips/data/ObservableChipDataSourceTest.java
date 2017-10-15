@@ -1,6 +1,6 @@
-package com.tylersuehr.library.data;
+package com.tylersuehr.chips.data;
 
-import com.tylersuehr.library.Mocker;
+import com.tylersuehr.chips.Mocker;
 
 import org.junit.Test;
 

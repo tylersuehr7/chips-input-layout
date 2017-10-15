@@ -1,4 +1,4 @@
-package com.tylersuehr.library;
+package com.tylersuehr.chips;
 
 import org.junit.Test;
 

@@ -1,4 +1,4 @@
-package com.tylersuehr.library;
+package com.tylersuehr.chips;
 import android.content.Context;
 import android.support.v7.widget.AppCompatEditText;
 import android.view.KeyEvent;

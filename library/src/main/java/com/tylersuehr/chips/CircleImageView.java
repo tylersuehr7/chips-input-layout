@@ -1,4 +1,4 @@
-package com.tylersuehr.library;
+package com.tylersuehr.chips;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;

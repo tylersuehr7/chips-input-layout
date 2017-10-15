@@ -1,13 +1,13 @@
-package com.tylersuehr.library;
+package com.tylersuehr.chips;
 
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.tylersuehr.library.data.Chip;
-import com.tylersuehr.library.data.ChipChangedObserver;
-import com.tylersuehr.library.data.ChipSelectionObserver;
+import com.tylersuehr.chips.data.Chip;
+import com.tylersuehr.chips.data.ChipChangedObserver;
+import com.tylersuehr.chips.data.ChipSelectionObserver;
 
 import java.util.ArrayList;
 import java.util.List;

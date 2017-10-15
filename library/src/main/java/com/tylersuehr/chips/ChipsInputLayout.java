@@ -1,4 +1,4 @@
-package com.tylersuehr.library;
+package com.tylersuehr.chips;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.Configuration;
@@ -20,10 +20,10 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 import com.beloo.widget.chipslayoutmanager.ChipsLayoutManager;
-import com.tylersuehr.library.data.Chip;
-import com.tylersuehr.library.data.ChipDataSource;
-import com.tylersuehr.library.data.ListChipDataSource;
-import com.tylersuehr.library.data.ChipSelectionObserver;
+import com.tylersuehr.chips.data.Chip;
+import com.tylersuehr.chips.data.ChipDataSource;
+import com.tylersuehr.chips.data.ListChipDataSource;
+import com.tylersuehr.chips.data.ChipSelectionObserver;
 import java.util.List;
 
 /**

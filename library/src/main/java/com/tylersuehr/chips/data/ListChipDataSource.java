@@ -1,4 +1,4 @@
-package com.tylersuehr.library.data;
+package com.tylersuehr.chips.data;
 import android.support.annotation.VisibleForTesting;
 import java.util.ArrayList;
 import java.util.Collections;

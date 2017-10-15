@@ -1,4 +1,4 @@
-package com.tylersuehr.library;
+package com.tylersuehr.chips;
 import android.app.Activity;
 import android.content.Context;
 import android.content.ContextWrapper;
