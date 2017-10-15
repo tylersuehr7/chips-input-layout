@@ -1,6 +1,4 @@
 # Chips Input Layout
-*Updates to documentation and project are still in progress*
-
 A highly customizable Android ViewGroup for displaying Chips (specified in the Material Design Guide)!
 
 <img src="https://github.com/tylersuehr7/chips-input-layout/blob/master/docs/screen_filterable_list.png" width="200"> <img src="https://github.com/tylersuehr7/chips-input-layout/blob/master/docs/screen_contact_chip_multiple.png" width="200"> <img src="https://github.com/tylersuehr7/chips-input-layout/blob/master/docs/screen_chips_multiple.png" width="200"> <img src="https://github.com/tylersuehr7/chips-input-layout/blob/master/docs/screen_contact_chip_details.png" width="200">
@@ -250,6 +248,77 @@ public class CoolAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
     public void onChipDataSourceChanged() {
         // This example would just update the Recycler when the chip data source changes
         notifyDataSetChanged();
+    }
+}
+```
+
+## Chip Validation
+This library also affords the ability to validate chips. Chip validtion can be used for a plethora of reasons or use-cases. Validation can be done on the selected chips or on a single chip itself.
+
+Validation is abstracted by the `ChipValidator` interface. This allows you to provide your own implementation of chip validation for whatever purpose you want or need it for. By default, there is no implementation of `ChipValidator` set or provided by this library.
+
+### Creating a chip validator
+`ChipValidator` must be implemented in order to write your own chip validation logic. `ChipValidator` has one method only, `validate(Chip)`, and it is used to determine when a single given chip should be considered valid.
+
+Here's a small example:
+```java
+public class CustomChipValidator implements ChipsInputLayout.ChipValidator {
+    @Override
+    public boolean validate(Chip chip) {
+        // This example will make the chip valid if the chip's title contains the letter "T"
+        return chip.getTitle().toLowerCase().contains("t");
+    }
+}
+```
+
+### Setting a chip validator
+A custom implementation of `ChipValidator` can be set using the `ChipsInputLayout`. Simply call the `setChipValidator(ChipValidator)` method in `ChipsInputLayout`.
+
+Here's a simple example:
+```java
+@Override
+protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.activity_cool);
+    
+    // Find out chips input layout in xml layout
+    ChipsInputLayout chipsInput = (ChipsInputLayout)findViewById(R.id.chips_input);
+    
+    // Set an instance of chip validator in chips input layout
+    chipsInput.setChipValidator(new MyCoolChipValidator());
+}
+```
+
+### Using a chip validator
+Using a chip validator is really easy! After setting a chip validator in `ChipsInputLayout`, you can validate a single given chip or all the selected chips. 
+
+Validating a single given chip can be done by calling, `validateChip(Chip)`, in `ChipsInputLayout`. Validating all the selected chips can be done by calling, `validateSelectedChips()`, in `ChipsInputLayout`. When you call either of those methods without having set a chip validator, it will simply return true.
+
+Here's a simple example:
+```java
+public class CoolActivity extends AppCompatActivity {
+    private ChipsInputLayout chipsInput;
+    
+    
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_cool);
+        
+        // Find chips input layout in XML layout
+        this.chipsInput = (ChipsInputLayout)findViewById(R.id.chips_input);
+        
+        // Set custom chip validator
+        this.chipsInput.setChipValidator(new MyCoolChipValidator());
+    }
+    
+    public void onCoolButtonClicked(View v) {
+        // Example to show selected chip validation
+        if (chipsInput.validateSelectedChips()) {
+            Toast.makeText(this, "Selected chips are valid!", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(this, "Selected chips are NOT valid!", Toast.LENGTH_SHORT).show();
+        }
     }
 }
 ```
