@@ -36,7 +36,7 @@ The basic usage of this library is to allow users to input chips and for them to
 Here is a table of all the XML attributes available for this view:
 
 Attribute | Type | Summary
---- | --- | ---
+--- | :---: | ---
 `android:hint` | `string` | Hint shown in the chips input.
 `android:textColorHint` | `color` | Text color of the hint shown in the chips input. 
 `android:textColor` | `color` | Text color of chips input.
