@@ -3,6 +3,25 @@ A highly customizable Android ViewGroup for displaying Chips (specified in the M
 
 <img src="https://github.com/tylersuehr7/chips-input-layout/blob/master/docs/screen_filterable_list.png" width="200"> <img src="https://github.com/tylersuehr7/chips-input-layout/blob/master/docs/screen_contact_chip_multiple.png" width="200"> <img src="https://github.com/tylersuehr7/chips-input-layout/blob/master/docs/screen_chips_multiple.png" width="200"> <img src="https://github.com/tylersuehr7/chips-input-layout/blob/master/docs/screen_contact_chip_details.png" width="200">
 
+Get it on GitPack!
+
+In your project level build.gradle :
+```java
+allprojects {
+    repositories {
+        ...
+        maven { url "https://jitpack.io" }
+    }
+} 
+```
+
+In your app level build.gradle:
+```java
+dependencies {
+    compile 'com.github.tylersuehr7:chips-input-layout:1.2'
+}  
+```
+
 Here's some of the core features of this library:
 * You can allow the user to filter chips as they type
 * You can allow the user to enter custom chips
