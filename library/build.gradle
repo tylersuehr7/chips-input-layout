@@ -1,6 +1,4 @@
 apply plugin: 'com.android.library'
-apply plugin: 'com.github.dcendents.android-maven'
-group='com.github.tylersuehr7'
 
 android {
     compileSdkVersion 26
@@ -34,3 +32,6 @@ dependencies {
     compile 'com.beloo.widget:ChipsLayoutManager:0.3.7@aar'
     testCompile 'junit:junit:4.12'
 }
+
+apply plugin: 'com.github.dcendents.android-maven'
+group='com.github.tylersuehr7'
