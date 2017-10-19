@@ -23,7 +23,6 @@ import com.tylersuehr.chips.data.Chip;
  * @version 1.0
  */
 public class ChipView extends FrameLayout {
-    private LetterTileProvider tileProvider;
     private Chip chip;
 
     private CircleImageView mAvatarImageView;
@@ -55,8 +54,6 @@ public class ChipView extends FrameLayout {
         this.mAvatarImageView = findViewById(R.id.icon);
         this.mTitleView = findViewById(R.id.label);
         this.mButtonDelete = findViewById(R.id.button_delete);
-
-        this.tileProvider = new LetterTileProvider(c);
     }
 
     /**
@@ -129,7 +126,8 @@ public class ChipView extends FrameLayout {
             } else if (avatarDrawable != null) { // Use the Drawable
                 this.mAvatarImageView.setImageDrawable(avatarDrawable);
             } else { // Use the tile provider
-                this.mAvatarImageView.setImageBitmap(tileProvider.getLetterTile(getTitle()));
+                this.mAvatarImageView.setImageBitmap(LetterTileProvider.getInstance(
+                        getContext()).getLetterTile(getTitle()));
             }
         } else { // Hide the avatar icon
             this.mAvatarImageView.setVisibility(GONE);
@@ -342,7 +340,6 @@ public class ChipView extends FrameLayout {
         chipView.chip = builder.chip;
         if (builder.typeface != null) {
             chipView.mTitleView.setTypeface(builder.typeface);
-            chipView.tileProvider.setTypeface(builder.typeface);
         }
         chipView.inflateFromFields();
         return chipView;

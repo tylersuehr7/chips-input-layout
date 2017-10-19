@@ -28,8 +28,6 @@ import com.tylersuehr.chips.data.Chip;
  * @version 1.0
  */
 public class DetailedChipView extends FrameLayout {
-    private static LetterTileProvider tileProvider;
-
     private TextView mTitleView;
     private TextView mSubtitleView;
     private ImageButton mButtonDelete;
@@ -46,9 +44,6 @@ public class DetailedChipView extends FrameLayout {
 
     public DetailedChipView(@NonNull Context c, @Nullable AttributeSet attrs) {
         super(c, attrs);
-
-        // Setup the tile provider
-        tileProvider = getTileProvider(c);
 
         // Inflate the view
         View v = inflate(c, R.layout.chip_view_detailed, this);
@@ -171,13 +166,6 @@ public class DetailedChipView extends FrameLayout {
         setClickable(true);
     }
 
-    private static LetterTileProvider getTileProvider(Context c) {
-        if (tileProvider == null) {
-            tileProvider = new LetterTileProvider(c);
-        }
-        return tileProvider;
-    }
-
 
     /**
      * Builder for the detailed chip view.
@@ -260,7 +248,8 @@ public class DetailedChipView extends FrameLayout {
         } else if(builder.avatarDrawable != null) {
             detailedChipView.setAvatarIcon(builder.avatarDrawable);
         } else {
-            detailedChipView.setAvatarIcon(tileProvider.getLetterTile(builder.title));
+            detailedChipView.setAvatarIcon(LetterTileProvider.getInstance(
+                    builder.context).getLetterTile(builder.title));
         }
 
         // Set the background color, if available
@@ -289,7 +278,6 @@ public class DetailedChipView extends FrameLayout {
         if (builder.typeface != null) {
             detailedChipView.mTitleView.setTypeface(builder.typeface);
             detailedChipView.mSubtitleView.setTypeface(builder.typeface);
-            tileProvider.setTypeface(builder.typeface);
         }
 
         detailedChipView.setTitle(builder.title);

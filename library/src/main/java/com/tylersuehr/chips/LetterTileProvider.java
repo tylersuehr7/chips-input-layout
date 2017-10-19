@@ -11,8 +11,6 @@ import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.support.annotation.DrawableRes;
-import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.text.TextPaint;
 
@@ -31,6 +29,8 @@ import android.text.TextPaint;
  * @version 1.1
  */
 class LetterTileProvider {
+    private static volatile LetterTileProvider instance;
+
     /* Default colors for the letter tiles */
     private static final String[] DEFAULT_COLORS = new String[] {
             "#f16364", "#f58559", "#f9a43e", "#e4c62e",
@@ -42,28 +42,13 @@ class LetterTileProvider {
     private final Canvas canvas = new Canvas();
     private final char[] firstChar = new char[1];
 
-    private final String[] colors;
-    private final Bitmap defaultBitmap;
-    private final int tileSize;
+    private String[] colors;
+    private Bitmap defaultBitmap;
+    private int tileSize;
 
 
     /* Constructors with all defaults */
-    LetterTileProvider(Context c) {
-        this(c, DEFAULT_COLORS);
-    }
-
-    /* Constructs with custom background colors */
-    LetterTileProvider(Context c, String[] possibleColors) {
-        this(c, possibleColors, c.getResources().getDimensionPixelSize(R.dimen.default_letter_tile_size));
-    }
-
-    /* Constructs with custom background colors and tile size */
-    LetterTileProvider(Context c, @NonNull String[] possibleColors, int tileSize) {
-        this(c, possibleColors, tileSize, R.drawable.ic_default_tile);
-    }
-
-    /* Constructs with all custom properties */
-    LetterTileProvider(Context c, @NonNull String[] possibleColors, int tileSize, @DrawableRes int defaultDr) {
+    private LetterTileProvider(Context c) {
         // Setup the paint
         this.paint.setTypeface(Typeface.create("sans-serif-light", Typeface.NORMAL));
         this.paint.setColor(Color.WHITE);
@@ -71,13 +56,36 @@ class LetterTileProvider {
         this.paint.setAntiAlias(true);
 
         // Setup the properties
-        this.colors = possibleColors;
-        this.tileSize = tileSize;
-        this.defaultBitmap = drawableToBitmap(ContextCompat.getDrawable(c, defaultDr));
+        this.colors = DEFAULT_COLORS;
+        this.tileSize = c.getResources().getDimensionPixelSize(R.dimen.default_letter_tile_size);
+        this.defaultBitmap = drawableToBitmap(ContextCompat.getDrawable(c, R.drawable.ic_default_tile));
+    }
+
+    public static LetterTileProvider getInstance(Context c) {
+        if (instance == null) {
+            synchronized (LetterTileProvider.class) {
+                if (instance == null) {
+                    instance = new LetterTileProvider(c);
+                }
+            }
+        }
+        return instance;
     }
 
     void setTypeface(Typeface typeface) {
         this.paint.setTypeface(typeface);
+    }
+
+    void setColors(String[] colorHexes) {
+        this.colors = colorHexes;
+    }
+
+    void setTileSize(int tileSize) {
+        this.tileSize = tileSize;
+    }
+
+    void setDefaultIcon(Drawable dr) {
+        this.defaultBitmap = drawableToBitmap(dr);
     }
 
     /**

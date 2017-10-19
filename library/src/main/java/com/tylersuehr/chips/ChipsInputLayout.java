@@ -515,13 +515,10 @@ public class ChipsInputLayout extends MaxHeightScrollView
 
     public void setTypeface(Typeface typeface) {
         this.chipOptions.typeface = typeface;
+        LetterTileProvider.getInstance(getContext()).setTypeface(typeface);
         if (chipsEditText != null) {
             this.chipsEditText.setTypeface(typeface);
         }
-    }
-
-    public Typeface getTypeface() {
-        return chipOptions.typeface;
     }
 
     /**
@@ -653,7 +650,7 @@ public class ChipsInputLayout extends MaxHeightScrollView
         }
 
         // Create and set the filterable chips adapter
-        this.filterableChipsAdapter = new FilterableChipsAdapter(getContext(), this, chipOptions, chipDataSource);
+        this.filterableChipsAdapter = new FilterableChipsAdapter(this, chipDataSource, chipOptions);
         this.filterableRecyclerView.setAdapter(this, filterableChipsAdapter);
 
         // To show our filterable recycler view, we need to make sure our ChipsInputLayout has
