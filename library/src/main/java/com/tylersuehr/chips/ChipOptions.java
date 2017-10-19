@@ -2,6 +2,7 @@ package com.tylersuehr.chips;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 
@@ -23,7 +24,7 @@ final class ChipOptions {
     ColorStateList chipDeleteIconColor;
     ColorStateList chipBackgroundColor;
     ColorStateList chipTextColor;
-    boolean hasAvatarIcon;
+    boolean hasAvatarIcon = true;
     boolean showDetailedChips = true;
     boolean chipDeletable = true;
     Drawable chipDeleteIcon;
@@ -39,6 +40,7 @@ final class ChipOptions {
     float filterableListElevation;
 
     /* Properties pertaining to the ChipsInputLayout itself */
+    Typeface typeface = Typeface.DEFAULT;
     boolean allowCustomChips = true;
     int maxRows;
 

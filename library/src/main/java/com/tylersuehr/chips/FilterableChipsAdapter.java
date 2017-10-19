@@ -69,6 +69,8 @@ class FilterableChipsAdapter extends RecyclerView.Adapter<FilterableChipsAdapter
     public void onBindViewHolder(Holder holder, int position) {
         final Chip chip = chipDataSource.getFilteredChip(position);
 
+        tileProvider.setTypeface(chipOptions.typeface);
+
         // Set the chip avatar, if possible
         if (chipOptions.hasAvatarIcon && chip.getAvatarUri() != null) {
             holder.image.setVisibility(View.VISIBLE);
@@ -85,11 +87,13 @@ class FilterableChipsAdapter extends RecyclerView.Adapter<FilterableChipsAdapter
 
         // Set the chip title
         holder.title.setText(chip.getTitle());
+        holder.title.setTypeface(chipOptions.typeface);
 
         // Set the chip subtitle, if possible
         if (chip.getSubtitle() != null) {
             holder.subtitle.setVisibility(View.VISIBLE);
             holder.subtitle.setText(chip.getSubtitle());
+            holder.subtitle.setTypeface(chipOptions.typeface);
         } else {
             holder.subtitle.setVisibility(View.GONE);
         }

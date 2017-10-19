@@ -4,6 +4,7 @@ import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.support.annotation.NonNull;
@@ -190,6 +191,7 @@ public class DetailedChipView extends FrameLayout {
         private ColorStateList textColor;
         private ColorStateList backgroundColor;
         private ColorStateList deleteIconColor;
+        private Typeface typeface;
 
 
         Builder(Context context) {
@@ -239,6 +241,11 @@ public class DetailedChipView extends FrameLayout {
             return this;
         }
 
+        Builder typeface(Typeface typeface) {
+            this.typeface = typeface;
+            return this;
+        }
+
         DetailedChipView build() {
             return DetailedChipView.newInstance(this);
         }
@@ -277,6 +284,12 @@ public class DetailedChipView extends FrameLayout {
             detailedChipView.setDeleteIconColor(ColorStateList.valueOf(Color.WHITE));
         } else {
             detailedChipView.setDeleteIconColor(ColorStateList.valueOf(Color.BLACK));
+        }
+
+        if (builder.typeface != null) {
+            detailedChipView.mTitleView.setTypeface(builder.typeface);
+            detailedChipView.mSubtitleView.setTypeface(builder.typeface);
+            tileProvider.setTypeface(builder.typeface);
         }
 
         detailedChipView.setTitle(builder.title);

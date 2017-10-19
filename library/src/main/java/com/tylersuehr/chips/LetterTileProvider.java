@@ -76,6 +76,10 @@ class LetterTileProvider {
         this.defaultBitmap = drawableToBitmap(ContextCompat.getDrawable(c, defaultDr));
     }
 
+    void setTypeface(Typeface typeface) {
+        this.paint.setTypeface(typeface);
+    }
+
     /**
      * Convenience method to make the custom Bitmap from {@link #getLetterTile(String)}
      * a circular Bitmap.

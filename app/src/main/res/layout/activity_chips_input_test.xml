@@ -151,6 +151,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Change Max Rows"/>
+            <Button
+                android:id="@+id/button_typeface"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="Toggle Typeface"/>
 
             <Button
                 android:id="@+id/button_validate"

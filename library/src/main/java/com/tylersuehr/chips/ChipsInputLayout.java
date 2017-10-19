@@ -4,6 +4,7 @@ import android.content.res.ColorStateList;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.DrawableRes;
 import android.support.v4.content.ContextCompat;
@@ -512,6 +513,17 @@ public class ChipsInputLayout extends MaxHeightScrollView
         setMaxHeight(Utils.dp(40) * chipOptions.maxRows);
     }
 
+    public void setTypeface(Typeface typeface) {
+        this.chipOptions.typeface = typeface;
+        if (chipsEditText != null) {
+            this.chipsEditText.setTypeface(typeface);
+        }
+    }
+
+    public Typeface getTypeface() {
+        return chipOptions.typeface;
+    }
+
     /**
      * Gets the current chip data source being used.
      * Note: package-private for now because no outside component should access this.
@@ -567,6 +579,7 @@ public class ChipsInputLayout extends MaxHeightScrollView
                 this.chipsEditText.setTextColor(chipOptions.textColor);
             }
             this.chipsEditText.setHint(chipOptions.hint);
+            this.chipsEditText.setTypeface(chipOptions.typeface);
 
             // Prevent fullscreen on landscape
             this.chipsEditText.setImeOptions(EditorInfo.IME_FLAG_NO_EXTRACT_UI|EditorInfo.IME_ACTION_DONE);
@@ -597,6 +610,7 @@ public class ChipsInputLayout extends MaxHeightScrollView
                 .deleteIcon(chipOptions.chipDeleteIcon)
                 .deleteIconColor(chipOptions.chipDeleteIconColor)
                 .backgroundColor(chipOptions.chipBackgroundColor)
+                .typeface(chipOptions.typeface)
                 .build();
 
         chipView.setPadding(padding, padding, padding, padding);
@@ -616,6 +630,7 @@ public class ChipsInputLayout extends MaxHeightScrollView
                 .textColor(chipOptions.detailedChipTextColor)
                 .backgroundColor(chipOptions.detailedChipBackgroundColor)
                 .deleteIconColor(chipOptions.detailedChipDeleteIconColor)
+                .typeface(chipOptions.typeface)
                 .build();
     }
 

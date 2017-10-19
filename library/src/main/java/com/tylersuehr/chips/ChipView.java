@@ -2,6 +2,7 @@ package com.tylersuehr.chips;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.PorterDuff;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.support.annotation.ColorInt;
@@ -256,6 +257,7 @@ public class ChipView extends FrameLayout {
         private Drawable deleteIcon;
         private ColorStateList deleteIconColor;
         private ColorStateList backgroundColor;
+        private Typeface typeface;
         private Chip chip;
 
 
@@ -316,6 +318,11 @@ public class ChipView extends FrameLayout {
             return this;
         }
 
+        Builder typeface(Typeface typeface) {
+            this.typeface = typeface;
+            return this;
+        }
+
         ChipView build() {
             return newInstance(this);
         }
@@ -333,6 +340,10 @@ public class ChipView extends FrameLayout {
         chipView.deleteIconColor = builder.deleteIconColor;
         chipView.backgroundColor = builder.backgroundColor;
         chipView.chip = builder.chip;
+        if (builder.typeface != null) {
+            chipView.mTitleView.setTypeface(builder.typeface);
+            chipView.tileProvider.setTypeface(builder.typeface);
+        }
         chipView.inflateFromFields();
         return chipView;
     }
