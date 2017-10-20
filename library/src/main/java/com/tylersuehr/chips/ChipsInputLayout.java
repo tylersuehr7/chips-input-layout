@@ -22,6 +22,7 @@ import android.widget.EditText;
 import android.widget.RelativeLayout;
 import com.beloo.widget.chipslayoutmanager.ChipsLayoutManager;
 import com.tylersuehr.chips.data.Chip;
+import com.tylersuehr.chips.data.ChipChangedObserver;
 import com.tylersuehr.chips.data.ChipDataSource;
 import com.tylersuehr.chips.data.ListChipDataSource;
 import com.tylersuehr.chips.data.ChipSelectionObserver;
@@ -413,6 +414,35 @@ public class ChipsInputLayout extends MaxHeightScrollView
     }
 
     /**
+     * Removes an observer from watching selection events on the chip data source.
+     *
+     * @param observer {@link ChipSelectionObserver}
+     */
+    public void removeChipSelectionObserver(ChipSelectionObserver observer) {
+        this.chipDataSource.removeChipSelectionObserver(observer);
+    }
+
+    /**
+     * Adds an observer to watch for any change events on the chip data source.
+     *
+     * Note: please use this conservatively!
+     *
+     * @param observer {@link ChipChangedObserver}
+     */
+    public void addChipChangedObserver(ChipChangedObserver observer) {
+        this.chipDataSource.addChipChangedObserver(observer);
+    }
+
+    /**
+     * Removes an observer from watching any change events on the chip data source.
+     *
+     * @param observer {@link ChipChangedObserver}
+     */
+    public void removeChipChangedObserver(ChipChangedObserver observer) {
+        this.chipDataSource.removeChipChangedObserver(observer);
+    }
+
+    /**
      * Changes the chip data source being used to manipulate chips, which will
      * update the UI accordingly.
      *
@@ -425,6 +455,14 @@ public class ChipsInputLayout extends MaxHeightScrollView
         this.chipDataSource.cloneObservers(dataSource);
         this.chipDataSource = dataSource;
         this.chipsAdapter.notifyDataSetChanged();
+    }
+
+    /**
+     * Gets an instance of {@link LetterTileProvider}.
+     * @return {@link LetterTileProvider}
+     */
+    public LetterTileProvider getLetterTileProvider() {
+        return LetterTileProvider.getInstance(getContext());
     }
 
     public void setInputTextColor(ColorStateList textColor) {
