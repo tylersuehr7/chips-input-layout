@@ -61,7 +61,7 @@ public class LetterTileProvider {
         this.defaultBitmap = drawableToBitmap(ContextCompat.getDrawable(c, R.drawable.ic_default_tile));
     }
 
-    public static LetterTileProvider getInstance(Context c) {
+    static LetterTileProvider getInstance(Context c) {
         if (instance == null) {
             synchronized (LetterTileProvider.class) {
                 if (instance == null) {
