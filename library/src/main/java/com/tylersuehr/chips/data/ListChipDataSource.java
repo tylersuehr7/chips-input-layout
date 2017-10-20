@@ -1,6 +1,8 @@
 package com.tylersuehr.chips.data;
+import android.support.annotation.ColorRes;
 import android.support.annotation.VisibleForTesting;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -92,6 +94,11 @@ public class ListChipDataSource extends ObservableChipDataSource {
         chip.setFilterable(true);
         this.originalChips.add(chip);
         this.filteredChips.add(chip);
+
+        // Sort the filterable chips
+        Collections.sort(originalChips, Chip.getComparator());
+        Collections.sort(filteredChips, Chip.getComparator());
+
         notifyDataSourceChanged();
     }
 
@@ -165,6 +172,10 @@ public class ListChipDataSource extends ObservableChipDataSource {
             if (chip.isFilterable()) {
                 this.filteredChips.add(chip);
                 this.originalChips.add(chip);
+
+                // Sort the filterable chips
+                Collections.sort(filteredChips, Chip.getComparator());
+                Collections.sort(originalChips, Chip.getComparator());
             }
 
             notifyDataSourceChanged();
@@ -188,6 +199,10 @@ public class ListChipDataSource extends ObservableChipDataSource {
         if (foundChip.isFilterable()) {
             this.filteredChips.add(foundChip);
             this.originalChips.add(foundChip);
+
+            // Sort the filterable chips
+            Collections.sort(filteredChips, Chip.getComparator());
+            Collections.sort(originalChips, Chip.getComparator());
         }
 
         notifyDataSourceChanged();
