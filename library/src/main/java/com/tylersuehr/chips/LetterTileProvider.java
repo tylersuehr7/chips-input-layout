@@ -28,7 +28,7 @@ import android.text.TextPaint;
  * @author Tyler Suehr
  * @version 1.1
  */
-class LetterTileProvider {
+public class LetterTileProvider {
     private static volatile LetterTileProvider instance;
 
     /* Default colors for the letter tiles */
@@ -72,19 +72,19 @@ class LetterTileProvider {
         return instance;
     }
 
-    void setTypeface(Typeface typeface) {
+    public void setTypeface(Typeface typeface) {
         this.paint.setTypeface(typeface);
     }
 
-    void setColors(String[] colorHexes) {
+    public void setColors(String[] colorHexes) {
         this.colors = colorHexes;
     }
 
-    void setTileSize(int tileSize) {
+    public void setTileSize(int tileSize) {
         this.tileSize = tileSize;
     }
 
-    void setDefaultIcon(Drawable dr) {
+    public void setDefaultIcon(Drawable dr) {
         this.defaultBitmap = drawableToBitmap(dr);
     }
 
@@ -95,7 +95,7 @@ class LetterTileProvider {
      * @param displayName Any string value
      * @return {@link Bitmap}
      */
-    Bitmap getCircularLetterTile(String displayName) {
+    public Bitmap getCircularLetterTile(String displayName) {
         return getCircularBitmap(getLetterTile(displayName));
     }
 
@@ -107,7 +107,7 @@ class LetterTileProvider {
      * @param displayName Any string value
      * @return {@link Bitmap}
      */
-    Bitmap getLetterTile(String displayName) {
+    public Bitmap getLetterTile(String displayName) {
         // Don't allow empty strings
         if (displayName == null || displayName.length() == 0) { return null; }
 
