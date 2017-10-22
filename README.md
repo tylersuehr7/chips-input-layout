@@ -112,7 +112,6 @@ Method | Summary
 `setFilterableListBackgroundColor(ColorStateList)` | Changes color of the filterable list's background.
 `setFilterableListTextColor(ColorStateList)` | Changes text color of the filterable list's items.
 `setFilterableListElevation(float)` | Changes elevation of the filterable list.
-`getLetterTileProvider()` | Gets an instance of `LetterTileProvider` class.
 
 ## Using the Chips
 There are a plethora of ways you can manipulate chips in `ChipsInputLayout`. However, the main abilities afforded by `ChipsInputLayout` are that you can set a list of chips that can be filtered by user input and set a list of chips that are pre-selected. Other features are listed in the table below.
@@ -254,9 +253,9 @@ public class CoolActivity extends AppCompatActivity implements ChipSelectionObse
 
 This is used internally by the library to trigger UI updates on `RecyclerView` adapters when the data has changed.
 
-*Currently, `ChipsInputLayout`, does not have a method to set this type of observer on the `ChipDataSource` because this is for internal components of the library. However, this may be an addition to the library, if needed\requested, in the future.*
+To use this functionality, you'll want to implement the `ChipChangedObserver` and register it on `ChipDataSource`. Be sure to manage unregistering the observer, if need be, as well. 
 
-To use this functionality, you'll want to implement the `ChipChangedObserver` and register it on `ChipDataSource`. Be sure to manage unregistering the observer, if need be, as well.
+Since components outside of the library cannot, and should not, directly access `ChipDataSouce`, you'll use `ChipsInputLayout` to set the observer; using its `setChipChangedObserver(ChipChangedObserver)` method.
 
 Here is a simple example:
 ```java
