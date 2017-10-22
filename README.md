@@ -98,6 +98,7 @@ Method | Summary
 `setShowDetailedChipsEnabled(boolean)` |  True if clicking a chip should show its details.
 `setCustomChipsEnabled(boolean)` | True if user is allowed to enter custom chips.
 `setMaxRows(int)` | Changes maximum number of rows used to display chips.
+`setTypeface(Typeface)` | Changes the typeface of the ChipsInputLayout and all associated textual-based components.
 `setChipTitleTextColor(ColorStateList)` | Changes text color of each chips' title and subtitle.
 `setShowChipAvatarEnabled(boolean)` | True if each chip should show an avatar icon.
 `setChipsDeletable(boolean)` | True if each chip should be deletable by the user.
@@ -203,6 +204,8 @@ Method | Summary
 `doesChipExist(Chip)` | Checks if the given chip exists in either the filterable or selected chips.
 `isChipFiltered(Chip)` | Checks if the given chip exists in the filtered chips.
 `isChipSelected(Chip)` | Checks if the given chip exists in the selected chips.
+`getChipDataSource()` | Gets the currently used chip data source.
+`changeChipDataSource(ChipDataSource)` | Changes the chip data source being used to manage chips, cloning existing observers.
 
 ## Managing the Chips
 Where this library capitalizes, is how it decentralizes where and how the selected and filterable chips are stored. This makes accessing and receiving updates to data source changes from various Android components really simple. 
@@ -250,9 +253,9 @@ public class CoolActivity extends AppCompatActivity implements ChipSelectionObse
 
 This is used internally by the library to trigger UI updates on `RecyclerView` adapters when the data has changed.
 
-*Currently, `ChipsInputLayout`, does not have a method to set this type of observer on the `ChipDataSource` because this is for internal components of the library. However, this may be an addition to the library, if needed\requested, in the future.*
+To use this functionality, you'll want to implement the `ChipChangedObserver` and register it on `ChipDataSource`. Be sure to manage unregistering the observer, if need be, as well. 
 
-To use this functionality, you'll want to implement the `ChipChangedObserver` and register it on `ChipDataSource`. Be sure to manage unregistering the observer, if need be, as well.
+Since components outside of the library cannot, and should not, directly access `ChipDataSouce`, you'll use `ChipsInputLayout` to set the observer; using its `setChipChangedObserver(ChipChangedObserver)` method.
 
 Here is a simple example:
 ```java
