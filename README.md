@@ -98,6 +98,7 @@ Method | Summary
 `setShowDetailedChipsEnabled(boolean)` |  True if clicking a chip should show its details.
 `setCustomChipsEnabled(boolean)` | True if user is allowed to enter custom chips.
 `setMaxRows(int)` | Changes maximum number of rows used to display chips.
+`setTypeface(Typeface)` | Changes the typeface of the ChipsInputLayout and all associated textual-based components.
 `setChipTitleTextColor(ColorStateList)` | Changes text color of each chips' title and subtitle.
 `setShowChipAvatarEnabled(boolean)` | True if each chip should show an avatar icon.
 `setChipsDeletable(boolean)` | True if each chip should be deletable by the user.
@@ -111,6 +112,7 @@ Method | Summary
 `setFilterableListBackgroundColor(ColorStateList)` | Changes color of the filterable list's background.
 `setFilterableListTextColor(ColorStateList)` | Changes text color of the filterable list's items.
 `setFilterableListElevation(float)` | Changes elevation of the filterable list.
+`getLetterTileProvider()` | Gets an instance of `LetterTileProvider` class.
 
 ## Using the Chips
 There are a plethora of ways you can manipulate chips in `ChipsInputLayout`. However, the main abilities afforded by `ChipsInputLayout` are that you can set a list of chips that can be filtered by user input and set a list of chips that are pre-selected. Other features are listed in the table below.
@@ -203,6 +205,8 @@ Method | Summary
 `doesChipExist(Chip)` | Checks if the given chip exists in either the filterable or selected chips.
 `isChipFiltered(Chip)` | Checks if the given chip exists in the filtered chips.
 `isChipSelected(Chip)` | Checks if the given chip exists in the selected chips.
+`getChipDataSource()` | Gets the currently used chip data source.
+`changeChipDataSource(ChipDataSource)` | Changes the chip data source being used to manage chips, cloning existing observers.
 
 ## Managing the Chips
 Where this library capitalizes, is how it decentralizes where and how the selected and filterable chips are stored. This makes accessing and receiving updates to data source changes from various Android components really simple. 
