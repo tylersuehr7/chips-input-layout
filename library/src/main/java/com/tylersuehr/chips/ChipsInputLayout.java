@@ -561,11 +561,13 @@ public class ChipsInputLayout extends MaxHeightScrollView
 
     /**
      * Gets the current chip data source being used.
-     * Note: package-private for now because no outside component should access this.
+     *
+     * Note: This method should be used conservatively. Most components should access chips
+     * through other methods on ChipsInputLayout instead of the chip data source directly.
      *
      * @return {@link ChipDataSource}
      */
-    ChipDataSource getChipDataSource() {
+    public ChipDataSource getChipDataSource() {
         return chipDataSource;
     }
 
