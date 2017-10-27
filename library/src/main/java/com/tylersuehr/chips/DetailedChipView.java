@@ -4,6 +4,7 @@ import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.support.annotation.NonNull;
@@ -27,8 +28,6 @@ import com.tylersuehr.chips.data.Chip;
  * @version 1.0
  */
 public class DetailedChipView extends FrameLayout {
-    private static LetterTileProvider tileProvider;
-
     private TextView mTitleView;
     private TextView mSubtitleView;
     private ImageButton mButtonDelete;
@@ -45,9 +44,6 @@ public class DetailedChipView extends FrameLayout {
 
     public DetailedChipView(@NonNull Context c, @Nullable AttributeSet attrs) {
         super(c, attrs);
-
-        // Setup the tile provider
-        tileProvider = getTileProvider(c);
 
         // Inflate the view
         View v = inflate(c, R.layout.chip_view_detailed, this);
@@ -170,13 +166,6 @@ public class DetailedChipView extends FrameLayout {
         setClickable(true);
     }
 
-    private static LetterTileProvider getTileProvider(Context c) {
-        if (tileProvider == null) {
-            tileProvider = new LetterTileProvider(c);
-        }
-        return tileProvider;
-    }
-
 
     /**
      * Builder for the detailed chip view.
@@ -190,6 +179,7 @@ public class DetailedChipView extends FrameLayout {
         private ColorStateList textColor;
         private ColorStateList backgroundColor;
         private ColorStateList deleteIconColor;
+        private Typeface typeface;
 
 
         Builder(Context context) {
@@ -239,6 +229,11 @@ public class DetailedChipView extends FrameLayout {
             return this;
         }
 
+        Builder typeface(Typeface typeface) {
+            this.typeface = typeface;
+            return this;
+        }
+
         DetailedChipView build() {
             return DetailedChipView.newInstance(this);
         }
@@ -253,7 +248,8 @@ public class DetailedChipView extends FrameLayout {
         } else if(builder.avatarDrawable != null) {
             detailedChipView.setAvatarIcon(builder.avatarDrawable);
         } else {
-            detailedChipView.setAvatarIcon(tileProvider.getLetterTile(builder.title));
+            detailedChipView.setAvatarIcon(LetterTileProvider.getInstance(
+                    builder.context).getLetterTile(builder.title));
         }
 
         // Set the background color, if available
@@ -277,6 +273,11 @@ public class DetailedChipView extends FrameLayout {
             detailedChipView.setDeleteIconColor(ColorStateList.valueOf(Color.WHITE));
         } else {
             detailedChipView.setDeleteIconColor(ColorStateList.valueOf(Color.BLACK));
+        }
+
+        if (builder.typeface != null) {
+            detailedChipView.mTitleView.setTypeface(builder.typeface);
+            detailedChipView.mSubtitleView.setTypeface(builder.typeface);
         }
 
         detailedChipView.setTitle(builder.title);

@@ -4,6 +4,7 @@ import android.content.res.ColorStateList;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.DrawableRes;
 import android.support.v4.content.ContextCompat;
@@ -21,6 +22,7 @@ import android.widget.EditText;
 import android.widget.RelativeLayout;
 import com.beloo.widget.chipslayoutmanager.ChipsLayoutManager;
 import com.tylersuehr.chips.data.Chip;
+import com.tylersuehr.chips.data.ChipChangedObserver;
 import com.tylersuehr.chips.data.ChipDataSource;
 import com.tylersuehr.chips.data.ListChipDataSource;
 import com.tylersuehr.chips.data.ChipSelectionObserver;
@@ -412,6 +414,35 @@ public class ChipsInputLayout extends MaxHeightScrollView
     }
 
     /**
+     * Removes an observer from watching selection events on the chip data source.
+     *
+     * @param observer {@link ChipSelectionObserver}
+     */
+    public void removeChipSelectionObserver(ChipSelectionObserver observer) {
+        this.chipDataSource.removeChipSelectionObserver(observer);
+    }
+
+    /**
+     * Adds an observer to watch for any change events on the chip data source.
+     *
+     * Note: please use this conservatively!
+     *
+     * @param observer {@link ChipChangedObserver}
+     */
+    public void addChipChangedObserver(ChipChangedObserver observer) {
+        this.chipDataSource.addChipChangedObserver(observer);
+    }
+
+    /**
+     * Removes an observer from watching any change events on the chip data source.
+     *
+     * @param observer {@link ChipChangedObserver}
+     */
+    public void removeChipChangedObserver(ChipChangedObserver observer) {
+        this.chipDataSource.removeChipChangedObserver(observer);
+    }
+
+    /**
      * Changes the chip data source being used to manipulate chips, which will
      * update the UI accordingly.
      *
@@ -424,6 +455,14 @@ public class ChipsInputLayout extends MaxHeightScrollView
         this.chipDataSource.cloneObservers(dataSource);
         this.chipDataSource = dataSource;
         this.chipsAdapter.notifyDataSetChanged();
+    }
+
+    /**
+     * Gets an instance of {@link LetterTileProvider}.
+     * @return {@link LetterTileProvider}
+     */
+    public LetterTileProvider getLetterTileProvider() {
+        return LetterTileProvider.getInstance(getContext());
     }
 
     public void setInputTextColor(ColorStateList textColor) {
@@ -512,13 +551,23 @@ public class ChipsInputLayout extends MaxHeightScrollView
         setMaxHeight(Utils.dp(40) * chipOptions.maxRows);
     }
 
+    public void setTypeface(Typeface typeface) {
+        this.chipOptions.typeface = typeface;
+        LetterTileProvider.getInstance(getContext()).setTypeface(typeface);
+        if (chipsEditText != null) {
+            this.chipsEditText.setTypeface(typeface);
+        }
+    }
+
     /**
      * Gets the current chip data source being used.
-     * Note: package-private for now because no outside component should access this.
+     *
+     * Note: This method should be used conservatively. Most components should access chips
+     * through other methods on ChipsInputLayout instead of the chip data source directly.
      *
      * @return {@link ChipDataSource}
      */
-    ChipDataSource getChipDataSource() {
+    public ChipDataSource getChipDataSource() {
         return chipDataSource;
     }
 
@@ -567,6 +616,7 @@ public class ChipsInputLayout extends MaxHeightScrollView
                 this.chipsEditText.setTextColor(chipOptions.textColor);
             }
             this.chipsEditText.setHint(chipOptions.hint);
+            this.chipsEditText.setTypeface(chipOptions.typeface);
 
             // Prevent fullscreen on landscape
             this.chipsEditText.setImeOptions(EditorInfo.IME_FLAG_NO_EXTRACT_UI|EditorInfo.IME_ACTION_DONE);
@@ -597,6 +647,7 @@ public class ChipsInputLayout extends MaxHeightScrollView
                 .deleteIcon(chipOptions.chipDeleteIcon)
                 .deleteIconColor(chipOptions.chipDeleteIconColor)
                 .backgroundColor(chipOptions.chipBackgroundColor)
+                .typeface(chipOptions.typeface)
                 .build();
 
         chipView.setPadding(padding, padding, padding, padding);
@@ -616,6 +667,7 @@ public class ChipsInputLayout extends MaxHeightScrollView
                 .textColor(chipOptions.detailedChipTextColor)
                 .backgroundColor(chipOptions.detailedChipBackgroundColor)
                 .deleteIconColor(chipOptions.detailedChipDeleteIconColor)
+                .typeface(chipOptions.typeface)
                 .build();
     }
 
@@ -638,7 +690,7 @@ public class ChipsInputLayout extends MaxHeightScrollView
         }
 
         // Create and set the filterable chips adapter
-        this.filterableChipsAdapter = new FilterableChipsAdapter(getContext(), this, chipOptions, chipDataSource);
+        this.filterableChipsAdapter = new FilterableChipsAdapter(this, chipDataSource, chipOptions);
         this.filterableRecyclerView.setAdapter(this, filterableChipsAdapter);
 
         // To show our filterable recycler view, we need to make sure our ChipsInputLayout has

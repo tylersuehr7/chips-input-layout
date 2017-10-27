@@ -1,6 +1,5 @@
 package com.tylersuehr.chips;
 
-import android.content.Context;
 import android.graphics.PorterDuff;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -32,19 +31,15 @@ import com.tylersuehr.chips.data.ChipChangedObserver;
  */
 class FilterableChipsAdapter extends RecyclerView.Adapter<FilterableChipsAdapter.Holder>
         implements ChipChangedObserver, Filterable {
-    private static LetterTileProvider tileProvider;
     private final ChipDataSource chipDataSource;
     private final ChipOptions chipOptions;
     private final OnFilteredChipClickListener listener;
     private ChipFilter filter;
 
 
-    FilterableChipsAdapter(Context c,
-                           OnFilteredChipClickListener listener,
-                           ChipOptions chipOptions,
-                           ChipDataSource chipDataSource) {
-        tileProvider = getTileProvider(c);
-
+    FilterableChipsAdapter(OnFilteredChipClickListener listener,
+                           ChipDataSource chipDataSource,
+                           ChipOptions chipOptions) {
         this.listener = listener;
         this.chipDataSource = chipDataSource;
         this.chipOptions = chipOptions;
@@ -78,18 +73,21 @@ class FilterableChipsAdapter extends RecyclerView.Adapter<FilterableChipsAdapter
             holder.image.setImageDrawable(chip.getAvatarDrawable());
         } else if (chipOptions.hasAvatarIcon) {
             holder.image.setVisibility(View.VISIBLE);
-            holder.image.setImageBitmap(tileProvider.getLetterTile(chip.getTitle()));
+            holder.image.setImageBitmap(LetterTileProvider.getInstance(
+                    holder.image.getContext()).getLetterTile(chip.getTitle()));
         } else {
             holder.image.setVisibility(View.GONE);
         }
 
         // Set the chip title
         holder.title.setText(chip.getTitle());
+        holder.title.setTypeface(chipOptions.typeface);
 
         // Set the chip subtitle, if possible
         if (chip.getSubtitle() != null) {
             holder.subtitle.setVisibility(View.VISIBLE);
             holder.subtitle.setText(chip.getSubtitle());
+            holder.subtitle.setTypeface(chipOptions.typeface);
         } else {
             holder.subtitle.setVisibility(View.GONE);
         }
@@ -115,13 +113,6 @@ class FilterableChipsAdapter extends RecyclerView.Adapter<FilterableChipsAdapter
     @Override
     public void onChipDataSourceChanged() {
         notifyDataSetChanged();
-    }
-
-    private static LetterTileProvider getTileProvider(Context c) {
-        if (tileProvider == null) {
-            tileProvider = new LetterTileProvider(c);
-        }
-        return tileProvider;
     }
 
 

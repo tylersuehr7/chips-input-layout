@@ -2,6 +2,7 @@ package com.tylersuehr.chips;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.PorterDuff;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.support.annotation.ColorInt;
@@ -22,7 +23,6 @@ import com.tylersuehr.chips.data.Chip;
  * @version 1.0
  */
 public class ChipView extends FrameLayout {
-    private LetterTileProvider tileProvider;
     private Chip chip;
 
     private CircleImageView mAvatarImageView;
@@ -54,8 +54,6 @@ public class ChipView extends FrameLayout {
         this.mAvatarImageView = findViewById(R.id.icon);
         this.mTitleView = findViewById(R.id.label);
         this.mButtonDelete = findViewById(R.id.button_delete);
-
-        this.tileProvider = new LetterTileProvider(c);
     }
 
     /**
@@ -128,7 +126,8 @@ public class ChipView extends FrameLayout {
             } else if (avatarDrawable != null) { // Use the Drawable
                 this.mAvatarImageView.setImageDrawable(avatarDrawable);
             } else { // Use the tile provider
-                this.mAvatarImageView.setImageBitmap(tileProvider.getLetterTile(getTitle()));
+                this.mAvatarImageView.setImageBitmap(LetterTileProvider.getInstance(
+                        getContext()).getLetterTile(getTitle()));
             }
         } else { // Hide the avatar icon
             this.mAvatarImageView.setVisibility(GONE);
@@ -256,6 +255,7 @@ public class ChipView extends FrameLayout {
         private Drawable deleteIcon;
         private ColorStateList deleteIconColor;
         private ColorStateList backgroundColor;
+        private Typeface typeface;
         private Chip chip;
 
 
@@ -316,6 +316,11 @@ public class ChipView extends FrameLayout {
             return this;
         }
 
+        Builder typeface(Typeface typeface) {
+            this.typeface = typeface;
+            return this;
+        }
+
         ChipView build() {
             return newInstance(this);
         }
@@ -333,6 +338,9 @@ public class ChipView extends FrameLayout {
         chipView.deleteIconColor = builder.deleteIconColor;
         chipView.backgroundColor = builder.backgroundColor;
         chipView.chip = builder.chip;
+        if (builder.typeface != null) {
+            chipView.mTitleView.setTypeface(builder.typeface);
+        }
         chipView.inflateFromFields();
         return chipView;
     }

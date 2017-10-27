@@ -2,6 +2,7 @@ package com.tylersuehr.chipexample.testing;
 
 import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -73,6 +74,7 @@ public class ChipsInputTestActivity extends AppCompatActivity
 
         findViewById(R.id.button_toggle_custom_chips).setOnClickListener(this);
         findViewById(R.id.button_max_rows).setOnClickListener(this);
+        findViewById(R.id.button_typeface).setOnClickListener(this);
 
         findViewById(R.id.button_validate).setOnClickListener(this);
     }
@@ -223,6 +225,9 @@ public class ChipsInputTestActivity extends AppCompatActivity
                 break;
             case R.id.button_max_rows:
                 this.chipsInputLayout.setMaxRows(6);
+                break;
+            case R.id.button_typeface:
+                this.chipsInputLayout.setTypeface(Typeface.create("cursive", Typeface.BOLD));
                 break;
 
             case R.id.button_validate:
