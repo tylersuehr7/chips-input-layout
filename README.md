@@ -41,7 +41,7 @@ The basic usage of this library is to allow users to input chips and for them to
 ### Using in an XML layout
 `ChipsInputLayout` can be used in any ViewGroup and supports all width and height attributes. Simple usage is shown here:
 ```xml
-<com.tylersuehr.library.ChipsInputLayout
+<com.tylersuehr.chips.ChipsInputLayout
         android:id="@+id/chips_input"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
