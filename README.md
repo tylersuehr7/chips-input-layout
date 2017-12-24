@@ -221,7 +221,7 @@ By default, `ChipsInputLayout` will automatically use `ListChipDataSource`; whic
 
 To use this functionality, you'll want to implement the `ChipSelectionObserver` and register it on `ChipDataSource`. Be sure to manage unregistering the observer, if need be, as well. 
 
-Since components outside of the library cannot, and should not, directly access `ChipDataSouce`, you'll use `ChipsInputLayout` to set the observer; using its `setChipSelectionObserver(ChipSelectionObserver)` method.
+Since components outside of the library cannot, and should not, directly access `ChipDataSouce`, you'll use `ChipsInputLayout` to set the observer; using its `addChipSelectionObserver(ChipSelectionObserver)` method.
 
 Here is a simple example:
 ```java
@@ -233,7 +233,7 @@ public class CoolActivity extends AppCompatActivity implements ChipSelectionObse
         
         // Get the ChipsInputLayout from the layout file
         ChipsInputLayout chipsInput = (ChipsInputLayout)findViewById(R.id.chips);
-        chipsInput.setChipSelectionObserver(this);
+        chipsInput.addChipSelectionObserver(this);
     }
     
     @Override
