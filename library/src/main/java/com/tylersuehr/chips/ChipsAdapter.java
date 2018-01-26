@@ -169,7 +169,7 @@ class ChipsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> impleme
         });
 
         // Show detailed chip, if possible
-        if (chipOptions.showDetailedChips) {
+        if (chipOptions.mShowDetails) {
             chipView.setOnChipClicked(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

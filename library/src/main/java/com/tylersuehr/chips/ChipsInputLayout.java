@@ -507,15 +507,15 @@ public class ChipsInputLayout extends MaxHeightScrollView
     }
 
     public void setShowChipAvatarEnabled(boolean hasAvatar) {
-        this.chipOptions.hasAvatarIcon = hasAvatar;
+        this.chipOptions.mShowAvatar = hasAvatar;
     }
 
     public void setShowDetailedChipsEnabled(boolean enabled) {
-        this.chipOptions.showDetailedChips = enabled;
+        this.chipOptions.mShowDetails = enabled;
     }
 
     public void setChipsDeletable(boolean enabled) {
-        this.chipOptions.chipDeletable = enabled;
+        this.chipOptions.mShowDelete = enabled;
     }
 
     public void setDetailedChipDeleteIconColor(ColorStateList detailedChipIconColor) {
@@ -642,8 +642,8 @@ public class ChipsInputLayout extends MaxHeightScrollView
 
         ChipView chipView = new ChipView.Builder(getContext())
                 .titleTextColor(chipOptions.chipTextColor)
-                .hasAvatarIcon(chipOptions.hasAvatarIcon)
-                .deletable(chipOptions.chipDeletable)
+                .hasAvatarIcon(chipOptions.mShowAvatar)
+                .deletable(chipOptions.mShowDelete)
                 .deleteIcon(chipOptions.chipDeleteIcon)
                 .deleteIconColor(chipOptions.chipDeleteIconColor)
                 .backgroundColor(chipOptions.chipBackgroundColor)

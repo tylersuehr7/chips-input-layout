@@ -65,13 +65,13 @@ class FilterableChipsAdapter extends RecyclerView.Adapter<FilterableChipsAdapter
         final Chip chip = chipDataSource.getFilteredChip(position);
 
         // Set the chip avatar, if possible
-        if (chipOptions.hasAvatarIcon && chip.getAvatarUri() != null) {
+        if (chipOptions.mShowAvatar && chip.getAvatarUri() != null) {
             holder.image.setVisibility(View.VISIBLE);
             holder.image.setImageURI(chip.getAvatarUri());
-        } else if (chipOptions.hasAvatarIcon && chip.getAvatarDrawable() != null) {
+        } else if (chipOptions.mShowAvatar && chip.getAvatarDrawable() != null) {
             holder.image.setVisibility(View.VISIBLE);
             holder.image.setImageDrawable(chip.getAvatarDrawable());
-        } else if (chipOptions.hasAvatarIcon) {
+        } else if (chipOptions.mShowAvatar) {
             holder.image.setVisibility(View.VISIBLE);
             holder.image.setImageBitmap(LetterTileProvider.getInstance(
                     holder.image.getContext()).getLetterTile(chip.getTitle()));
