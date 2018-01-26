@@ -1,4 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="default_letter_tile_size">64dp</dimen>
+
+    <dimen name="chip_height">32dp</dimen>
+    <dimen name="chip_label_text_size">13sp</dimen>
+    <dimen name="chip_title_text_size">16sp</dimen>
+    <dimen name="chip_open_elevation">8dp</dimen>
 </resources>
