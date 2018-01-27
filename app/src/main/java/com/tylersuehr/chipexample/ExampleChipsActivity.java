@@ -17,7 +17,8 @@ import java.util.List;
  * @author Tyler Suehr
  * @version 1.0
  */
-public class ExampleChipsActivity extends ContactLoadingActivity implements ContactOnChipAdapter.OnContactClickListener {
+public class ExampleChipsActivity extends ContactLoadingActivity
+        implements ContactOnChipAdapter.OnContactClickListener {
     private ContactOnChipAdapter contactAdapter;
     private ChipsInputLayout chipsInput;
 

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:theme="@style/MaterialActionBar"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
+    </android.support.design.widget.AppBarLayout>
+    <com.tylersuehr.chips.ChipsInputLayout
+        android:id="@+id/chips_input"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Start typing for chips... "
+        android:textColorHint="#757575"
+        android:textColor="#212121"
+        app:chipHasAvatarIcon="true"
+        app:chipDeletable="true"
+        app:detailedChipsEnabled="true"
+        app:customChipsEnabled="true"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:padding="16dp"
+        android:text="Above is the ChipsInputLayout! Type some stuff to filter contacts!"/>
+</LinearLayout>
