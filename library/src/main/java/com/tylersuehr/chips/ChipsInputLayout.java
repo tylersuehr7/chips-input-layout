@@ -568,16 +568,6 @@ public class ChipsInputLayout extends MaxHeightScrollView
         return mDataSource;
     }
 
-    /**
-     * Gets the current chip options.
-     * Note: package-private for now because outside components should use accessors instead.
-     *
-     * @return {@link ChipOptions}
-     */
-    ChipOptions getChipOptions() {
-        return mOptions;
-    }
-
     ChipsEditText loadChipsInput() {
         if (mChipsInput == null) {
             mChipsInput = new ChipsEditText(getContext());
