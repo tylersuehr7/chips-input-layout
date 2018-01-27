@@ -28,17 +28,17 @@ import com.tylersuehr.chips.data.ChipChangedObserver;
  */
 class ChipItemInputAdapter
         extends RecyclerView.Adapter<RecyclerView.ViewHolder>
-        implements ChipEditText.OnKeyboardListener, ChipChangedObserver {
+        implements ChipsEditText.OnKeyboardListener, ChipChangedObserver {
     private static final int CHIP  = 0;
     private static final int INPUT = 1;
 
     private final ChipDataSource mDataSource;
     private final ChipOptions mOptions;
-    private final ChipEditText mEditText;
+    private final ChipsEditText mEditText;
 
 
     ChipItemInputAdapter(ChipDataSource dataSource,
-                         ChipEditText editText,
+                         ChipsEditText editText,
                          ChipOptions options) {
         this.mDataSource = dataSource;
         this.mEditText = editText;

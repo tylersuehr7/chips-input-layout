@@ -1,10 +1,13 @@
 package com.tylersuehr.chips;
 import android.content.Context;
 import android.support.v7.widget.AppCompatEditText;
+import android.text.InputType;
 import android.view.KeyEvent;
+import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputConnection;
 import android.view.inputmethod.InputConnectionWrapper;
+import android.widget.RelativeLayout;
 
 /**
  * Copyright © 2017 Tyler Suehr
@@ -19,12 +22,41 @@ import android.view.inputmethod.InputConnectionWrapper;
  * @author Tyler Suehr
  * @version 1.0
  */
-class ChipEditText extends AppCompatEditText {
+class ChipsEditText extends AppCompatEditText implements IChipsComponent {
     private OnKeyboardListener keyboardListener;
 
 
-    ChipEditText(Context c) {
+    ChipsEditText(Context c) {
         super(c);
+        setBackgroundResource(android.R.color.transparent);
+        setLayoutParams(new RelativeLayout.LayoutParams(
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+        ));
+
+        int padding = Utils.dp(8);
+        setPadding(padding, padding, padding, padding);
+
+        // Prevent fullscreen on landscape
+        setImeOptions(EditorInfo.IME_FLAG_NO_EXTRACT_UI
+                |EditorInfo.IME_ACTION_DONE);
+        setPrivateImeOptions("nm");
+
+        // No suggestions
+        setInputType(InputType.TYPE_TEXT_VARIATION_FILTER
+                |InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
+    }
+
+    @Override
+    public void setChipOptions(ChipOptions options) {
+        if (options.textColorHint != null) {
+            setHintTextColor(options.textColorHint);
+        }
+        if (options.textColor != null) {
+            setTextColor(options.textColor);
+        }
+        setHint(options.hint);
+        setTypeface(options.typeface);
     }
 
     /**

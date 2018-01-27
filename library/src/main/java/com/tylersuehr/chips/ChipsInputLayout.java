@@ -11,14 +11,11 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
-import android.text.InputType;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.view.ViewGroup;
-import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.EditText;
 import android.widget.RelativeLayout;
 import com.beloo.widget.chipslayoutmanager.ChipsLayoutManager;
 import com.tylersuehr.chips.data.Chip;
@@ -47,24 +44,24 @@ public class ChipsInputLayout extends MaxHeightScrollView
         implements FilterableChipsAdapter.OnFilteredChipClickListener {
 
     /* Stores and manages all our chips */
-    private ChipDataSource chipDataSource;
+    private ChipDataSource mDataSource;
 
     /* Stores the mutable properties of our ChipsInput (XML attrs) */
-    private ChipOptions chipOptions;
+    private ChipOptions mOptions;
 
     /* Allows user to type text into the ChipsInput */
-    private ChipEditText chipsEditText;
+    private ChipsEditText mChipsInput;
 
     /* Displays selected chips and chips EditText */
-    private final RecyclerView chipsRecycler;
-    private final ChipItemInputAdapter chipsAdapter;
+    private final RecyclerView mChipsRecycler;
+    private final ChipItemInputAdapter mChipsAdapter;
 
     /* Displays filtered chips */
-    private FilterableRecyclerView filterableRecyclerView;
-    private FilterableChipsAdapter filterableChipsAdapter;
+    private FilterableRecyclerView mFilteredRecycler;
+    private FilterableChipsAdapter mFilteredAdapter;
 
     /* Used to validate selected chips */
-    private ChipValidator validator;
+    private ChipValidator mValidator;
 
 
     public ChipsInputLayout(Context context) {
@@ -73,32 +70,32 @@ public class ChipsInputLayout extends MaxHeightScrollView
 
     public ChipsInputLayout(Context c, AttributeSet attrs) {
         super(c, attrs);
-        this.chipOptions = new ChipOptions(c, attrs);
-        this.chipDataSource = new ListChipDataSource();
+        this.mOptions = new ChipOptions(c, attrs);
+        this.mDataSource = new ListChipDataSource();
 
         // Inflate the view
         inflate(c, R.layout.chips_input_view, this);
 
         // Setup the chips recycler view
-        this.chipsAdapter = new ChipItemInputAdapter(
-                chipDataSource, getThemedChipsEditText(), chipOptions);
-        this.chipsRecycler = findViewById(R.id.chips_recycler);
-        this.chipsRecycler.setLayoutManager(ChipsLayoutManager.newBuilder(c).build());
-        this.chipsRecycler.setNestedScrollingEnabled(false);
-        this.chipsRecycler.setAdapter(chipsAdapter);
+        this.mChipsAdapter = new ChipItemInputAdapter(
+                mDataSource, loadChipsInput(), mOptions);
+        this.mChipsRecycler = findViewById(R.id.chips_recycler);
+        this.mChipsRecycler.setLayoutManager(ChipsLayoutManager.newBuilder(c).build());
+        this.mChipsRecycler.setNestedScrollingEnabled(false);
+        this.mChipsRecycler.setAdapter(mChipsAdapter);
 
         // Set the max height from options
-        setMaxHeight(Utils.dp(40) * chipOptions.maxRows);
+        setMaxHeight(Utils.dp(40) * mOptions.maxRows);
     }
 
     @Override
     public void onFilteredChipClick(Chip chip) {
         // Hide the filterable recycler
-        this.filterableRecyclerView.fadeOut();
+        this.mFilteredRecycler.fadeOut();
 
         // Clear the input and refresh the chips recycler
-        this.chipsEditText.setText("");
-        this.chipsAdapter.notifyDataSetChanged();
+        this.mChipsInput.setText("");
+        this.mChipsAdapter.notifyDataSetChanged();
 
         // Close the software keyboard
         hideKeyboard();
@@ -114,7 +111,7 @@ public class ChipsInputLayout extends MaxHeightScrollView
      * @param chips List of {@link Chip}
      */
     public void setFilterableChipList(List<? extends Chip> chips) {
-        this.chipDataSource.setFilterableChips(chips);
+        this.mDataSource.setFilterableChips(chips);
 
         // Setup the filterable recycler when new filterable data has been set
         createAndSetupFilterableRecyclerView();
@@ -128,11 +125,11 @@ public class ChipsInputLayout extends MaxHeightScrollView
      */
     public void setSelectedChipList(List<? extends Chip> chips) {
         // Set the selected chips in the data source
-        this.chipDataSource.getSelectedChips().clear();
-        this.chipDataSource.getSelectedChips().addAll(chips);
+        this.mDataSource.getSelectedChips().clear();
+        this.mDataSource.getSelectedChips().addAll(chips);
 
         // Update the chips UI display
-        this.chipsAdapter.notifyDataSetChanged();
+        this.mChipsAdapter.notifyDataSetChanged();
     }
 
     /**
@@ -146,15 +143,15 @@ public class ChipsInputLayout extends MaxHeightScrollView
         chip.setFilterable(true);
 
         // Ensure that the chip is not already in the data source
-        if (chipDataSource.existsInDataSource(chip)) {
+        if (mDataSource.existsInDataSource(chip)) {
             throw new IllegalArgumentException("Chip already exists in the data source!");
         }
 
         // Using the method on data source will update UI
-        this.chipDataSource.addFilteredChip(chip);
+        this.mDataSource.addFilteredChip(chip);
 
         // Create the filterable recycler at this point, if needed
-        if (filterableRecyclerView == null) {
+        if (mFilteredRecycler == null) {
             createAndSetupFilterableRecyclerView();
         }
     }
@@ -167,12 +164,12 @@ public class ChipsInputLayout extends MaxHeightScrollView
      */
     public void addSelectedChip(Chip chip) {
         // Ensure that the chip is not already in the data source
-        if (chipDataSource.existsInDataSource(chip)) {
+        if (mDataSource.existsInDataSource(chip)) {
             throw new IllegalArgumentException("Chip already exists in the data source!");
         }
 
         // Using the method on data source will update UI
-        this.chipDataSource.addSelectedChip(chip);
+        this.mDataSource.addSelectedChip(chip);
     }
 
     /**
@@ -180,7 +177,7 @@ public class ChipsInputLayout extends MaxHeightScrollView
      * because of the change observers.
      */
     public void clearFilteredChips() {
-        this.chipDataSource.clearFilteredChips();
+        this.mDataSource.clearFilteredChips();
     }
 
     /**
@@ -188,7 +185,7 @@ public class ChipsInputLayout extends MaxHeightScrollView
      * because of the change observers.
      */
     public void clearSelectedChips() {
-        this.chipDataSource.clearSelectedChips();
+        this.mDataSource.clearSelectedChips();
     }
 
     /**
@@ -197,7 +194,7 @@ public class ChipsInputLayout extends MaxHeightScrollView
      * @return List of {@link Chip}
      */
     public List<? extends Chip> getSelectedChips() {
-        return chipDataSource.getSelectedChips();
+        return mDataSource.getSelectedChips();
     }
 
     /**
@@ -207,7 +204,7 @@ public class ChipsInputLayout extends MaxHeightScrollView
      * @return List of {@link Chip}
      */
     public List<? extends Chip> getFilteredChips() {
-        return chipDataSource.getFilteredChips();
+        return mDataSource.getFilteredChips();
     }
 
     /**
@@ -216,7 +213,7 @@ public class ChipsInputLayout extends MaxHeightScrollView
      * @return List of {@link Chip}
      */
     public List<? extends Chip> getOriginalFilterableChips() {
-        return chipDataSource.getOriginalChips();
+        return mDataSource.getOriginalChips();
     }
 
     /**
@@ -226,7 +223,7 @@ public class ChipsInputLayout extends MaxHeightScrollView
      * @return {@link Chip}
      */
     public Chip getSelectedChipByPosition(int position) {
-        return chipDataSource.getSelectedChip(position);
+        return mDataSource.getSelectedChip(position);
     }
 
     /**
@@ -236,7 +233,7 @@ public class ChipsInputLayout extends MaxHeightScrollView
      * @return {@link Chip}
      */
     public Chip getSelectedChipById(Object id) {
-        for (Chip chip : chipDataSource.getSelectedChips()) {
+        for (Chip chip : mDataSource.getSelectedChips()) {
             if (chip.getId() != null && chip.getId().equals(id)) {
                 return chip;
             }
@@ -252,7 +249,7 @@ public class ChipsInputLayout extends MaxHeightScrollView
      * @return {@link Chip}
      */
     public Chip getSelectedChipByTitle(String title, boolean exactlyEqual) {
-        for (Chip chip : chipDataSource.getSelectedChips()) {
+        for (Chip chip : mDataSource.getSelectedChips()) {
             if ((exactlyEqual && chip.getTitle().equals(title)) ||
                     (!exactlyEqual && chip.getTitle().toLowerCase().contains(title.toLowerCase()))) {
                 return chip;
@@ -269,7 +266,7 @@ public class ChipsInputLayout extends MaxHeightScrollView
      * @return {@link Chip}
      */
     public Chip getSelectedChipBySubtitle(String subtitle, boolean exactlyEqual) {
-        for (Chip chip : chipDataSource.getSelectedChips()) {
+        for (Chip chip : mDataSource.getSelectedChips()) {
             if (chip.getSubtitle() == null) { continue; }
             if ((exactlyEqual && chip.getSubtitle().equals(subtitle)) ||
                     (!exactlyEqual && chip.getSubtitle().toLowerCase().contains(subtitle.toLowerCase()))) {
@@ -286,7 +283,7 @@ public class ChipsInputLayout extends MaxHeightScrollView
      * @return {@link Chip}
      */
     public Chip getFilteredChipPosition(int position) {
-        return chipDataSource.getFilteredChip(position);
+        return mDataSource.getFilteredChip(position);
     }
 
     /**
@@ -296,7 +293,7 @@ public class ChipsInputLayout extends MaxHeightScrollView
      * @return {@link Chip}
      */
     public Chip getFilteredChipById(Object id) {
-        for (Chip chip : chipDataSource.getFilteredChips()) {
+        for (Chip chip : mDataSource.getFilteredChips()) {
             if (chip.getId() != null && chip.getId().equals(id)) {
                 return chip;
             }
@@ -312,7 +309,7 @@ public class ChipsInputLayout extends MaxHeightScrollView
      * @return {@link Chip}
      */
     public Chip getFilteredChipByTitle(String title, boolean exactlyEqual) {
-        for (Chip chip : chipDataSource.getFilteredChips()) {
+        for (Chip chip : mDataSource.getFilteredChips()) {
             if ((exactlyEqual && chip.getTitle().equals(title)) ||
                     (!exactlyEqual && chip.getTitle().toLowerCase().contains(title.toLowerCase()))) {
                 return chip;
@@ -329,7 +326,7 @@ public class ChipsInputLayout extends MaxHeightScrollView
      * @return {@link Chip}
      */
     public Chip getFilteredChipBySubtitle(String subtitle, boolean exactlyEqual) {
-        for (Chip chip : chipDataSource.getFilteredChips()) {
+        for (Chip chip : mDataSource.getFilteredChips()) {
             if (chip.getSubtitle() == null) { continue; }
             if ((exactlyEqual && chip.getSubtitle().equals(subtitle)) ||
                     (!exactlyEqual && chip.getSubtitle().toLowerCase().contains(subtitle.toLowerCase()))) {
@@ -346,7 +343,7 @@ public class ChipsInputLayout extends MaxHeightScrollView
      * @return True if chip exists in filterable or selected chips
      */
     public boolean doesChipExist(Chip chip) {
-        return chipDataSource.existsInDataSource(chip);
+        return mDataSource.existsInDataSource(chip);
     }
 
     /**
@@ -356,7 +353,7 @@ public class ChipsInputLayout extends MaxHeightScrollView
      * @return True if chip exists in filtered chips
      */
     public boolean isChipFiltered(Chip chip) {
-        return chipDataSource.existsInFiltered(chip);
+        return mDataSource.existsInFiltered(chip);
     }
 
     /**
@@ -366,28 +363,28 @@ public class ChipsInputLayout extends MaxHeightScrollView
      * @return True if chip exists in selected chips
      */
     public boolean isChipSelected(Chip chip) {
-        return chipDataSource.existsInSelected(chip);
+        return mDataSource.existsInSelected(chip);
     }
 
     /**
-     * Validates the given chip using {@link #validator}.
+     * Validates the given chip using {@link #mValidator}.
      *
      * @param chip {@link Chip}
-     * @return True if chip is valid, or no chip validator is set
+     * @return True if chip is valid, or no chip mValidator is set
      */
     public boolean validateChip(Chip chip) {
-        return validator == null || validator.validate(chip);
+        return mValidator == null || mValidator.validate(chip);
     }
 
     /**
-     * Validates all the selected chips using {@link #validator}.
+     * Validates all the selected chips using {@link #mValidator}.
      *
-     * @return True if all selected chips are valid, or no chip validator is set
+     * @return True if all selected chips are valid, or no chip mValidator is set
      */
     public boolean validateSelectedChips() {
-        if (validator != null) {
-            for (Chip chip : chipDataSource.getSelectedChips()) {
-                if (!validator.validate(chip)) {
+        if (mValidator != null) {
+            for (Chip chip : mDataSource.getSelectedChips()) {
+                if (!mValidator.validate(chip)) {
                     return false;
                 }
             }
@@ -396,12 +393,12 @@ public class ChipsInputLayout extends MaxHeightScrollView
     }
 
     /**
-     * Sets the chip validator to valid chips.
+     * Sets the chip mValidator to valid chips.
      *
      * @param validator {@link ChipValidator}
      */
     public void setChipValidator(ChipValidator validator) {
-        this.validator = validator;
+        this.mValidator = validator;
     }
 
     /**
@@ -410,7 +407,7 @@ public class ChipsInputLayout extends MaxHeightScrollView
      * @param observer {@link ChipSelectionObserver}
      */
     public void addChipSelectionObserver(ChipSelectionObserver observer) {
-        this.chipDataSource.addChipSelectionObserver(observer);
+        this.mDataSource.addChipSelectionObserver(observer);
     }
 
     /**
@@ -419,7 +416,7 @@ public class ChipsInputLayout extends MaxHeightScrollView
      * @param observer {@link ChipSelectionObserver}
      */
     public void removeChipSelectionObserver(ChipSelectionObserver observer) {
-        this.chipDataSource.removeChipSelectionObserver(observer);
+        this.mDataSource.removeChipSelectionObserver(observer);
     }
 
     /**
@@ -430,7 +427,7 @@ public class ChipsInputLayout extends MaxHeightScrollView
      * @param observer {@link ChipChangedObserver}
      */
     public void addChipChangedObserver(ChipChangedObserver observer) {
-        this.chipDataSource.addChipChangedObserver(observer);
+        this.mDataSource.addChipChangedObserver(observer);
     }
 
     /**
@@ -439,7 +436,7 @@ public class ChipsInputLayout extends MaxHeightScrollView
      * @param observer {@link ChipChangedObserver}
      */
     public void removeChipChangedObserver(ChipChangedObserver observer) {
-        this.chipDataSource.removeChipChangedObserver(observer);
+        this.mDataSource.removeChipChangedObserver(observer);
     }
 
     /**
@@ -452,9 +449,9 @@ public class ChipsInputLayout extends MaxHeightScrollView
      * @param dataSource {@link ChipDataSource}
      */
     public void changeChipDataSource(ChipDataSource dataSource) {
-        this.chipDataSource.cloneObservers(dataSource);
-        this.chipDataSource = dataSource;
-        this.chipsAdapter.notifyDataSetChanged();
+        this.mDataSource.cloneObservers(dataSource);
+        this.mDataSource = dataSource;
+        this.mChipsAdapter.notifyDataSetChanged();
     }
 
     /**
@@ -466,96 +463,96 @@ public class ChipsInputLayout extends MaxHeightScrollView
     }
 
     public void setInputTextColor(ColorStateList textColor) {
-        this.chipOptions.textColor = textColor;
-        if (chipsEditText != null) { // Can be null because its lazy loaded
-            this.chipsEditText.setTextColor(textColor);
+        this.mOptions.textColor = textColor;
+        if (mChipsInput != null) { // Can be null because its lazy loaded
+            this.mChipsInput.setTextColor(textColor);
         }
     }
 
     public void setInputHintTextColor(ColorStateList textColorHint) {
-        this.chipOptions.textColorHint = textColorHint;
-        if (chipsEditText != null) { // Can be null because its lazy loaded
-            this.chipsEditText.setHintTextColor(textColorHint);
+        this.mOptions.textColorHint = textColorHint;
+        if (mChipsInput != null) { // Can be null because its lazy loaded
+            this.mChipsInput.setHintTextColor(textColorHint);
         }
     }
 
     public void setInputHint(CharSequence hint) {
-        this.chipOptions.hint = hint;
-        if (chipsEditText != null) { // Can be null because its lazy loaded
-            this.chipsEditText.setHint(hint);
+        this.mOptions.hint = hint;
+        if (mChipsInput != null) { // Can be null because its lazy loaded
+            this.mChipsInput.setHint(hint);
         }
     }
 
     public void setChipDeleteIconColor(ColorStateList deleteIconColor) {
-        this.chipOptions.mChipDeleteIconColor = deleteIconColor;
+        this.mOptions.mChipDeleteIconColor = deleteIconColor;
     }
 
     public void setChipBackgroundColor(ColorStateList chipBackgroundColor) {
-        this.chipOptions.mChipBackgroundColor = chipBackgroundColor;
+        this.mOptions.mChipBackgroundColor = chipBackgroundColor;
     }
 
     public void setChipTitleTextColor(ColorStateList chipTitleTextColor) {
-        this.chipOptions.mChipTextColor = chipTitleTextColor;
+        this.mOptions.mChipTextColor = chipTitleTextColor;
     }
 
     public void setChipDeleteIcon(Drawable chipDeleteIcon) {
-        this.chipOptions.mChipDeleteIcon = chipDeleteIcon;
+        this.mOptions.mChipDeleteIcon = chipDeleteIcon;
     }
 
     public void setChipDeleteIcon(@DrawableRes int res) {
-        this.chipOptions.mChipDeleteIcon = ContextCompat.getDrawable(getContext(), res);
+        this.mOptions.mChipDeleteIcon = ContextCompat.getDrawable(getContext(), res);
     }
 
     public void setShowChipAvatarEnabled(boolean hasAvatar) {
-        this.chipOptions.mShowAvatar = hasAvatar;
+        this.mOptions.mShowAvatar = hasAvatar;
     }
 
     public void setShowDetailedChipsEnabled(boolean enabled) {
-        this.chipOptions.mShowDetails = enabled;
+        this.mOptions.mShowDetails = enabled;
     }
 
     public void setChipsDeletable(boolean enabled) {
-        this.chipOptions.mShowDelete = enabled;
+        this.mOptions.mShowDelete = enabled;
     }
 
     public void setDetailedChipDeleteIconColor(ColorStateList detailedChipIconColor) {
-        this.chipOptions.detailedChipDeleteIconColor = detailedChipIconColor;
+        this.mOptions.detailedChipDeleteIconColor = detailedChipIconColor;
     }
 
     public void setDetailedChipBackgroundColor(ColorStateList detailedChipBackgroundColor) {
-        this.chipOptions.detailedChipBackgroundColor = detailedChipBackgroundColor;
+        this.mOptions.detailedChipBackgroundColor = detailedChipBackgroundColor;
     }
 
     public void setDetailedChipTextColor(ColorStateList detailedChipTextColor) {
-        this.chipOptions.detailedChipTextColor = detailedChipTextColor;
+        this.mOptions.detailedChipTextColor = detailedChipTextColor;
     }
 
     public void setFilterableListBackgroundColor(ColorStateList backgroundColor) {
-        this.chipOptions.filterableListBackgroundColor = backgroundColor;
+        this.mOptions.filterableListBackgroundColor = backgroundColor;
     }
 
     public void setFilterableListTextColor(ColorStateList textColor) {
-        this.chipOptions.filterableListTextColor = textColor;
+        this.mOptions.filterableListTextColor = textColor;
     }
 
     public void setFilterableListElevation(float elevation) {
-        this.chipOptions.filterableListElevation = elevation;
+        this.mOptions.filterableListElevation = elevation;
     }
 
     public void setCustomChipsEnabled(boolean enabled) {
-        this.chipOptions.allowCustomChips = enabled;
+        this.mOptions.allowCustomChips = enabled;
     }
 
     public void setMaxRows(int rows) {
-        this.chipOptions.maxRows = rows;
-        setMaxHeight(Utils.dp(40) * chipOptions.maxRows);
+        this.mOptions.maxRows = rows;
+        setMaxHeight(Utils.dp(40) * mOptions.maxRows);
     }
 
     public void setTypeface(Typeface typeface) {
-        this.chipOptions.typeface = typeface;
+        this.mOptions.typeface = typeface;
         LetterTileProvider.getInstance(getContext()).setTypeface(typeface);
-        if (chipsEditText != null) {
-            this.chipsEditText.setTypeface(typeface);
+        if (mChipsInput != null) {
+            this.mChipsInput.setTypeface(typeface);
         }
     }
 
@@ -568,7 +565,7 @@ public class ChipsInputLayout extends MaxHeightScrollView
      * @return {@link ChipDataSource}
      */
     public ChipDataSource getChipDataSource() {
-        return chipDataSource;
+        return mDataSource;
     }
 
     /**
@@ -578,57 +575,16 @@ public class ChipsInputLayout extends MaxHeightScrollView
      * @return {@link ChipOptions}
      */
     ChipOptions getChipOptions() {
-        return chipOptions;
+        return mOptions;
     }
 
-    /**
-     * Gets the current chips recycler view.
-     * Note: package-private because no outside components should access this.
-     *
-     * @return {@link RecyclerView}
-     */
-    RecyclerView getChipsRecyclerView() {
-        return chipsRecycler;
-    }
-
-    /**
-     * Lazy loads the input for the user to enter chip titles.
-     *
-     *  @return {@link EditText}
-     */
-    ChipEditText getThemedChipsEditText() {
-        if (chipsEditText == null) {
-            this.chipsEditText = new ChipEditText(getContext());
-            this.chipsEditText.setLayoutParams(new RelativeLayout.LayoutParams(
-                    ViewGroup.LayoutParams.WRAP_CONTENT,
-                    ViewGroup.LayoutParams.WRAP_CONTENT
-            ));
-
-            int padding = Utils.dp(8);
-            this.chipsEditText.setPadding(padding, padding, padding, padding);
-
-            // Setup the chips options for the input
-            this.chipsEditText.setBackgroundResource(android.R.color.transparent);
-            if (chipOptions.textColorHint != null) {
-                this.chipsEditText.setHintTextColor(chipOptions.textColorHint);
-            }
-            if (chipOptions.textColor != null) {
-                this.chipsEditText.setTextColor(chipOptions.textColor);
-            }
-            this.chipsEditText.setHint(chipOptions.hint);
-            this.chipsEditText.setTypeface(chipOptions.typeface);
-
-            // Prevent fullscreen on landscape
-            this.chipsEditText.setImeOptions(EditorInfo.IME_FLAG_NO_EXTRACT_UI|EditorInfo.IME_ACTION_DONE);
-            this.chipsEditText.setPrivateImeOptions("nm");
-
-            // No suggestions
-            this.chipsEditText.setInputType(InputType.TYPE_TEXT_VARIATION_FILTER|InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
-
-            // Listen to text changes
-            this.chipsEditText.addTextChangedListener(new ChipInputTextChangedHandler());
+    ChipsEditText loadChipsInput() {
+        if (mChipsInput == null) {
+            mChipsInput = new ChipsEditText(getContext());
+            mChipsInput.setChipOptions(mOptions);
+            mChipsInput.addTextChangedListener(new ChipInputTextChangedHandler());
         }
-        return chipsEditText;
+        return mChipsInput;
     }
 
     /**
@@ -638,20 +594,20 @@ public class ChipsInputLayout extends MaxHeightScrollView
      */
     private void createAndSetupFilterableRecyclerView() {
         // Create a new filterable recycler view
-        this.filterableRecyclerView = new FilterableRecyclerView(getContext());
+        this.mFilteredRecycler = new FilterableRecyclerView(getContext());
 
         // Set the filterable properties from the options
-        this.filterableRecyclerView.setBackgroundColor(Color.WHITE);
-        ViewCompat.setElevation(filterableRecyclerView, chipOptions.filterableListElevation);
+        this.mFilteredRecycler.setBackgroundColor(Color.WHITE);
+        ViewCompat.setElevation(mFilteredRecycler, mOptions.filterableListElevation);
 
-        if (chipOptions.filterableListBackgroundColor != null) {
-            this.filterableRecyclerView.getBackground().setColorFilter(
-                    chipOptions.filterableListBackgroundColor.getDefaultColor(), PorterDuff.Mode.SRC_ATOP);
+        if (mOptions.filterableListBackgroundColor != null) {
+            this.mFilteredRecycler.getBackground().setColorFilter(
+                    mOptions.filterableListBackgroundColor.getDefaultColor(), PorterDuff.Mode.SRC_ATOP);
         }
 
         // Create and set the filterable chips adapter
-        this.filterableChipsAdapter = new FilterableChipsAdapter(this, chipDataSource, chipOptions);
-        this.filterableRecyclerView.setAdapter(this, filterableChipsAdapter);
+        this.mFilteredAdapter = new FilterableChipsAdapter(this, mDataSource, mOptions);
+        this.mFilteredRecycler.setAdapter(this, mFilteredAdapter);
 
         // To show our filterable recycler view, we need to make sure our ChipsInputLayout has
         // already been displayed on the screen so we can access its root view
@@ -665,7 +621,7 @@ public class ChipsInputLayout extends MaxHeightScrollView
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
             lp.bottomMargin = Utils.getNavBarHeight(getContext());
         }
-        rootView.addView(filterableRecyclerView, lp);
+        rootView.addView(mFilteredRecycler, lp);
     }
 
     /**
@@ -673,7 +629,7 @@ public class ChipsInputLayout extends MaxHeightScrollView
      */
     private void hideKeyboard() {
         ((InputMethodManager)getContext().getSystemService(Context.INPUT_METHOD_SERVICE))
-                .hideSoftInputFromWindow(chipsEditText.getWindowToken(), 0);
+                .hideSoftInputFromWindow(mChipsInput.getWindowToken(), 0);
     }
 
 
@@ -693,13 +649,13 @@ public class ChipsInputLayout extends MaxHeightScrollView
     private final class ChipInputTextChangedHandler implements TextWatcher {
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
-            if (filterableRecyclerView != null) {
+            if (mFilteredRecycler != null) {
                 // Hide the filterable recycler if there is no filter.
                 // Filter the recycler if there is a filter
                 if (TextUtils.isEmpty(s)) {
-                    filterableRecyclerView.fadeOut();
+                    mFilteredRecycler.fadeOut();
                 } else {
-                    filterableRecyclerView.filterChips(s);
+                    mFilteredRecycler.filterChips(s);
                 }
             }
         }
