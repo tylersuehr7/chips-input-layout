@@ -22,7 +22,7 @@ import android.widget.RelativeLayout;
  * @author Tyler Suehr
  * @version 1.0
  */
-class ChipsEditText extends AppCompatEditText implements IChipsComponent {
+class ChipsEditText extends AppCompatEditText {
     private OnKeyboardListener keyboardListener;
 
 
@@ -47,18 +47,6 @@ class ChipsEditText extends AppCompatEditText implements IChipsComponent {
                 |InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
     }
 
-    @Override
-    public void setChipOptions(ChipOptions options) {
-        if (options.textColorHint != null) {
-            setHintTextColor(options.textColorHint);
-        }
-        if (options.textColor != null) {
-            setTextColor(options.textColor);
-        }
-        setHint(options.hint);
-        setTypeface(options.typeface);
-    }
-
     /**
      * Used to detect IME option press on any type of input method.
      */
@@ -73,6 +61,17 @@ class ChipsEditText extends AppCompatEditText implements IChipsComponent {
     @Override
     public InputConnection onCreateInputConnection(EditorInfo outAttrs) {
         return new ChipsInputConnection(super.onCreateInputConnection(outAttrs));
+    }
+
+    void setChipOptions(ChipOptions options) {
+        if (options.textColorHint != null) {
+            setHintTextColor(options.textColorHint);
+        }
+        if (options.textColor != null) {
+            setTextColor(options.textColor);
+        }
+        setHint(options.hint);
+        setTypeface(options.typeface);
     }
 
     void setKeyboardListener(OnKeyboardListener listener) {
