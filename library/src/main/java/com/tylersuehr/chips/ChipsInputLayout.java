@@ -57,7 +57,7 @@ public class ChipsInputLayout extends MaxHeightScrollView
 
     /* Displays selected chips and chips EditText */
     private final RecyclerView chipsRecycler;
-    private final ChipsAdapter chipsAdapter;
+    private final ChipItemInputAdapter chipsAdapter;
 
     /* Displays filtered chips */
     private FilterableRecyclerView filterableRecyclerView;
@@ -80,10 +80,10 @@ public class ChipsInputLayout extends MaxHeightScrollView
         inflate(c, R.layout.chips_input_view, this);
 
         // Setup the chips recycler view
-        this.chipsAdapter = new ChipsAdapter(this);
+        this.chipsAdapter = new ChipItemInputAdapter(
+                chipDataSource, getThemedChipsEditText(), chipOptions);
         this.chipsRecycler = findViewById(R.id.chips_recycler);
-        this.chipsRecycler.setLayoutManager(ChipsLayoutManager.newBuilder(c)
-                .setOrientation(ChipsLayoutManager.HORIZONTAL).build());
+        this.chipsRecycler.setLayoutManager(ChipsLayoutManager.newBuilder(c).build());
         this.chipsRecycler.setNestedScrollingEnabled(false);
         this.chipsRecycler.setAdapter(chipsAdapter);
 

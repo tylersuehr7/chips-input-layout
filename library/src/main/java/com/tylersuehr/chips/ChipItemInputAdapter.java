@@ -26,73 +26,69 @@ import com.tylersuehr.chips.data.ChipChangedObserver;
  * @author Tyler Suehr
  * @version 1.0
  */
-class ChipsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements
-        ChipEditText.OnKeyboardListener, ChipChangedObserver {
-    private static final int TYPE_INPUT = 0;
-    private static final int TYPE_ITEM  = 1;
+class ChipItemInputAdapter
+        extends RecyclerView.Adapter<RecyclerView.ViewHolder>
+        implements ChipEditText.OnKeyboardListener, ChipChangedObserver {
+    private static final int CHIP  = 0;
+    private static final int INPUT = 1;
 
-    private final ChipDataSource chipDataSource;
-    private final ChipOptions chipOptions;
-    private final ChipsInputLayout chipsInput;
-    private final ChipEditText editText;
+    private final ChipDataSource mDataSource;
+    private final ChipOptions mOptions;
+    private final ChipEditText mEditText;
 
 
-    ChipsAdapter(ChipsInputLayout chipsInput) {
-        this.chipsInput = chipsInput;
-        this.chipDataSource = chipsInput.getChipDataSource();
-        this.chipOptions = chipsInput.getChipOptions();
-        this.editText = chipsInput.getThemedChipsEditText();
-        this.editText.setKeyboardListener(this);
+    ChipItemInputAdapter(ChipDataSource dataSource,
+                         ChipEditText editText,
+                         ChipOptions options) {
+        this.mDataSource = dataSource;
+        this.mEditText = editText;
+        this.mOptions = options;
+        this.mEditText.setKeyboardListener(this);
 
         // Register an observer on the chip data source
-        this.chipDataSource.addChipChangedObserver(this);
+        this.mDataSource.addChipChangedObserver(this);
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return position < mDataSource
+                .getSelectedChips().size() ? CHIP : INPUT;
+    }
+
+    @Override
+    public int getItemCount() {
+        // Plus 1 for the edit text
+        return mDataSource.getSelectedChips().size() + 1;
     }
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return viewType == TYPE_INPUT
-                ? new InputHolder(editText)
-                : new ChipHolder(ChipsFactory.styledChipView(
-                        parent.getContext(), chipOptions));
+        return viewType == CHIP
+                ? new ChipHolder(ChipsFactory.styledChipView(parent.getContext(), mOptions))
+                : new InputHolder(mEditText);
     }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        if (position == chipDataSource.getSelectedChips().size()) { // For EditText
-            if (chipDataSource.getSelectedChips().size() == 0) {
-                this.editText.setHint(chipOptions.hint);
-            }
-
-            // Auto fit the EditText
-            autoFitEditText();
-        } else if (getItemCount() > 1) { // For chips
-            ChipHolder cHolder = (ChipHolder)holder;
-            cHolder.chipView.inflateFromChip(
-                    chipDataSource.getSelectedChip(position));
+        if (getItemViewType(position) == CHIP) { // Chips
+            // Display the chip information on the chip view
+            final ChipHolder ch = (ChipHolder)holder;
+            ch.chipView.inflateFromChip(mDataSource.getSelectedChip(position));
 
             // TODO POSSIBLE OPTIMIZATION
             // Add custom listeners for click and delete on ChipView and then implement them on
             // the ChipViewHolder class. Get the selected position using the ChipViewHolder's
             // adapter position.
-            handleClickOnEditText(cHolder.chipView, position);
+            handleClickOnEditText(ch.chipView, position);
+        } else { // EditText
+            if (mDataSource.getSelectedChips().size() == 0) {
+                mEditText.setHint(mOptions.hint);
+            }
+
+            // Resize the edit text to fit in recycler
+            autoFitEditText();
         }
     }
-
-    @Override
-    public int getItemCount() {
-        return chipDataSource.getSelectedChips().size() + 1;
-    }
-
-    @Override
-    public int getItemViewType(int position) {
-        return position == chipDataSource.getSelectedChips().size() ? TYPE_INPUT : TYPE_ITEM;
-    }
-
-    @Override
-    public long getItemId(int position) {
-        return chipDataSource.getSelectedChip(position).hashCode();
-    }
-
 
     /**
      * Called when the IME_ACTION_DONE option is pressed on a software or
@@ -102,16 +98,16 @@ class ChipsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> impleme
      */
     @Override
     public void onKeyboardActionDone(String text) {
-        if (TextUtils.isEmpty(text) || !chipOptions.allowCustomChips) { return; }
+        if (TextUtils.isEmpty(text) || !mOptions.allowCustomChips) { return; }
 
         // Create a custom, non-filterable, chip and add to selected list
         Chip chip = new NonFilterableChip(text);
 
         // Clear the input before taking chip so we don't need to update UI twice
-        this.editText.setText("");
+        this.mEditText.setText("");
 
         // This will trigger callback, which calls notifyDataSetChanged()
-        this.chipDataSource.addSelectedChip(chip);
+        this.mDataSource.addSelectedChip(chip);
     }
 
     /**
@@ -121,9 +117,9 @@ class ChipsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> impleme
     @Override
     public void onKeyboardBackspace() {
         // Only remove the last chip if the input was empty
-        if (chipDataSource.getSelectedChips().size() > 0 && editText.getText().length() == 0) {
+        if (mDataSource.getSelectedChips().size() > 0 && mEditText.getText().length() == 0) {
             // Will trigger notifyDataSetChanged()
-            chipDataSource.replaceChip(chipDataSource.getSelectedChips().size() - 1);
+            mDataSource.replaceChip(mDataSource.getSelectedChips().size() - 1);
         }
     }
 
@@ -134,28 +130,29 @@ class ChipsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> impleme
 
     private void autoFitEditText() {
         // Minimum width of EditText = 50dp
-        ViewGroup.LayoutParams lp = editText.getLayoutParams();
+        ViewGroup.LayoutParams lp = mEditText.getLayoutParams();
         lp.width = Utils.dp(50);
-        this.editText.setLayoutParams(lp);
+        this.mEditText.setLayoutParams(lp);
 
         // Listen to changes in the tree
-        this.editText.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+        this.mEditText.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
                 // Get right of recycler and left of edit text
-                int right = chipsInput.getChipsRecyclerView().getRight();
-                int left = editText.getLeft();
+                final View parent = (View)mEditText.getParent();
+                int right = parent.getRight();
+                int left = mEditText.getLeft();
 
                 // EditText shall fill the space
-                ViewGroup.LayoutParams lp = editText.getLayoutParams();
+                ViewGroup.LayoutParams lp = mEditText.getLayoutParams();
                 lp.width = right - left - Utils.dp(8);
-                editText.setLayoutParams(lp);
+                mEditText.setLayoutParams(lp);
 
                 // Request focus
-                editText.requestFocus();
+                mEditText.requestFocus();
 
                 // Remove the tree listener
-                editText.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                mEditText.getViewTreeObserver().removeOnGlobalLayoutListener(this);
             }
         });
     }
@@ -166,12 +163,12 @@ class ChipsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> impleme
             @Override
             public void onClick(View view) {
                 // Will trigger notifyDataSetChanged()
-                chipDataSource.replaceChip(position);
+                mDataSource.replaceChip(position);
             }
         });
 
         // Show detailed chip, if possible
-        if (chipOptions.mShowDetails) {
+        if (mOptions.mShowDetails) {
             chipView.setOnChipClicked(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -181,8 +178,8 @@ class ChipsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> impleme
 
                     // Create a detailed chip view to show
                     final DetailedChipView detailedChipView =ChipsFactory
-                            .styledChipDetailsView(view.getContext(), chipOptions);
-                    detailedChipView.inflateWithChip(chipDataSource.getSelectedChip(position));
+                            .styledChipDetailsView(view.getContext(), mOptions);
+                    detailedChipView.inflateWithChip(mDataSource.getSelectedChip(position));
                     setDetailedChipViewPosition(detailedChipView, coord);
 
                     // Remove the button when the chip is delete
@@ -190,7 +187,7 @@ class ChipsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> impleme
                         @Override
                         public void onClick(View v) {
                             // Will trigger notifyDataSetChanged()
-                            chipDataSource.replaceChip(position);
+                            mDataSource.replaceChip(position);
                             detailedChipView.fadeOut();
                         }
                     });
@@ -203,7 +200,8 @@ class ChipsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> impleme
 
     private void setDetailedChipViewPosition(final DetailedChipView detailedChipView, int[] coord) {
         // Window width
-        final ViewGroup rootView = (ViewGroup)chipsInput.getChipsRecyclerView().getRootView();
+//        final ViewGroup rootView = (ViewGroup)chipsInput.getChipsRecyclerView().getRootView();
+        final ViewGroup rootView = (ViewGroup)mEditText.getRootView();
         int windowWidth = Utils.getWindowWidth(rootView.getContext());
 
         // Chip size
