@@ -39,7 +39,7 @@
         android:layout_height="24dp"
         android:layout_marginEnd="4dp"
         android:layout_marginRight="4dp"
-        android:src="@drawable/ic_cancel_grey_24dp"
+        android:src="@drawable/chip_delete_icon"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="parent"/>
