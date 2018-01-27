@@ -58,7 +58,8 @@ public class LetterTileProvider {
         // Setup the properties
         this.colors = DEFAULT_COLORS;
         this.tileSize = c.getResources().getDimensionPixelSize(R.dimen.default_letter_tile_size);
-        this.defaultBitmap = drawableToBitmap(ContextCompat.getDrawable(c, R.drawable.ic_default_tile));
+        this.defaultBitmap = drawableToBitmap(ContextCompat
+                .getDrawable(c, R.drawable.chip_delete_icon_24dp));
     }
 
     static LetterTileProvider getInstance(Context c) {
