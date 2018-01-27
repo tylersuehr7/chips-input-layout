@@ -52,7 +52,8 @@ class ChipsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> impleme
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         return viewType == TYPE_INPUT
                 ? new InputHolder(editText)
-                : new ChipHolder(chipsInput.getThemedChipView());
+                : new ChipHolder(ChipsFactory.styledChipView(
+                        parent.getContext(), chipOptions));
     }
 
     @Override
@@ -66,7 +67,8 @@ class ChipsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> impleme
             autoFitEditText();
         } else if (getItemCount() > 1) { // For chips
             ChipHolder cHolder = (ChipHolder)holder;
-            cHolder.chipView.inflateWithChip(chipDataSource.getSelectedChip(position));
+            cHolder.chipView.inflateFromChip(
+                    chipDataSource.getSelectedChip(position));
 
             // TODO POSSIBLE OPTIMIZATION
             // Add custom listeners for click and delete on ChipView and then implement them on

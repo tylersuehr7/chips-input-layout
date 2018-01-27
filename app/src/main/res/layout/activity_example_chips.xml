@@ -23,6 +23,10 @@
         android:hint="Start typing for chips... "
         android:textColorHint="#757575"
         android:textColor="#212121"
+
+        app:chipHasAvatarIcon="false"
+        app:chipDeletable="false"
+
         app:detailedChipsEnabled="true"
         app:customChipsEnabled="true"/>
     <android.support.v7.widget.RecyclerView

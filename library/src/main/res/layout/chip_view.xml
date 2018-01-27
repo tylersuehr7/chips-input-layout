@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/container"
-    android:background="@drawable/ripple_chip_view"
+    android:background="?attr/selectableItemBackground"
     android:layout_width="wrap_content"
     android:layout_height="@dimen/chip_height"
     android:clickable="true">

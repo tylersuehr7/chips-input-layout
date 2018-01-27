@@ -632,29 +632,6 @@ public class ChipsInputLayout extends MaxHeightScrollView
     }
 
     /**
-     * Creates a new {@link ChipView} with its theme set from properties defined
-     * in {@link #chipOptions}.
-     *
-     * @return {@link ChipView}
-     */
-    ChipView getThemedChipView() {
-        int padding = Utils.dp(4);
-
-        ChipView chipView = new ChipView.Builder(getContext())
-                .titleTextColor(chipOptions.mChipTextColor)
-                .hasAvatarIcon(chipOptions.mShowAvatar)
-                .deletable(chipOptions.mShowDelete)
-                .deleteIcon(chipOptions.mChipDeleteIcon)
-                .deleteIconColor(chipOptions.mChipDeleteIconColor)
-                .backgroundColor(chipOptions.mChipBackgroundColor)
-                .typeface(chipOptions.typeface)
-                .build();
-
-        chipView.setPadding(padding, padding, padding, padding);
-        return chipView;
-    }
-
-    /**
      * Creates a new {@link DetailedChipView} with its theme set from properties
      * defined in {@link #chipOptions}.
      *
