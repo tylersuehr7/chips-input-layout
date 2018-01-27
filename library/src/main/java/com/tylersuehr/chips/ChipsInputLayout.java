@@ -487,23 +487,23 @@ public class ChipsInputLayout extends MaxHeightScrollView
     }
 
     public void setChipDeleteIconColor(ColorStateList deleteIconColor) {
-        this.chipOptions.chipDeleteIconColor = deleteIconColor;
+        this.chipOptions.mChipDeleteIconColor = deleteIconColor;
     }
 
     public void setChipBackgroundColor(ColorStateList chipBackgroundColor) {
-        this.chipOptions.chipBackgroundColor = chipBackgroundColor;
+        this.chipOptions.mChipBackgroundColor = chipBackgroundColor;
     }
 
     public void setChipTitleTextColor(ColorStateList chipTitleTextColor) {
-        this.chipOptions.chipTextColor = chipTitleTextColor;
+        this.chipOptions.mChipTextColor = chipTitleTextColor;
     }
 
     public void setChipDeleteIcon(Drawable chipDeleteIcon) {
-        this.chipOptions.chipDeleteIcon = chipDeleteIcon;
+        this.chipOptions.mChipDeleteIcon = chipDeleteIcon;
     }
 
     public void setChipDeleteIcon(@DrawableRes int res) {
-        this.chipOptions.chipDeleteIcon = ContextCompat.getDrawable(getContext(), res);
+        this.chipOptions.mChipDeleteIcon = ContextCompat.getDrawable(getContext(), res);
     }
 
     public void setShowChipAvatarEnabled(boolean hasAvatar) {
@@ -641,12 +641,12 @@ public class ChipsInputLayout extends MaxHeightScrollView
         int padding = Utils.dp(4);
 
         ChipView chipView = new ChipView.Builder(getContext())
-                .titleTextColor(chipOptions.chipTextColor)
+                .titleTextColor(chipOptions.mChipTextColor)
                 .hasAvatarIcon(chipOptions.mShowAvatar)
                 .deletable(chipOptions.mShowDelete)
-                .deleteIcon(chipOptions.chipDeleteIcon)
-                .deleteIconColor(chipOptions.chipDeleteIconColor)
-                .backgroundColor(chipOptions.chipBackgroundColor)
+                .deleteIcon(chipOptions.mChipDeleteIcon)
+                .deleteIconColor(chipOptions.mChipDeleteIconColor)
+                .backgroundColor(chipOptions.mChipBackgroundColor)
                 .typeface(chipOptions.typeface)
                 .build();
 

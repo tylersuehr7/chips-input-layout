@@ -21,13 +21,13 @@ final class ChipOptions {
     CharSequence hint;
 
     /* Properties pertaining to ChipView */
-    ColorStateList chipDeleteIconColor;
-    ColorStateList chipBackgroundColor;
-    ColorStateList chipTextColor;
+    Drawable mChipDeleteIcon;
+    ColorStateList mChipDeleteIconColor;
+    ColorStateList mChipBackgroundColor;
+    ColorStateList mChipTextColor;
     boolean mShowAvatar = true;
     boolean mShowDetails = true;
     boolean mShowDelete = true;
-    Drawable chipDeleteIcon;
 
     /* Properties pertaining to DetailedChipView */
     ColorStateList detailedChipDeleteIconColor;
@@ -54,13 +54,13 @@ final class ChipOptions {
         this.hint = a.getString(R.styleable.ChipsInputLayout_android_hint);
 
         // Setup the properties for the ChipView
-        this.chipDeleteIconColor = a.getColorStateList(R.styleable.ChipsInputLayout_chipDeleteIconColor);
-        this.chipBackgroundColor = a.getColorStateList(R.styleable.ChipsInputLayout_chipBackgroundColor);
-        this.chipTextColor = a.getColorStateList(R.styleable.ChipsInputLayout_chipTextColor);
+        this.mChipDeleteIconColor = a.getColorStateList(R.styleable.ChipsInputLayout_chipDeleteIconColor);
+        this.mChipBackgroundColor = a.getColorStateList(R.styleable.ChipsInputLayout_chipBackgroundColor);
+        this.mChipTextColor = a.getColorStateList(R.styleable.ChipsInputLayout_chipTextColor);
         this.mShowAvatar = a.getBoolean(R.styleable.ChipsInputLayout_chipHasAvatarIcon, true);
         this.mShowDetails = a.getBoolean(R.styleable.ChipsInputLayout_detailedChipsEnabled, true);
         this.mShowDelete = a.getBoolean(R.styleable.ChipsInputLayout_chipDeletable, true);
-        this.chipDeleteIcon = a.getDrawable(R.styleable.ChipsInputLayout_chipDeleteIcon);
+        this.mChipDeleteIcon = a.getDrawable(R.styleable.ChipsInputLayout_chipDeleteIcon);
 
         // Setup the properties for the DetailedChipView
         this.detailedChipDeleteIconColor = a.getColorStateList(R.styleable.ChipsInputLayout_detailedChipDeleteIconColor);
