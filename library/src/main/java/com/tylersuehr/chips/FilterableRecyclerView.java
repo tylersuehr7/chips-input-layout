@@ -1,6 +1,9 @@
 package com.tylersuehr.chips;
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.graphics.Rect;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -32,8 +35,17 @@ class FilterableRecyclerView extends RecyclerView {
 
     FilterableRecyclerView(Context c) {
         super(c);
+        setBackgroundColor(Color.WHITE);
         setLayoutManager(new LinearLayoutManager(c));
         setVisibility(GONE);
+    }
+
+    void setChipOptions(ChipOptions options) {
+        ViewCompat.setElevation(this, options.filterableListElevation);
+        if (options.filterableListBackgroundColor != null) {
+            getBackground().setColorFilter(options.filterableListBackgroundColor
+                    .getDefaultColor(), PorterDuff.Mode.SRC_ATOP);
+        }
     }
 
     <T extends RecyclerView.Adapter & Filterable> void setAdapter(ChipsInputLayout chipsInput, T adapter) {

@@ -113,8 +113,9 @@ public class ChipsInputLayout extends MaxHeightScrollView
     public void setFilterableChipList(List<? extends Chip> chips) {
         this.mDataSource.setFilterableChips(chips);
 
-        // Setup the filterable recycler when new filterable data has been set
-        createAndSetupFilterableRecyclerView();
+        // Setup the filterable recycler when new
+        // filterable data has been set
+        loadFilterableRecycler();
     }
 
     /**
@@ -148,12 +149,10 @@ public class ChipsInputLayout extends MaxHeightScrollView
         }
 
         // Using the method on data source will update UI
-        this.mDataSource.addFilteredChip(chip);
+        mDataSource.addFilteredChip(chip);
 
         // Create the filterable recycler at this point, if needed
-        if (mFilteredRecycler == null) {
-            createAndSetupFilterableRecyclerView();
-        }
+        loadFilterableRecycler();
     }
 
     /**
@@ -577,41 +576,32 @@ public class ChipsInputLayout extends MaxHeightScrollView
         return mChipsInput;
     }
 
-    /**
-     * Creates a new filterable recycler, sets up its properties from the chip options,
-     * creates a new filterable adapter for the recycler, and adds it as a child view to
-     * the root ViewGroup.
-     */
-    private void createAndSetupFilterableRecyclerView() {
-        // Create a new filterable recycler view
-        this.mFilteredRecycler = new FilterableRecyclerView(getContext());
+    private void loadFilterableRecycler() {
+        if (mFilteredRecycler == null) {
+            // Create and set the filterable chips adapter
+            mFilteredAdapter = new FilterableChipsAdapter(this, mDataSource, mOptions);
 
-        // Set the filterable properties from the options
-        this.mFilteredRecycler.setBackgroundColor(Color.WHITE);
-        ViewCompat.setElevation(mFilteredRecycler, mOptions.filterableListElevation);
+            // Create a new filterable recycler view
+            mFilteredRecycler = new FilterableRecyclerView(getContext());
+            mFilteredRecycler.setChipOptions(mOptions);
+            mFilteredRecycler.setAdapter(this, mFilteredAdapter);
 
-        if (mOptions.filterableListBackgroundColor != null) {
-            this.mFilteredRecycler.getBackground().setColorFilter(
-                    mOptions.filterableListBackgroundColor.getDefaultColor(), PorterDuff.Mode.SRC_ATOP);
+            // To show our filterable recycler view, we need to make sure
+            // our ChipsInputLayout has already been displayed on the screen
+            // so we can access its root view
+            ViewGroup rootView = (ViewGroup)getRootView();
+            RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(
+                    Utils.getWindowWidth(getContext()),
+                    ViewGroup.LayoutParams.MATCH_PARENT
+            );
+            lp.addRule(RelativeLayout.ALIGN_PARENT_TOP);
+            lp.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
+            if (getResources().getConfiguration().orientation
+                    == Configuration.ORIENTATION_PORTRAIT) {
+                lp.bottomMargin = Utils.getNavBarHeight(getContext());
+            }
+            rootView.addView(mFilteredRecycler, lp);
         }
-
-        // Create and set the filterable chips adapter
-        this.mFilteredAdapter = new FilterableChipsAdapter(this, mDataSource, mOptions);
-        this.mFilteredRecycler.setAdapter(this, mFilteredAdapter);
-
-        // To show our filterable recycler view, we need to make sure our ChipsInputLayout has
-        // already been displayed on the screen so we can access its root view
-        ViewGroup rootView = (ViewGroup)getRootView();
-        RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(
-                Utils.getWindowWidth(getContext()),
-                ViewGroup.LayoutParams.MATCH_PARENT
-        );
-        lp.addRule(RelativeLayout.ALIGN_PARENT_TOP);
-        lp.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
-        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
-            lp.bottomMargin = Utils.getNavBarHeight(getContext());
-        }
-        rootView.addView(mFilteredRecycler, lp);
     }
 
     /**
