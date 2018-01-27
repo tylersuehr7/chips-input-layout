@@ -14,7 +14,7 @@ import android.util.AttributeSet;
  * @version 1.0
  */
 public class MaxHeightScrollView extends NestedScrollView {
-    private int maxHeight;
+    private int mMaxHeight;
 
 
     public MaxHeightScrollView(Context context) {
@@ -23,20 +23,19 @@ public class MaxHeightScrollView extends NestedScrollView {
 
     public MaxHeightScrollView(Context c, AttributeSet attrs) {
         super(c, attrs);
-
         TypedArray a = c.obtainStyledAttributes(attrs, R.styleable.MaxHeightScrollView);
-        this.maxHeight = a.getDimensionPixelSize(R.styleable.MaxHeightScrollView_android_maxHeight, Utils.dp(300));
+        this.mMaxHeight = a.getDimensionPixelSize(R.styleable.MaxHeightScrollView_android_maxHeight, Utils.dp(300));
         a.recycle();
     }
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        heightMeasureSpec = MeasureSpec.makeMeasureSpec(maxHeight, MeasureSpec.AT_MOST);
+        heightMeasureSpec = MeasureSpec.makeMeasureSpec(mMaxHeight, MeasureSpec.AT_MOST);
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
     }
 
     public void setMaxHeight(int height) {
-        this.maxHeight = height;
+        this.mMaxHeight = height;
         invalidate();
     }
 }
