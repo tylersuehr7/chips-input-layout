@@ -14,4 +14,10 @@ abstract class ChipsFactory {
         chipView.setChipOptions(options);
         return chipView;
     }
+
+    static DetailedChipView styledChipDetailsView(Context c, ChipOptions options) {
+        DetailedChipView chipView = new DetailedChipView(c);
+        chipView.setChipOptions(options);
+        return chipView;
+    }
 }

@@ -7,6 +7,8 @@
     <color name="colorAccent">?attr/colorAccent</color>
 
     <color name="chip_background">#E0E0E0</color>
+    <color name="chip_details_background">#00B8D4</color>
+    <color name="chip_focused_text_color">#FFFFFF</color>
     <color name="chip_text_color">#DB000000</color>
     <color name="chip_icon_color">#8C000000</color>
 </resources>

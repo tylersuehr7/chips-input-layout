@@ -632,23 +632,6 @@ public class ChipsInputLayout extends MaxHeightScrollView
     }
 
     /**
-     * Creates a new {@link DetailedChipView} with its theme set from properties
-     * defined in {@link #chipOptions}.
-     *
-     * @param chip {@link Chip}
-     * @return {@link DetailedChipView}
-     */
-    DetailedChipView getThemedDetailedChipView(Chip chip) {
-        return new DetailedChipView.Builder(getContext())
-                .chip(chip)
-                .textColor(chipOptions.detailedChipTextColor)
-                .backgroundColor(chipOptions.detailedChipBackgroundColor)
-                .deleteIconColor(chipOptions.detailedChipDeleteIconColor)
-                .typeface(chipOptions.typeface)
-                .build();
-    }
-
-    /**
      * Creates a new filterable recycler, sets up its properties from the chip options,
      * creates a new filterable adapter for the recycler, and adds it as a child view to
      * the root ViewGroup.

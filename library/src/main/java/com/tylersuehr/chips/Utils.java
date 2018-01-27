@@ -35,7 +35,9 @@ final class Utils {
     }
 
     static boolean isColorDark(int color) {
-        double darkness = 1 - (0.2126 * Color.red(color) + 0.7152 * Color.green(color) + 0.0722 * Color.blue(color)) / 255;
+        double darkness = 1 - (0.2126 * Color.red(color)
+                + 0.7152 * Color.green(color)
+                + 0.0722 * Color.blue(color)) / 255;
         return darkness >= 0.5;
     }
 

@@ -24,8 +24,8 @@
         android:textColorHint="#757575"
         android:textColor="#212121"
 
-        app:chipHasAvatarIcon="false"
-        app:chipDeletable="false"
+        app:chipHasAvatarIcon="true"
+        app:chipDeletable="true"
 
         app:detailedChipsEnabled="true"
         app:customChipsEnabled="true"/>

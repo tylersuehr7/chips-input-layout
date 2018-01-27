@@ -25,8 +25,6 @@ public class ChipView extends FrameLayout {
 
     public ChipView(@NonNull Context context) {
         super(context);
-        setBackgroundResource(R.color.chip_background);
-
         inflate(context, R.layout.chip_view, this);
         mAvatarView = findViewById(R.id.avatar);
         mLabelView = findViewById(R.id.label);
