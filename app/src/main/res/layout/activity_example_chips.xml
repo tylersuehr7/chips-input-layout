@@ -22,13 +22,7 @@
         android:layout_height="wrap_content"
         android:hint="Start typing for chips... "
         android:textColorHint="#757575"
-        android:textColor="#212121"
-
-        app:chipHasAvatarIcon="true"
-        app:chipDeletable="true"
-
-        app:detailedChipsEnabled="true"
-        app:customChipsEnabled="true"/>
+        android:textColor="#212121"/>
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler"
         android:layout_width="match_parent"

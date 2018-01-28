@@ -15,23 +15,23 @@
         <attr name="android:hint"/>
         <attr name="android:textColorHint"/>
         <attr name="android:textColor"/>
-        <attr name="detailedChipsEnabled" format="boolean" />
-        <attr name="customChipsEnabled" format="boolean"/>
+        <attr name="allowCustomChips" format="boolean"/>
         <attr name="maxRows" format="integer" />
 
-        <attr name="chipTextColor" format="color" />
-        <attr name="chipHasAvatarIcon" format="boolean" />
-        <attr name="chipDeletable" format="boolean" />
-        <attr name="chipDeleteIcon" format="reference" />
-        <attr name="chipDeleteIconColor" format="color" />
-        <attr name="chipBackgroundColor" format="color" />
+        <attr name="chip_showDetails" format="boolean" />
+        <attr name="chip_showAvatar" format="boolean" />
+        <attr name="chip_showDelete" format="boolean" />
+        <attr name="chip_deleteIcon" format="reference" />
+        <attr name="chip_deleteIconColor" format="color" />
+        <attr name="chip_backgroundColor" format="color" />
+        <attr name="chip_textColor" format="color" />
 
-        <attr name="detailedChipTextColor" format="color" />
-        <attr name="detailedChipBackgroundColor" format="color" />
-        <attr name="detailedChipDeleteIconColor" format="color" />
+        <attr name="details_deleteIconColor" format="color" />
+        <attr name="details_backgroundColor" format="color" />
+        <attr name="details_textColor" format="color" />
 
-        <attr name="filterableListBackgroundColor" format="color" />
-        <attr name="filterableListTextColor" format="color" />
-        <attr name="filterableListElevation" format="dimension"/>
+        <attr name="filter_elevation" format="dimension"/>
+        <attr name="filter_backgroundColor" format="color" />
+        <attr name="filter_textColor" format="color" />
     </declare-styleable>
 </resources>
