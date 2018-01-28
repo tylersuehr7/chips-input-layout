@@ -16,10 +16,9 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.RelativeLayout;
 import com.beloo.widget.chipslayoutmanager.ChipsLayoutManager;
 import com.tylersuehr.chips.data.Chip;
-import com.tylersuehr.chips.data.ChipChangedObserver;
 import com.tylersuehr.chips.data.ChipDataSource;
 import com.tylersuehr.chips.data.ListChipDataSource;
-import com.tylersuehr.chips.data.ChipSelectionObserver;
+
 import java.util.List;
 
 /**
@@ -400,19 +399,19 @@ public class ChipsInputLayout extends MaxHeightScrollView
     /**
      * Adds an observer to watch selection events on the chip data source.
      *
-     * @param observer {@link ChipSelectionObserver}
+     * @param observer {@link ChipDataSource.SelectionObserver}
      */
-    public void addChipSelectionObserver(ChipSelectionObserver observer) {
-        mDataSource.addChipSelectionObserver(observer);
+    public void addChipSelectionObserver(ChipDataSource.SelectionObserver observer) {
+        mDataSource.addSelectionObserver(observer);
     }
 
     /**
      * Removes an observer from watching selection events on the chip data source.
      *
-     * @param observer {@link ChipSelectionObserver}
+     * @param observer {@link ChipDataSource.SelectionObserver}
      */
-    public void removeChipSelectionObserver(ChipSelectionObserver observer) {
-        mDataSource.removeChipSelectionObserver(observer);
+    public void removeChipSelectionObserver(ChipDataSource.SelectionObserver observer) {
+        mDataSource.removeSelectionObserver(observer);
     }
 
     /**
@@ -420,19 +419,19 @@ public class ChipsInputLayout extends MaxHeightScrollView
      *
      * Note: please use this conservatively!
      *
-     * @param observer {@link ChipChangedObserver}
+     * @param observer {@link ChipDataSource.ChangeObserver}
      */
-    public void addChipChangedObserver(ChipChangedObserver observer) {
-        mDataSource.addChipChangedObserver(observer);
+    public void addChipChangedObserver(ChipDataSource.ChangeObserver observer) {
+        mDataSource.addChangedObserver(observer);
     }
 
     /**
      * Removes an observer from watching any change events on the chip data source.
      *
-     * @param observer {@link ChipChangedObserver}
+     * @param observer {@link ChipDataSource.ChangeObserver}
      */
-    public void removeChipChangedObserver(ChipChangedObserver observer) {
-        mDataSource.removeChipChangedObserver(observer);
+    public void removeChipChangedObserver(ChipDataSource.ChangeObserver observer) {
+        mDataSource.removeChangedObserver(observer);
     }
 
     /**

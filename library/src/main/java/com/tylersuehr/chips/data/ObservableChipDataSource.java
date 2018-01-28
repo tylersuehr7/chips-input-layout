@@ -6,7 +6,7 @@ import java.util.List;
 /**
  * Copyright © 2017 Tyler Suehr
  *
- * This implementation of {@link ChipDataSource} provides the basic functionality for
+ * Implementation of {@link ChipDataSource} to provide the basic functionality for
  * observers ONLY. It manages the observers in a {@link java.util.LinkedList}, and
  * includes convenience methods for notifying them too.
  *
@@ -19,92 +19,93 @@ import java.util.List;
 public abstract class ObservableChipDataSource implements ChipDataSource {
     /* Aggregation of observers to watch changes to chip selection */
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-    List<ChipSelectionObserver> selectionObservers;
+    List<SelectionObserver> mSelectionObservers;
 
     /* Aggregation of observers to watch changes to data source */
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-    List<ChipChangedObserver> changeObservers;
+    List<ChangeObserver> mChangeObservers;
 
 
     @Override
-    public final void addChipSelectionObserver(ChipSelectionObserver observer) {
+    public final void addSelectionObserver(SelectionObserver observer) {
         if (observer == null) {
-            throw new NullPointerException("ChipSelectionObserver cannot be null!");
+            throw new NullPointerException("Observer cannot be null!");
         }
-        if (selectionObservers == null) {
-            this.selectionObservers = new LinkedList<>();
+        if (mSelectionObservers == null) {
+            mSelectionObservers = new LinkedList<>();
         }
-        this.selectionObservers.add(observer);
+        mSelectionObservers.add(observer);
     }
 
     @Override
-    public final void removeChipSelectionObserver(ChipSelectionObserver observer) {
+    public final void removeSelectionObserver(SelectionObserver observer) {
         if (observer == null) {
-            throw new NullPointerException("ChipSelectionObserver cannot be null!");
+            throw new NullPointerException("Observer cannot be null!");
         }
-        if (selectionObservers != null) {
-            this.selectionObservers.remove(observer);
-        }
-    }
-
-    @Override
-    public final void removeAllChipSelectionObservers() {
-        if (selectionObservers != null) {
-            this.selectionObservers.clear();
-            this.selectionObservers = null;
+        if (mSelectionObservers != null) {
+            mSelectionObservers.remove(observer);
         }
     }
 
     @Override
-    public final void addChipChangedObserver(ChipChangedObserver observer) {
+    public final void removeAllSelectionObservers() {
+        if (mSelectionObservers != null) {
+            mSelectionObservers.clear();
+            mSelectionObservers = null;
+        }
+    }
+
+    @Override
+    public final void addChangedObserver(ChangeObserver observer) {
         if (observer == null) {
-            throw new NullPointerException("ChipChangedObserver cannot be null!");
+            throw new NullPointerException("Observer cannot be null!");
         }
-        if (changeObservers == null) {
-            this.changeObservers = new LinkedList<>();
+        if (mChangeObservers == null) {
+            mChangeObservers = new LinkedList<>();
         }
-        this.changeObservers.add(observer);
+        mChangeObservers.add(observer);
     }
 
     @Override
-    public final void removeChipChangedObserver(ChipChangedObserver observer) {
+    public final void removeChangedObserver(ChangeObserver observer) {
         if (observer == null) {
-            throw new NullPointerException("ChipChangedObserver cannot be null!");
+            throw new NullPointerException("Observer cannot be null!");
         }
-        if (changeObservers != null) {
-            this.changeObservers.remove(observer);
+        if (mChangeObservers != null) {
+            mChangeObservers.remove(observer);
         }
     }
 
     @Override
-    public final void removeAllChipChangedObservers() {
-        if (changeObservers != null) {
-            this.changeObservers.clear();
-            this.changeObservers = null;
+    public final void removeAllChangedObservers() {
+        if (mChangeObservers != null) {
+            mChangeObservers.clear();
+            mChangeObservers = null;
         }
     }
 
     @Override
     public final void cloneObservers(ChipDataSource to) {
-        if (selectionObservers != null) {
-            for (ChipSelectionObserver ob : selectionObservers) {
-                to.addChipSelectionObserver(ob);
+        if (mSelectionObservers != null) {
+            for (SelectionObserver ob : mSelectionObservers) {
+                to.addSelectionObserver(ob);
             }
         }
-        if (changeObservers != null) {
-            for (ChipChangedObserver ob : changeObservers) {
-                to.addChipChangedObserver(ob);
+        if (mChangeObservers != null) {
+            for (ChangeObserver ob : mChangeObservers) {
+                to.addChangedObserver(ob);
             }
         }
     }
 
     /**
-     * Notifies {@link #changeObservers} that a change to the data source happened.
+     * Notifies {@link #mChangeObservers} that a change to the data
+     * source happened.
      */
     protected final void notifyDataSourceChanged() {
-        if (changeObservers != null) {
+        if (mChangeObservers != null) {
             synchronized (this) {
-                for (ChipChangedObserver ob : changeObservers) {
+                for (ChangeObserver ob : mChangeObservers) {
                     ob.onChipDataSourceChanged();
                 }
             }
@@ -112,13 +113,14 @@ public abstract class ObservableChipDataSource implements ChipDataSource {
     }
 
     /**
-     * Notifies {@link #selectionObservers} that a chip was selected in the data source.
+     * Notifies {@link #mSelectionObservers} that a chip was selected
+     * in the data source.
      * @param chip {@link Chip} selected
      */
     protected final void notifyChipSelected(Chip chip) {
-        if (selectionObservers != null) {
+        if (mSelectionObservers != null) {
             synchronized (this) {
-                for (ChipSelectionObserver ob : selectionObservers) {
+                for (SelectionObserver ob : mSelectionObservers) {
                     ob.onChipSelected(chip);
                 }
             }
@@ -126,13 +128,14 @@ public abstract class ObservableChipDataSource implements ChipDataSource {
     }
 
     /**
-     * Notifies {@link #selectionObservers} that a chip was unselected in the data source.
+     * Notifies {@link #mSelectionObservers} that a chip was unselected
+     * in the data source.
      * @param chip {@link Chip} unselected
      */
     protected final void notifyChipUnselected(Chip chip) {
-        if (selectionObservers != null) {
+        if (mSelectionObservers != null) {
             synchronized (this) {
-                for (ChipSelectionObserver ob : selectionObservers) {
+                for (SelectionObserver ob : mSelectionObservers) {
                     ob.onChipDeselected(chip);
                 }
             }

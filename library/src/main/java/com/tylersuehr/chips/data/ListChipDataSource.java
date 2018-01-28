@@ -1,63 +1,62 @@
 package com.tylersuehr.chips.data;
-import android.support.annotation.ColorRes;
 import android.support.annotation.VisibleForTesting;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
 /**
  * Copyright © 2017 Tyler Suehr
  *
- * Subclass of {@link ObservableChipDataSource} that stores chips using an {@link ArrayList}.
+ * Subclass of {@link ObservableChipDataSource} that stores chips using
+ * an {@link ArrayList}.
  *
  * @author Tyler Suehr
  * @version 1.0
  */
 public class ListChipDataSource extends ObservableChipDataSource {
-    /* Stores all the original chips */
+    /* Aggregation of all the original chips */
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-    List<Chip> originalChips;
+    List<Chip> mOriginal;
 
-    /* Stores all the filtered chips, that are not selected by the user */
+    /* Aggregation of all filtered chips, not selected by the user */
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-    List<Chip> filteredChips;
+    List<Chip> mFiltered;
 
-    /* Stores all the selected chips, selected by the user */
+    /* Aggregation of all selected chips, selected by the user */
     @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-    List<Chip> selectedChips;
+    List<Chip> mSelected;
 
 
     /* Construct with all empty lists */
     public ListChipDataSource() {
-        this.originalChips = new ArrayList<>();
-        this.filteredChips = new ArrayList<>();
-        this.selectedChips = new ArrayList<>();
+        mOriginal = new ArrayList<>();
+        mFiltered = new ArrayList<>();
+        mSelected = new ArrayList<>();
     }
 
     @Override
     public List<Chip> getSelectedChips() {
-        return selectedChips;
+        return mSelected;
     }
 
     @Override
     public List<Chip> getFilteredChips() {
-        return filteredChips;
+        return mFiltered;
     }
 
     @Override
     public List<Chip> getOriginalChips() {
-        return originalChips;
+        return mOriginal;
     }
 
     @Override
     public Chip getFilteredChip(int position) {
-        return filteredChips.get(position);
+        return mFiltered.get(position);
     }
 
     @Override
     public Chip getSelectedChip(int position) {
-        return selectedChips.get(position);
+        return mSelected.get(position);
     }
 
     @Override
@@ -67,20 +66,20 @@ public class ListChipDataSource extends ObservableChipDataSource {
         }
 
         // Instantiate our chip lists with the size of the given list
-        this.originalChips = new ArrayList<>(chips.size());
-        this.filteredChips = new ArrayList<>(chips.size());
-        this.selectedChips = new ArrayList<>(chips.size());
+        mSelected = new ArrayList<>();
+        mOriginal = new ArrayList<>(chips.size());
+        mFiltered = new ArrayList<>(chips.size());
 
         // Only copy the data from our chips into the original and filtered lists
         for (Chip chip : chips) {
             chip.setFilterable(true);
-            this.originalChips.add(chip);
-            this.filteredChips.add(chip);
+            mOriginal.add(chip);
+            mFiltered.add(chip);
         }
 
         // Sort the lists
-        Collections.sort(originalChips, Chip.getComparator());
-        Collections.sort(filteredChips, Chip.getComparator());
+        Collections.sort(mOriginal, Chip.getComparator());
+        Collections.sort(mFiltered, Chip.getComparator());
 
         // Tell our observers!
         notifyDataSourceChanged();
@@ -92,12 +91,12 @@ public class ListChipDataSource extends ObservableChipDataSource {
             throw new NullPointerException("Chip cannot be null!");
         }
         chip.setFilterable(true);
-        this.originalChips.add(chip);
-        this.filteredChips.add(chip);
+        mOriginal.add(chip);
+        mFiltered.add(chip);
 
         // Sort the filterable chips
-        Collections.sort(originalChips, Chip.getComparator());
-        Collections.sort(filteredChips, Chip.getComparator());
+        Collections.sort(mOriginal, Chip.getComparator());
+        Collections.sort(mFiltered, Chip.getComparator());
 
         notifyDataSourceChanged();
     }
@@ -107,7 +106,7 @@ public class ListChipDataSource extends ObservableChipDataSource {
         if (chip == null) {
             throw new NullPointerException("Chip cannot be null!");
         }
-        this.selectedChips.add(chip);
+        mSelected.add(chip);
         notifyDataSourceChanged();
         notifyChipSelected(chip);
     }
@@ -121,10 +120,10 @@ public class ListChipDataSource extends ObservableChipDataSource {
         // Check if chip is filterable
         if (chip.isFilterable()) {
             // Check if chip is actually in the filtered list
-            if (filteredChips.contains(chip)) {
-                this.originalChips.remove(chip);
-                this.filteredChips.remove(chip);
-                this.selectedChips.add(chip);
+            if (mFiltered.contains(chip)) {
+                mOriginal.remove(chip);
+                mFiltered.remove(chip);
+                mSelected.add(chip);
             } else {
                 throw new IllegalArgumentException("Chip is not in filtered chip list!");
             }
@@ -138,20 +137,21 @@ public class ListChipDataSource extends ObservableChipDataSource {
 
     @Override
     public void takeChip(int position) {
-        final Chip foundChip = filteredChips.get(position);
+        final Chip foundChip = mFiltered.get(position);
         if (foundChip == null) {
-            throw new NullPointerException("Chip cannot be null; not found in filtered chip list!");
+            throw new NullPointerException("Chip cannot be null; " +
+                    "not found in filtered chip list!");
         }
 
         // Check if chip is filterable
         if (foundChip.isFilterable()) {
             // Since the child isn't null, we know it's in the filtered list
-            this.originalChips.remove(foundChip);
-            this.filteredChips.remove(foundChip);
-            this.selectedChips.add(foundChip);
+            mOriginal.remove(foundChip);
+            mFiltered.remove(foundChip);
+            mSelected.add(foundChip);
         } else {
             // Just add it to the selected list only
-            this.selectedChips.add(foundChip);
+            mSelected.add(foundChip);
         }
 
         notifyDataSourceChanged();
@@ -165,17 +165,17 @@ public class ListChipDataSource extends ObservableChipDataSource {
         }
 
         // Check if chip is actually selected
-        if (selectedChips.contains(chip)) {
-            this.selectedChips.remove(chip);
+        if (mSelected.contains(chip)) {
+            mSelected.remove(chip);
 
             // Check if the chip is filterable
             if (chip.isFilterable()) {
-                this.filteredChips.add(chip);
-                this.originalChips.add(chip);
+                mFiltered.add(chip);
+                mOriginal.add(chip);
 
                 // Sort the filterable chips
-                Collections.sort(filteredChips, Chip.getComparator());
-                Collections.sort(originalChips, Chip.getComparator());
+                Collections.sort(mFiltered, Chip.getComparator());
+                Collections.sort(mOriginal, Chip.getComparator());
             }
 
             notifyDataSourceChanged();
@@ -187,22 +187,23 @@ public class ListChipDataSource extends ObservableChipDataSource {
 
     @Override
     public void replaceChip(int position) {
-        final Chip foundChip = selectedChips.get(position);
+        final Chip foundChip = mSelected.get(position);
         if (foundChip == null) {
-            throw new NullPointerException("Chip cannot be null; not found in selected chip list!");
+            throw new NullPointerException("Chip cannot be null; not " +
+                    "found in selected chip list!");
         }
 
         // Since not null, we know the chip is selected
-        this.selectedChips.remove(foundChip);
+        mSelected.remove(foundChip);
 
         // Check if the chip is filterable
         if (foundChip.isFilterable()) {
-            this.filteredChips.add(foundChip);
-            this.originalChips.add(foundChip);
+            mFiltered.add(foundChip);
+            mOriginal.add(foundChip);
 
             // Sort the filterable chips
-            Collections.sort(filteredChips, Chip.getComparator());
-            Collections.sort(originalChips, Chip.getComparator());
+            Collections.sort(mFiltered, Chip.getComparator());
+            Collections.sort(mOriginal, Chip.getComparator());
         }
 
         notifyDataSourceChanged();
@@ -211,8 +212,8 @@ public class ListChipDataSource extends ObservableChipDataSource {
 
     @Override
     public void clearFilteredChips() {
-        this.originalChips.clear();
-        this.filteredChips.clear();
+        mOriginal.clear();
+        mFiltered.clear();
         notifyDataSourceChanged();
     }
 
@@ -220,8 +221,8 @@ public class ListChipDataSource extends ObservableChipDataSource {
     public void clearSelectedChips() {
         // Since we want to tell observers that chips have been unselected,
         // we need to store a clone of the selected list of chips
-        final List<Chip> clone = new ArrayList<>(selectedChips);
-        this.selectedChips.clear();
+        final List<Chip> clone = new ArrayList<>(mSelected);
+        mSelected.clear();
 
         // Let's notify our change observers first (so internal components can
         // instantly get notified of the data source change
@@ -238,7 +239,7 @@ public class ListChipDataSource extends ObservableChipDataSource {
         if (chip == null) {
             throw new NullPointerException("Chip cannot be null!");
         }
-        return filteredChips.contains(chip);
+        return mFiltered.contains(chip);
     }
 
     @Override
@@ -246,7 +247,7 @@ public class ListChipDataSource extends ObservableChipDataSource {
         if (chip == null) {
             throw new NullPointerException("Chip cannot be null!");
         }
-        return selectedChips.contains(chip);
+        return mSelected.contains(chip);
     }
 
     @Override
@@ -254,8 +255,8 @@ public class ListChipDataSource extends ObservableChipDataSource {
         if (chip == null) {
             throw new NullPointerException("Chip cannot be null!");
         }
-        return (originalChips.contains(chip)
-                || filteredChips.contains(chip)
-                || selectedChips.contains(chip));
+        return (mOriginal.contains(chip)
+                || mFiltered.contains(chip)
+                || mSelected.contains(chip));
     }
 }

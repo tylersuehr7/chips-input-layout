@@ -15,7 +15,7 @@ import android.widget.Toast;
 import com.tylersuehr.chipexample.R;
 import com.tylersuehr.chips.ChipsInputLayout;
 import com.tylersuehr.chips.data.Chip;
-import com.tylersuehr.chips.data.ChipSelectionObserver;
+import com.tylersuehr.chips.data.ChipDataSource;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +32,7 @@ import java.util.List;
  * @version 1.0
  */
 public class ChipsInputTestActivity extends AppCompatActivity
-        implements View.OnClickListener, ChipSelectionObserver {
+        implements View.OnClickListener, ChipDataSource.SelectionObserver {
     private ChipsInputLayout chipsInputLayout;
 
 
