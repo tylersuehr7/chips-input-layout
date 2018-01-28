@@ -1,5 +1,6 @@
 package com.tylersuehr.chips;
 import android.content.Context;
+import android.graphics.Paint;
 import android.support.v7.widget.AppCompatEditText;
 import android.text.InputType;
 import android.view.KeyEvent;
@@ -73,6 +74,12 @@ class ChipsEditText extends AppCompatEditText implements ChipComponent {
         }
         setHint(options.mHint);
         setTypeface(options.mTypeface);
+    }
+
+    float calculateTextWidth() {
+        final Paint paint = getPaint();
+        final String hint = getHint().toString();
+        return paint.measureText(hint);
     }
 
     void setKeyboardListener(OnKeyboardListener listener) {

@@ -119,9 +119,9 @@ class ChipsAdapter
     }
 
     private void autoFitEditText() {
-        // Minimum width of EditText = 50dp
+        // Set the EditText to a minimum width of its hint length
         ViewGroup.LayoutParams lp = mEditText.getLayoutParams();
-        lp.width = Utils.dp(50);
+        lp.width = (int)mEditText.calculateTextWidth();
         mEditText.setLayoutParams(lp);
 
         // Listen to changes in the tree
@@ -134,10 +134,19 @@ class ChipsAdapter
                 int right = parent.getRight();
                 int left = mEditText.getLeft();
 
-                // EditText shall fill the space
+                // Calculate the available space left to draw the EditText,
+                // and only readjust the EditText when the available space
+                // is larger than the needed space.
+                //
+                // This will allow the full text hint to always be visible
+                // by ensuring the EditText gets wrapped to the next line
+                // if it can't fit in the available space.
+                final int available = (right - left - Utils.dp(8));
                 ViewGroup.LayoutParams lp = mEditText.getLayoutParams();
-                lp.width = right - left - Utils.dp(8);
-                mEditText.setLayoutParams(lp);
+                if (lp.width < available) {
+                    lp.width = available;
+                    mEditText.setLayoutParams(lp);
+                }
 
                 // Request focus
                 mEditText.requestFocus();
