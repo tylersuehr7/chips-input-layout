@@ -81,7 +81,7 @@ public class ChipsInputLayout extends MaxHeightScrollView
         mChipsRecycler.setAdapter(mChipsAdapter);
 
         // Set the max height from options
-        setMaxHeight(Utils.dp(40) * mOptions.maxRows);
+        setMaxHeight(Utils.dp(40) * mOptions.mMaxRows);
     }
 
     @Override
@@ -458,21 +458,21 @@ public class ChipsInputLayout extends MaxHeightScrollView
     }
 
     public void setInputTextColor(ColorStateList textColor) {
-        mOptions.textColor = textColor;
+        mOptions.mTextColor = textColor;
         if (mChipsInput != null) { // Can be null because its lazy loaded
             mChipsInput.setTextColor(textColor);
         }
     }
 
     public void setInputHintTextColor(ColorStateList textColorHint) {
-        mOptions.textColorHint = textColorHint;
+        mOptions.mTextColorHint = textColorHint;
         if (mChipsInput != null) { // Can be null because its lazy loaded
             mChipsInput.setHintTextColor(textColorHint);
         }
     }
 
     public void setInputHint(CharSequence hint) {
-        mOptions.hint = hint;
+        mOptions.mHint = hint;
         if (mChipsInput != null) { // Can be null because its lazy loaded
             mChipsInput.setHint(hint);
         }
@@ -511,40 +511,40 @@ public class ChipsInputLayout extends MaxHeightScrollView
     }
 
     public void setDetailedChipDeleteIconColor(ColorStateList detailedChipIconColor) {
-        mOptions.detailedChipDeleteIconColor = detailedChipIconColor;
+        mOptions.mDetailsChipDeleteIconColor = detailedChipIconColor;
     }
 
     public void setDetailedChipBackgroundColor(ColorStateList detailedChipBackgroundColor) {
-        mOptions.detailedChipBackgroundColor = detailedChipBackgroundColor;
+        mOptions.mDetailsChipBackgroundColor = detailedChipBackgroundColor;
     }
 
     public void setDetailedChipTextColor(ColorStateList detailedChipTextColor) {
-        mOptions.detailedChipTextColor = detailedChipTextColor;
+        mOptions.mDetailsChipTextColor = detailedChipTextColor;
     }
 
     public void setFilterableListBackgroundColor(ColorStateList backgroundColor) {
-        mOptions.filterableListBackgroundColor = backgroundColor;
+        mOptions.mFilterableListBackgroundColor = backgroundColor;
     }
 
     public void setFilterableListTextColor(ColorStateList textColor) {
-        mOptions.filterableListTextColor = textColor;
+        mOptions.mFilterableListTextColor = textColor;
     }
 
     public void setFilterableListElevation(float elevation) {
-        mOptions.filterableListElevation = elevation;
+        mOptions.mFilterableListElevation = elevation;
     }
 
     public void setCustomChipsEnabled(boolean enabled) {
-        mOptions.allowCustomChips = enabled;
+        mOptions.mAllowCustomChips = enabled;
     }
 
     public void setMaxRows(int rows) {
-        mOptions.maxRows = rows;
-        setMaxHeight(Utils.dp(40) * mOptions.maxRows);
+        mOptions.mMaxRows = rows;
+        setMaxHeight(Utils.dp(40) * mOptions.mMaxRows);
     }
 
     public void setTypeface(Typeface typeface) {
-        mOptions.typeface = typeface;
+        mOptions.mTypeface = typeface;
         LetterTileProvider.getInstance(getContext()).setTypeface(typeface);
         if (mChipsInput != null) {
             mChipsInput.setTypeface(typeface);

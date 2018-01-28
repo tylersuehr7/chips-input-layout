@@ -76,26 +76,26 @@ class FilterableChipsAdapter
 
         // Set the chip title
         holder.title.setText(chip.getTitle());
-        holder.title.setTypeface(mOptions.typeface);
+        holder.title.setTypeface(mOptions.mTypeface);
 
         // Set the chip subtitle, if possible
         if (chip.getSubtitle() != null) {
             holder.subtitle.setVisibility(View.VISIBLE);
             holder.subtitle.setText(chip.getSubtitle());
-            holder.subtitle.setTypeface(mOptions.typeface);
+            holder.subtitle.setTypeface(mOptions.mTypeface);
         } else {
             holder.subtitle.setVisibility(View.GONE);
         }
 
         // Set chip colors from options, if possible
-        if (mOptions.filterableListBackgroundColor != null) {
+        if (mOptions.mFilterableListBackgroundColor != null) {
             holder.itemView.getBackground().setColorFilter(mOptions
-                    .filterableListBackgroundColor.getDefaultColor(), PorterDuff.Mode.SRC_ATOP);
+                    .mFilterableListBackgroundColor.getDefaultColor(), PorterDuff.Mode.SRC_ATOP);
         }
-        if (mOptions.filterableListTextColor != null) {
-            holder.title.setTextColor(mOptions.filterableListTextColor);
+        if (mOptions.mFilterableListTextColor != null) {
+            holder.title.setTextColor(mOptions.mFilterableListTextColor);
             holder.subtitle.setTextColor(Utils.alpha(mOptions
-                    .filterableListTextColor.getDefaultColor(), 150));
+                    .mFilterableListTextColor.getDefaultColor(), 150));
         }
     }
 

@@ -74,7 +74,7 @@ class ChipsAdapter
             ch.chipView.inflateFromChip(mDataSource.getSelectedChip(position));
         } else { // EditText
             if (mDataSource.getSelectedChips().size() == 0) {
-                mEditText.setHint(mOptions.hint);
+                mEditText.setHint(mOptions.mHint);
             }
 
             // Resize the edit text to fit in recycler
@@ -90,7 +90,7 @@ class ChipsAdapter
      */
     @Override
     public void onKeyboardActionDone(String text) {
-        if (TextUtils.isEmpty(text) || !mOptions.allowCustomChips) { return; }
+        if (TextUtils.isEmpty(text) || !mOptions.mAllowCustomChips) { return; }
 
         // Clear the input before taking chip so we don't need to update UI twice
         mEditText.setText("");

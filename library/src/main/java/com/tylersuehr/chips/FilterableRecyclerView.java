@@ -40,9 +40,9 @@ class FilterableRecyclerView extends RecyclerView {
     }
 
     void setChipOptions(ChipOptions options) {
-        ViewCompat.setElevation(this, options.filterableListElevation);
-        if (options.filterableListBackgroundColor != null) {
-            getBackground().setColorFilter(options.filterableListBackgroundColor
+        ViewCompat.setElevation(this, options.mFilterableListElevation);
+        if (options.mFilterableListBackgroundColor != null) {
+            getBackground().setColorFilter(options.mFilterableListBackgroundColor
                     .getDefaultColor(), PorterDuff.Mode.SRC_ATOP);
         }
     }

@@ -64,14 +64,14 @@ class ChipsEditText extends AppCompatEditText {
     }
 
     void setChipOptions(ChipOptions options) {
-        if (options.textColorHint != null) {
-            setHintTextColor(options.textColorHint);
+        if (options.mTextColorHint != null) {
+            setHintTextColor(options.mTextColorHint);
         }
-        if (options.textColor != null) {
-            setTextColor(options.textColor);
+        if (options.mTextColor != null) {
+            setTextColor(options.mTextColor);
         }
-        setHint(options.hint);
-        setTypeface(options.typeface);
+        setHint(options.mHint);
+        setTypeface(options.mTypeface);
     }
 
     void setKeyboardListener(OnKeyboardListener listener) {

@@ -112,7 +112,7 @@ public class ChipView extends FrameLayout {
         if (options.mChipTextColor != null) {
             mLabelView.setTextColor(options.mChipTextColor);
         }
-        mLabelView.setTypeface(options.typeface);
+        mLabelView.setTypeface(options.mTypeface);
     }
 
 

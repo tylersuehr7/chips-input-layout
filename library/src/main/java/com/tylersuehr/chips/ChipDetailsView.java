@@ -128,16 +128,16 @@ public class ChipDetailsView extends FrameLayout {
 
     void setChipOptions(ChipOptions options) {
         // Set background color, if possible
-        if (options.detailedChipBackgroundColor != null) {
+        if (options.mDetailsChipBackgroundColor != null) {
             mContentLayout.getBackground().setColorFilter(
-                    options.detailedChipBackgroundColor.getDefaultColor(),
+                    options.mDetailsChipBackgroundColor.getDefaultColor(),
                     PorterDuff.Mode.SRC_ATOP);
         }
 
         // Set an available text color
-        if (options.detailedChipTextColor != null) {
-            mTitleView.setTextColor(options.detailedChipTextColor);
-            mLabelView.setTextColor(options.detailedChipTextColor);
+        if (options.mDetailsChipTextColor != null) {
+            mTitleView.setTextColor(options.mDetailsChipTextColor);
+            mLabelView.setTextColor(options.mDetailsChipTextColor);
         } else if (Utils.isColorDark(getBackgroundColor())) {
             mTitleView.setTextColor(ColorStateList.valueOf(Color.WHITE));
             mLabelView.setTextColor(ColorStateList.valueOf(Color.WHITE));
@@ -155,8 +155,8 @@ public class ChipDetailsView extends FrameLayout {
             mButtonDelete.setColorFilter(Color.BLACK, PorterDuff.Mode.SRC_ATOP);
         }
 
-        mTitleView.setTypeface(options.typeface);
-        mLabelView.setTypeface(options.typeface);
+        mTitleView.setTypeface(options.mTypeface);
+        mLabelView.setTypeface(options.mTypeface);
     }
 
     private int getBackgroundColor() {
