@@ -21,7 +21,7 @@ import java.util.UUID;
  * @author Tyler Suehr
  * @version 1.0
  */
-public final class DefaultCustomChip extends Chip {
+final class DefaultCustomChip extends Chip {
     private String id;
     private String title;
 
