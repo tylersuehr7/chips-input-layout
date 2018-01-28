@@ -156,7 +156,7 @@ class ChipItemInputAdapter
         view.getLocationInWindow(coord);
 
         // Create a detailed chip view to show
-        final DetailedChipView detailedChipView = new DetailedChipView(view.getContext());
+        final ChipDetailsView detailedChipView = new ChipDetailsView(view.getContext());
         detailedChipView.setChipOptions(mOptions);
         detailedChipView.inflateWithChip(chip);
 
@@ -174,7 +174,7 @@ class ChipItemInputAdapter
         });
     }
 
-    private void setDetailedChipViewPosition(final DetailedChipView detailedChipView, int[] coord) {
+    private void setDetailedChipViewPosition(final ChipDetailsView detailedChipView, int[] coord) {
         // Window width
         final ViewGroup rootView = (ViewGroup)mEditText.getRootView();
         int windowWidth = Utils.getWindowWidth(rootView.getContext());

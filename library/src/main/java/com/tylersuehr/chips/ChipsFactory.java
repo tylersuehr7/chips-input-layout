@@ -15,8 +15,8 @@ abstract class ChipsFactory {
         return chipView;
     }
 
-    static DetailedChipView styledChipDetailsView(Context c, ChipOptions options) {
-        DetailedChipView chipView = new DetailedChipView(c);
+    static ChipDetailsView styledChipDetailsView(Context c, ChipOptions options) {
+        ChipDetailsView chipView = new ChipDetailsView(c);
         chipView.setChipOptions(options);
         return chipView;
     }

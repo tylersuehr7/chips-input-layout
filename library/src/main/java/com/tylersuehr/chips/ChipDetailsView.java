@@ -23,7 +23,7 @@ import com.tylersuehr.chips.data.Chip;
  * @author Tyler Suehr
  * @version 1.0
  */
-public class DetailedChipView extends FrameLayout {
+public class ChipDetailsView extends FrameLayout {
     private TextView mTitleView;
     private TextView mLabelView;
     private ImageButton mButtonDelete;
@@ -31,7 +31,7 @@ public class DetailedChipView extends FrameLayout {
     private ConstraintLayout mContentLayout;
 
 
-    public DetailedChipView(@NonNull Context context) {
+    public ChipDetailsView(@NonNull Context context) {
         super(context);
         View v = inflate(context, R.layout.chip_view_detailed, this);
         mContentLayout = v.findViewById(R.id.container);
