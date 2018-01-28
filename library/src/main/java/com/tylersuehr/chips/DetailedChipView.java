@@ -18,7 +18,7 @@ import com.tylersuehr.chips.data.Chip;
 /**
  * Copyright © 2017 Tyler Suehr
  *
- * This is the view that displays the details of a chip (specified in Material Design Guide).
+ * This view displays the details of a chip (specified in Google Material Design Guide).
  *
  * @author Tyler Suehr
  * @version 1.0
@@ -34,16 +34,24 @@ public class DetailedChipView extends FrameLayout {
     public DetailedChipView(@NonNull Context context) {
         super(context);
         View v = inflate(context, R.layout.chip_view_detailed, this);
-        this.mContentLayout = v.findViewById(R.id.container);
-        this.mAvatarView = v.findViewById(R.id.avatar);
-        this.mTitleView = v.findViewById(R.id.title);
-        this.mLabelView = v.findViewById(R.id.subtitle);
-        this.mButtonDelete = v.findViewById(R.id.button_delete);
+        mContentLayout = v.findViewById(R.id.container);
+        mAvatarView = v.findViewById(R.id.avatar);
+        mTitleView = v.findViewById(R.id.title);
+        mLabelView = v.findViewById(R.id.subtitle);
+        mButtonDelete = v.findViewById(R.id.button_delete);
 
         setVisibility(GONE);
-        hideOnTouchOutside();
+
+        // Hide the view on touch outside of it by making it focusable.
+        setFocusable(true);
+        setFocusableInTouchMode(true);
+        setClickable(true);
     }
 
+    /**
+     * Displays the information stored in the given chip object.
+     * @param chip {@link Chip}
+     */
     public void inflateWithChip(Chip chip) {
         // Set the title and subtitle
         mTitleView.setText(chip.getTitle());
@@ -65,6 +73,9 @@ public class DetailedChipView extends FrameLayout {
         }
     }
 
+    /**
+     * Fades this view in using alpha animation.
+     */
     public void fadeIn() {
         AlphaAnimation anim = new AlphaAnimation(0.0f, 1.0f);
         anim.setDuration(200);
@@ -85,6 +96,9 @@ public class DetailedChipView extends FrameLayout {
         requestFocus();
     }
 
+    /**
+     * Fades this view out using alpha animation.
+     */
     public void fadeOut() {
         AlphaAnimation anim = new AlphaAnimation(1.0f, 0.0f);
         anim.setDuration(200);
@@ -99,17 +113,17 @@ public class DetailedChipView extends FrameLayout {
     public void alignLeft() {
         LayoutParams params = (LayoutParams)mContentLayout.getLayoutParams();
         params.leftMargin = 0;
-        this.mContentLayout.setLayoutParams(params);
+        mContentLayout.setLayoutParams(params);
     }
 
     public void alignRight() {
         LayoutParams params = (LayoutParams)mContentLayout.getLayoutParams();
         params.rightMargin = 0;
-        this.mContentLayout.setLayoutParams(params);
+        mContentLayout.setLayoutParams(params);
     }
 
     public void setOnDeleteClicked(OnClickListener onClickListener) {
-        this.mButtonDelete.setOnClickListener(onClickListener);
+        mButtonDelete.setOnClickListener(onClickListener);
     }
 
     void setChipOptions(ChipOptions options) {
@@ -143,15 +157,6 @@ public class DetailedChipView extends FrameLayout {
 
         mTitleView.setTypeface(options.typeface);
         mLabelView.setTypeface(options.typeface);
-    }
-
-    /**
-     * Hide the view on touch outside of it by making it focusable.
-     */
-    private void hideOnTouchOutside() {
-        setFocusable(true);
-        setFocusableInTouchMode(true);
-        setClickable(true);
     }
 
     private int getBackgroundColor() {
