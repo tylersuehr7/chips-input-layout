@@ -23,7 +23,7 @@ import android.widget.RelativeLayout;
  * @version 1.0
  */
 class ChipsEditText extends AppCompatEditText {
-    private OnKeyboardListener keyboardListener;
+    private OnKeyboardListener mKeyboardListener;
 
 
     ChipsEditText(Context c) {
@@ -52,8 +52,8 @@ class ChipsEditText extends AppCompatEditText {
      */
     @Override
     public void onEditorAction(int actionCode) {
-        if (keyboardListener != null && actionCode == EditorInfo.IME_ACTION_DONE) {
-            this.keyboardListener.onKeyboardActionDone(getText().toString());
+        if (mKeyboardListener != null && actionCode == EditorInfo.IME_ACTION_DONE) {
+            this.mKeyboardListener.onKeyboardActionDone(getText().toString());
         }
         super.onEditorAction(actionCode);
     }
@@ -75,11 +75,11 @@ class ChipsEditText extends AppCompatEditText {
     }
 
     void setKeyboardListener(OnKeyboardListener listener) {
-        this.keyboardListener = listener;
+        mKeyboardListener = listener;
     }
 
     OnKeyboardListener getKeyboardListener() {
-        return keyboardListener;
+        return mKeyboardListener;
     }
 
 
@@ -108,10 +108,10 @@ class ChipsEditText extends AppCompatEditText {
 
         @Override
         public boolean sendKeyEvent(KeyEvent event) {
-            if (keyboardListener != null) {
+            if (mKeyboardListener != null) {
                 if (event.getAction() == KeyEvent.ACTION_DOWN
                         && event.getKeyCode() == KeyEvent.KEYCODE_DEL) { // Backspace key
-                    keyboardListener.onKeyboardBackspace();
+                    mKeyboardListener.onKeyboardBackspace();
                 }
             }
             return super.sendKeyEvent(event);
