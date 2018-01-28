@@ -64,7 +64,7 @@ class ChipItemInputAdapter
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         return viewType == CHIP
-                ? new ChipHolder(ChipsFactory.styledChipView(parent.getContext(), mOptions))
+                ? new ChipHolder(new ChipView(parent.getContext()))
                 : new RecyclerView.ViewHolder(mEditText) {};
     }
 
@@ -218,6 +218,7 @@ class ChipItemInputAdapter
         ChipHolder(ChipView chipView) {
             super(chipView);
             this.chipView = chipView;
+            this.chipView.setChipOptions(mOptions);
             this.chipView.setOnDeleteClicked(this);
             if (mOptions.mShowDetails) {
                 this.chipView.setOnChipClicked(this);
