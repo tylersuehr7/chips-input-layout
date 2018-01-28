@@ -73,7 +73,7 @@ public class ChipsInputLayout extends MaxHeightScrollView
         mChipsAdapter = new ChipsAdapter(
                 mDataSource, loadChipsInput(), mOptions);
         mChipsRecycler = findViewById(R.id.chips_recycler);
-        mChipsRecycler.addItemDecoration(new ChipDecoration(c));
+        mChipsRecycler.addItemDecoration(new DefaultChipDecor(c));
         mChipsRecycler.setLayoutManager(ChipsLayoutManager.newBuilder(c).build());
         mChipsRecycler.setNestedScrollingEnabled(false);
         mChipsRecycler.setAdapter(mChipsAdapter);
