@@ -49,32 +49,32 @@ final class ChipOptions {
         TypedArray a = c.obtainStyledAttributes(attrs, R.styleable.ChipsInputLayout);
 
         // Setup the properties for the ChipEditText
-        this.mTextColorHint = a.getColorStateList(R.styleable.ChipsInputLayout_android_textColorHint);
-        this.mTextColor = a.getColorStateList(R.styleable.ChipsInputLayout_android_textColor);
-        this.mHint = a.getString(R.styleable.ChipsInputLayout_android_hint);
+        mTextColorHint = a.getColorStateList(R.styleable.ChipsInputLayout_android_textColorHint);
+        mTextColor = a.getColorStateList(R.styleable.ChipsInputLayout_android_textColor);
+        mHint = a.getString(R.styleable.ChipsInputLayout_android_hint);
 
         // Setup the properties for the ChipView
-        this.mChipDeleteIconColor = a.getColorStateList(R.styleable.ChipsInputLayout_chipDeleteIconColor);
-        this.mChipBackgroundColor = a.getColorStateList(R.styleable.ChipsInputLayout_chipBackgroundColor);
-        this.mChipTextColor = a.getColorStateList(R.styleable.ChipsInputLayout_chipTextColor);
-        this.mShowAvatar = a.getBoolean(R.styleable.ChipsInputLayout_chipHasAvatarIcon, true);
-        this.mShowDetails = a.getBoolean(R.styleable.ChipsInputLayout_detailedChipsEnabled, true);
-        this.mShowDelete = a.getBoolean(R.styleable.ChipsInputLayout_chipDeletable, true);
-        this.mChipDeleteIcon = a.getDrawable(R.styleable.ChipsInputLayout_chipDeleteIcon);
+        mChipDeleteIconColor = a.getColorStateList(R.styleable.ChipsInputLayout_chipDeleteIconColor);
+        mChipBackgroundColor = a.getColorStateList(R.styleable.ChipsInputLayout_chipBackgroundColor);
+        mChipTextColor = a.getColorStateList(R.styleable.ChipsInputLayout_chipTextColor);
+        mShowAvatar = a.getBoolean(R.styleable.ChipsInputLayout_chipHasAvatarIcon, true);
+        mShowDetails = a.getBoolean(R.styleable.ChipsInputLayout_detailedChipsEnabled, true);
+        mShowDelete = a.getBoolean(R.styleable.ChipsInputLayout_chipDeletable, true);
+        mChipDeleteIcon = a.getDrawable(R.styleable.ChipsInputLayout_chipDeleteIcon);
 
         // Setup the properties for the DetailedChipView
-        this.mDetailsChipDeleteIconColor = a.getColorStateList(R.styleable.ChipsInputLayout_detailedChipDeleteIconColor);
-        this.mDetailsChipBackgroundColor = a.getColorStateList(R.styleable.ChipsInputLayout_chipBackgroundColor);
-        this.mDetailsChipTextColor = a.getColorStateList(R.styleable.ChipsInputLayout_detailedChipTextColor);
+        mDetailsChipDeleteIconColor = a.getColorStateList(R.styleable.ChipsInputLayout_detailedChipDeleteIconColor);
+        mDetailsChipBackgroundColor = a.getColorStateList(R.styleable.ChipsInputLayout_chipBackgroundColor);
+        mDetailsChipTextColor = a.getColorStateList(R.styleable.ChipsInputLayout_detailedChipTextColor);
 
         // Setup the properties for the FilterableRecyclerView
-        this.mFilterableListBackgroundColor = a.getColorStateList(R.styleable.ChipsInputLayout_filterableListBackgroundColor);
-        this.mFilterableListTextColor = a.getColorStateList(R.styleable.ChipsInputLayout_filterableListTextColor);
-        this.mFilterableListElevation = a.getDimension(R.styleable.ChipsInputLayout_filterableListElevation, Utils.dp(2));
+        mFilterableListBackgroundColor = a.getColorStateList(R.styleable.ChipsInputLayout_filterableListBackgroundColor);
+        mFilterableListTextColor = a.getColorStateList(R.styleable.ChipsInputLayout_filterableListTextColor);
+        mFilterableListElevation = a.getDimension(R.styleable.ChipsInputLayout_filterableListElevation, Utils.dp(2));
 
         // Setup the properties for the ChipsInput itself
-        this.mAllowCustomChips = a.getBoolean(R.styleable.ChipsInputLayout_customChipsEnabled, true);
-        this.mMaxRows = a.getInt(R.styleable.ChipsInputLayout_maxRows, 3);
+        mAllowCustomChips = a.getBoolean(R.styleable.ChipsInputLayout_customChipsEnabled, true);
+        mMaxRows = a.getInt(R.styleable.ChipsInputLayout_maxRows, 3);
 
         a.recycle();
     }
