@@ -38,14 +38,11 @@ import java.util.List;
  */
 public class ChipsInputLayout extends MaxHeightScrollView
         implements FilterableChipsAdapter.OnFilteredChipClickListener {
-
-    /* Stores and manages all our chips */
+    /* Stores mutable properties for our library */
+    private final ChipOptions mOptions;
+    /* Stores the source of all the chips */
     private ChipDataSource mDataSource;
-
-    /* Stores the mutable properties of our ChipsInput (XML attrs) */
-    private ChipOptions mOptions;
-
-    /* Allows user to type text into the ChipsInput */
+    /* Stores reference to the user input */
     private ChipsEditText mChipsInput;
 
     /* Displays selected chips and chips EditText */

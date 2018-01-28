@@ -17,14 +17,14 @@ import com.tylersuehr.chips.data.Chip;
  * @author Tyler Suehr
  * @version 1.0
  */
-public class ChipView extends FrameLayout {
+public class ChipView extends FrameLayout implements IChipsComponent {
     private CircleImageView mAvatarView;
     private ImageButton mButtonDelete;
     private TextView mLabelView;
     private Chip mChip;
 
 
-    public ChipView(@NonNull Context context) {
+    ChipView(@NonNull Context context) {
         super(context);
         inflate(context, R.layout.chip_view, this);
         mAvatarView = findViewById(R.id.avatar);
@@ -32,48 +32,8 @@ public class ChipView extends FrameLayout {
         mButtonDelete = findViewById(R.id.button_delete);
     }
 
-    public Chip getChip() {
-        return mChip;
-    }
-
-    public void inflateFromChip(Chip chip) {
-        mChip = chip;
-        mLabelView.setText(mChip.getTitle());
-        // TODO: use image renderer somehow
-        if (mChip.getAvatarUri() != null) {
-            mAvatarView.setImageURI(mChip.getAvatarUri());
-        } else if (mChip.getAvatarDrawable() != null) {
-            mAvatarView.setImageDrawable(mChip.getAvatarDrawable());
-        }
-    }
-
-    /**
-     * Sets an OnClickListener on the ChipView itself.
-     * @param listener {@link OnChipClickListener}
-     */
-    public void setOnChipClicked(final OnChipClickListener listener) {
-        getChildAt(0).setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                listener.onChipClicked(ChipView.this);
-            }
-        });
-    }
-
-    /**
-     * Sets an OnClickListener on the delete button.
-     * @param listener {@link OnChipDeleteListener}
-     */
-    public void setOnDeleteClicked(final OnChipDeleteListener listener) {
-        mButtonDelete.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                listener.onChipDeleted(ChipView.this);
-            }
-        });
-    }
-
-    void setChipOptions(ChipOptions options) {
+    @Override
+    public void setChipOptions(ChipOptions options) {
         // Options will permit showing/hiding avatar
         if (!options.mShowAvatar) {
             // Hide the avatar image
@@ -115,11 +75,62 @@ public class ChipView extends FrameLayout {
         mLabelView.setTypeface(options.mTypeface);
     }
 
+    /**
+     * Displays the information stored in the given chip object.
+     * @param chip {@link Chip}
+     */
+    public void inflateFromChip(Chip chip) {
+        mChip = chip;
+        mLabelView.setText(mChip.getTitle());
+        // TODO: use image renderer somehow
+        if (mChip.getAvatarUri() != null) {
+            mAvatarView.setImageURI(mChip.getAvatarUri());
+        } else if (mChip.getAvatarDrawable() != null) {
+            mAvatarView.setImageDrawable(mChip.getAvatarDrawable());
+        }
+    }
 
+    public Chip getChip() {
+        return mChip;
+    }
+
+    /**
+     * Sets an OnClickListener on the ChipView itself.
+     * @param listener {@link OnChipClickListener}
+     */
+    public void setOnChipClicked(final OnChipClickListener listener) {
+        getChildAt(0).setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listener.onChipClicked(ChipView.this);
+            }
+        });
+    }
+
+    /**
+     * Sets an OnClickListener on the delete button.
+     * @param listener {@link OnChipDeleteListener}
+     */
+    public void setOnDeleteClicked(final OnChipDeleteListener listener) {
+        mButtonDelete.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listener.onChipDeleted(ChipView.this);
+            }
+        });
+    }
+
+
+    /**
+     * Defines callbacks for chip click events.
+     */
     public interface OnChipClickListener {
         void onChipClicked(ChipView v);
     }
 
+    /**
+     * Defines callbacks for chip delete events.
+     */
     public interface OnChipDeleteListener {
         void onChipDeleted(ChipView v);
     }

@@ -23,7 +23,7 @@ import com.tylersuehr.chips.data.Chip;
  * @author Tyler Suehr
  * @version 1.0
  */
-public class ChipDetailsView extends FrameLayout {
+public class ChipDetailsView extends FrameLayout implements IChipsComponent {
     private TextView mTitleView;
     private TextView mLabelView;
     private ImageButton mButtonDelete;
@@ -31,7 +31,7 @@ public class ChipDetailsView extends FrameLayout {
     private ConstraintLayout mContentLayout;
 
 
-    public ChipDetailsView(@NonNull Context context) {
+    ChipDetailsView(@NonNull Context context) {
         super(context);
         View v = inflate(context, R.layout.chip_view_detailed, this);
         mContentLayout = v.findViewById(R.id.container);
@@ -46,6 +46,40 @@ public class ChipDetailsView extends FrameLayout {
         setFocusable(true);
         setFocusableInTouchMode(true);
         setClickable(true);
+    }
+
+    @Override
+    public void setChipOptions(ChipOptions options) {
+        // Set background color, if possible
+        if (options.mDetailsChipBackgroundColor != null) {
+            mContentLayout.getBackground().setColorFilter(
+                    options.mDetailsChipBackgroundColor.getDefaultColor(),
+                    PorterDuff.Mode.SRC_ATOP);
+        }
+
+        // Set an available text color
+        if (options.mDetailsChipTextColor != null) {
+            mTitleView.setTextColor(options.mDetailsChipTextColor);
+            mLabelView.setTextColor(options.mDetailsChipTextColor);
+        } else if (Utils.isColorDark(getBackgroundColor())) {
+            mTitleView.setTextColor(ColorStateList.valueOf(Color.WHITE));
+            mLabelView.setTextColor(ColorStateList.valueOf(Color.WHITE));
+        } else {
+            mTitleView.setTextColor(ColorStateList.valueOf(Color.BLACK));
+            mLabelView.setTextColor(ColorStateList.valueOf(Color.BLACK));
+        }
+
+        // Set an available delete icon
+        if (options.mChipDeleteIcon != null) {
+            mButtonDelete.setImageDrawable(options.mChipDeleteIcon);
+        } else if (Utils.isColorDark(getBackgroundColor())) {
+            mButtonDelete.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP);
+        } else {
+            mButtonDelete.setColorFilter(Color.BLACK, PorterDuff.Mode.SRC_ATOP);
+        }
+
+        mTitleView.setTypeface(options.mTypeface);
+        mLabelView.setTypeface(options.mTypeface);
     }
 
     /**
@@ -124,39 +158,6 @@ public class ChipDetailsView extends FrameLayout {
 
     public void setOnDeleteClicked(OnClickListener onClickListener) {
         mButtonDelete.setOnClickListener(onClickListener);
-    }
-
-    void setChipOptions(ChipOptions options) {
-        // Set background color, if possible
-        if (options.mDetailsChipBackgroundColor != null) {
-            mContentLayout.getBackground().setColorFilter(
-                    options.mDetailsChipBackgroundColor.getDefaultColor(),
-                    PorterDuff.Mode.SRC_ATOP);
-        }
-
-        // Set an available text color
-        if (options.mDetailsChipTextColor != null) {
-            mTitleView.setTextColor(options.mDetailsChipTextColor);
-            mLabelView.setTextColor(options.mDetailsChipTextColor);
-        } else if (Utils.isColorDark(getBackgroundColor())) {
-            mTitleView.setTextColor(ColorStateList.valueOf(Color.WHITE));
-            mLabelView.setTextColor(ColorStateList.valueOf(Color.WHITE));
-        } else {
-            mTitleView.setTextColor(ColorStateList.valueOf(Color.BLACK));
-            mLabelView.setTextColor(ColorStateList.valueOf(Color.BLACK));
-        }
-
-        // Set an available delete icon
-        if (options.mChipDeleteIcon != null) {
-            mButtonDelete.setImageDrawable(options.mChipDeleteIcon);
-        } else if (Utils.isColorDark(getBackgroundColor())) {
-            mButtonDelete.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP);
-        } else {
-            mButtonDelete.setColorFilter(Color.BLACK, PorterDuff.Mode.SRC_ATOP);
-        }
-
-        mTitleView.setTypeface(options.mTypeface);
-        mLabelView.setTypeface(options.mTypeface);
     }
 
     private int getBackgroundColor() {

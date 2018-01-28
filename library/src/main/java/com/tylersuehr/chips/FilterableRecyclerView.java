@@ -25,7 +25,7 @@ import android.widget.Filterable;
  * @author Tyler Suehr
  * @version 1.0
  */
-class FilterableRecyclerView extends RecyclerView {
+class FilterableRecyclerView extends RecyclerView implements IChipsComponent {
     /* Used to find its location in window */
     private ChipsInputLayout mChipsInput;
     /* Used to trigger filtering and receive callbacks to show or hide this */
@@ -39,7 +39,8 @@ class FilterableRecyclerView extends RecyclerView {
         setVisibility(GONE);
     }
 
-    void setChipOptions(ChipOptions options) {
+    @Override
+    public void setChipOptions(ChipOptions options) {
         ViewCompat.setElevation(this, options.mFilterableListElevation);
         if (options.mFilterableListBackgroundColor != null) {
             getBackground().setColorFilter(options.mFilterableListBackgroundColor

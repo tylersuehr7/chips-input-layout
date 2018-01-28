@@ -22,7 +22,7 @@ import android.widget.RelativeLayout;
  * @author Tyler Suehr
  * @version 1.0
  */
-class ChipsEditText extends AppCompatEditText {
+class ChipsEditText extends AppCompatEditText implements IChipsComponent {
     private OnKeyboardListener mKeyboardListener;
 
 
@@ -63,7 +63,8 @@ class ChipsEditText extends AppCompatEditText {
         return new ChipsInputConnection(super.onCreateInputConnection(outAttrs));
     }
 
-    void setChipOptions(ChipOptions options) {
+    @Override
+    public void setChipOptions(ChipOptions options) {
         if (options.mTextColorHint != null) {
             setHintTextColor(options.mTextColorHint);
         }

@@ -9,7 +9,7 @@ import android.util.AttributeSet;
 /**
  * Copyright © 2017 Tyler Suehr
  *
- * Contains all the mutable properties for {@link ChipsInputLayout}.
+ * Contains all the mutable properties for this library.
  *
  * @author Tyler Suehr
  * @version 1.0
