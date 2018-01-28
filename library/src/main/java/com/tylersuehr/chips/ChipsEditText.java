@@ -22,7 +22,7 @@ import android.widget.RelativeLayout;
  * @author Tyler Suehr
  * @version 1.0
  */
-class ChipsEditText extends AppCompatEditText implements IChipsComponent {
+class ChipsEditText extends AppCompatEditText implements ChipComponent {
     private OnKeyboardListener mKeyboardListener;
 
 

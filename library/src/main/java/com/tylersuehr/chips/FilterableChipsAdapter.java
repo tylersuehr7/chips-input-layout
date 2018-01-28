@@ -65,14 +65,7 @@ class FilterableChipsAdapter
         final Chip chip = mDataSource.getFilteredChip(position);
 
         // Set the chip avatar, if possible
-        if (chip.getAvatarUri() != null) {
-            holder.image.setImageURI(chip.getAvatarUri());
-        } else if (chip.getAvatarDrawable() != null) {
-            holder.image.setImageDrawable(chip.getAvatarDrawable());
-        } else {
-            holder.image.setImageBitmap(LetterTileProvider.getInstance(
-                    holder.image.getContext()).getLetterTile(chip.getTitle()));
-        }
+        mOptions.mImageRenderer.renderAvatar(holder.image, chip);
 
         // Set the chip title
         holder.title.setText(chip.getTitle());

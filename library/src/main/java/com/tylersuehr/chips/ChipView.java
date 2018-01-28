@@ -17,7 +17,9 @@ import com.tylersuehr.chips.data.Chip;
  * @author Tyler Suehr
  * @version 1.0
  */
-public class ChipView extends FrameLayout implements IChipsComponent {
+public class ChipView extends FrameLayout implements ChipComponent {
+    private ChipImageRenderer mImageRenderer;
+
     private CircleImageView mAvatarView;
     private ImageButton mButtonDelete;
     private TextView mLabelView;
@@ -73,6 +75,8 @@ public class ChipView extends FrameLayout implements IChipsComponent {
             mLabelView.setTextColor(options.mChipTextColor);
         }
         mLabelView.setTypeface(options.mTypeface);
+
+        mImageRenderer = options.mImageRenderer;
     }
 
     /**
@@ -82,12 +86,11 @@ public class ChipView extends FrameLayout implements IChipsComponent {
     public void inflateFromChip(Chip chip) {
         mChip = chip;
         mLabelView.setText(mChip.getTitle());
-        // TODO: use image renderer somehow
-        if (mChip.getAvatarUri() != null) {
-            mAvatarView.setImageURI(mChip.getAvatarUri());
-        } else if (mChip.getAvatarDrawable() != null) {
-            mAvatarView.setImageDrawable(mChip.getAvatarDrawable());
+
+        if (mImageRenderer == null) {
+            throw new NullPointerException("Image renderer must be set!");
         }
+        mImageRenderer.renderAvatar(mAvatarView, chip);
     }
 
     public Chip getChip() {

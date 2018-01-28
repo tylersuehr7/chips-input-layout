@@ -4,6 +4,7 @@ import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
+import android.support.annotation.NonNull;
 import android.util.AttributeSet;
 
 /**
@@ -44,6 +45,9 @@ final class ChipOptions {
     boolean mAllowCustomChips;
     int mMaxRows;
 
+    @NonNull
+    ChipImageRenderer mImageRenderer;
+
 
     ChipOptions(Context c, AttributeSet attrs) {
         TypedArray a = c.obtainStyledAttributes(attrs, R.styleable.ChipsInputLayout);
@@ -77,5 +81,7 @@ final class ChipOptions {
         mMaxRows = a.getInt(R.styleable.ChipsInputLayout_maxRows, 3);
 
         a.recycle();
+
+        mImageRenderer = new DefaultImageRenderer();
     }
 }

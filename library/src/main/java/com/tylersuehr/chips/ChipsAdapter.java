@@ -96,7 +96,7 @@ class ChipsAdapter
         mEditText.setText("");
 
         // This will trigger callback, which calls notifyDataSetChanged()
-        mDataSource.addSelectedChip(new CustomChip(text));
+        mDataSource.addSelectedChip(new DefaultCustomChip(text));
     }
 
     /**
