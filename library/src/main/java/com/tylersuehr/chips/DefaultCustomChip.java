@@ -21,18 +21,18 @@ import java.util.UUID;
  * @author Tyler Suehr
  * @version 1.0
  */
-public final class CustomChip extends Chip {
+public final class DefaultCustomChip extends Chip {
     private String id;
     private String title;
 
 
-    CustomChip(String title, boolean filtered) {
+    DefaultCustomChip(String title, boolean filtered) {
         this.id = UUID.randomUUID().toString();
         this.title = title;
         setFilterable(filtered);
     }
 
-    CustomChip(String title) {
+    DefaultCustomChip(String title) {
         this(title, false);
     }
 
