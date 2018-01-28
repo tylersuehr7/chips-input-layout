@@ -576,7 +576,7 @@ public class ChipsInputLayout extends MaxHeightScrollView
     private void loadFilterableRecycler() {
         if (mFilteredRecycler == null) {
             // Create and set the filterable chips adapter
-            mFilteredAdapter = new FilterableChipsAdapter(this, mDataSource, mOptions);
+            mFilteredAdapter = new FilterableChipsAdapter(mDataSource, mOptions, this);
 
             // Create a new filterable recycler view
             mFilteredRecycler = new FilterableRecyclerView(getContext());

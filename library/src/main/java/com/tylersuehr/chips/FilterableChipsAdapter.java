@@ -17,40 +17,42 @@ import com.tylersuehr.chips.data.ChipChangedObserver;
 /**
  * Copyright © 2017 Tyler Suehr
  *
- * Used by {@link FilterableRecyclerView} to adapt the filterable chips into views
- * and display them in a linear list-like fashion.
+ * Used by {@link FilterableRecyclerView} to adapt the filterable chips into
+ * views and display them in a linear list-like fashion.
  *
- * This adapter should afford the ability to filter the appropriate data source and update
- * the UI accordingly. It should also allow the user to press on a filterable chip item to
- * select it.
+ * This adapter should afford the ability to mFilter the appropriate data source
+ * and update the UI accordingly. It should also allow the user to press on a
+ * filterable chip item to select it.
  *
- * We should also observe changes to {@link ChipDataSource} to update the UI accordingly.
+ * We should also observe changes to {@link ChipDataSource} to update the UI
+ * accordingly.
  *
  * @author Tyler Suehr
  * @version 1.0
  */
-class FilterableChipsAdapter extends RecyclerView.Adapter<FilterableChipsAdapter.Holder>
+class FilterableChipsAdapter
+        extends RecyclerView.Adapter<FilterableChipsAdapter.Holder>
         implements ChipChangedObserver, Filterable {
-    private final ChipDataSource chipDataSource;
-    private final ChipOptions chipOptions;
-    private final OnFilteredChipClickListener listener;
-    private ChipFilter filter;
+    private final OnFilteredChipClickListener mListener;
+    private final ChipDataSource mDataSource;
+    private final ChipOptions mOptions;
+    private ChipFilter mFilter;
 
 
-    FilterableChipsAdapter(OnFilteredChipClickListener listener,
-                           ChipDataSource chipDataSource,
-                           ChipOptions chipOptions) {
-        this.listener = listener;
-        this.chipDataSource = chipDataSource;
-        this.chipOptions = chipOptions;
+    FilterableChipsAdapter(ChipDataSource chipDataSource,
+                           ChipOptions chipOptions,
+                           OnFilteredChipClickListener listener) {
+        mDataSource = chipDataSource;
+        mOptions = chipOptions;
+        mListener = listener;
 
         // Register an observer on chip data source
-        this.chipDataSource.addChipChangedObserver(this);
+        mDataSource.addChipChangedObserver(this);
     }
 
     @Override
     public int getItemCount() {
-        return chipDataSource.getFilteredChips().size();
+        return mDataSource.getFilteredChips().size();
     }
 
     @Override
@@ -62,52 +64,49 @@ class FilterableChipsAdapter extends RecyclerView.Adapter<FilterableChipsAdapter
 
     @Override
     public void onBindViewHolder(Holder holder, int position) {
-        final Chip chip = chipDataSource.getFilteredChip(position);
+        final Chip chip = mDataSource.getFilteredChip(position);
 
         // Set the chip avatar, if possible
-        if (chipOptions.mShowAvatar && chip.getAvatarUri() != null) {
-            holder.image.setVisibility(View.VISIBLE);
+        if (chip.getAvatarUri() != null) {
             holder.image.setImageURI(chip.getAvatarUri());
-        } else if (chipOptions.mShowAvatar && chip.getAvatarDrawable() != null) {
-            holder.image.setVisibility(View.VISIBLE);
+        } else if (chip.getAvatarDrawable() != null) {
             holder.image.setImageDrawable(chip.getAvatarDrawable());
-        } else if (chipOptions.mShowAvatar) {
-            holder.image.setVisibility(View.VISIBLE);
+        } else {
             holder.image.setImageBitmap(LetterTileProvider.getInstance(
                     holder.image.getContext()).getLetterTile(chip.getTitle()));
-        } else {
-            holder.image.setVisibility(View.GONE);
         }
 
         // Set the chip title
         holder.title.setText(chip.getTitle());
-        holder.title.setTypeface(chipOptions.typeface);
+        holder.title.setTypeface(mOptions.typeface);
 
         // Set the chip subtitle, if possible
         if (chip.getSubtitle() != null) {
             holder.subtitle.setVisibility(View.VISIBLE);
             holder.subtitle.setText(chip.getSubtitle());
-            holder.subtitle.setTypeface(chipOptions.typeface);
+            holder.subtitle.setTypeface(mOptions.typeface);
         } else {
             holder.subtitle.setVisibility(View.GONE);
         }
 
         // Set chip colors from options, if possible
-        if (chipOptions.filterableListBackgroundColor != null) {
-            holder.itemView.getBackground().setColorFilter(chipOptions.filterableListBackgroundColor.getDefaultColor(), PorterDuff.Mode.SRC_ATOP);
+        if (mOptions.filterableListBackgroundColor != null) {
+            holder.itemView.getBackground().setColorFilter(mOptions
+                    .filterableListBackgroundColor.getDefaultColor(), PorterDuff.Mode.SRC_ATOP);
         }
-        if (chipOptions.filterableListTextColor != null) {
-            holder.title.setTextColor(chipOptions.filterableListTextColor);
-            holder.subtitle.setTextColor(Utils.alpha(chipOptions.filterableListTextColor.getDefaultColor(), 150));
+        if (mOptions.filterableListTextColor != null) {
+            holder.title.setTextColor(mOptions.filterableListTextColor);
+            holder.subtitle.setTextColor(Utils.alpha(mOptions
+                    .filterableListTextColor.getDefaultColor(), 150));
         }
     }
 
     @Override
     public Filter getFilter() {
-        if (filter == null) {
-            this.filter = new ChipFilter();
+        if (mFilter == null) {
+            mFilter = new ChipFilter();
         }
-        return filter;
+        return mFilter;
     }
 
     @Override
@@ -116,10 +115,13 @@ class FilterableChipsAdapter extends RecyclerView.Adapter<FilterableChipsAdapter
     }
 
 
+    /**
+     * Nested inner-subclass of {@link RecyclerView.ViewHolder} to hold
+     * references to the views in the filterable list item.
+     */
     class Holder extends RecyclerView.ViewHolder implements View.OnClickListener {
         CircleImageView image;
-        TextView title;
-        TextView subtitle;
+        TextView title, subtitle;
 
         Holder(View v) {
             super(v);
@@ -135,11 +137,11 @@ class FilterableChipsAdapter extends RecyclerView.Adapter<FilterableChipsAdapter
             // Have takeChip(int) return a Chip object; which can be null checked for callback
 
             // Take the chip from the filtered chip list
-            final Chip chip = chipDataSource.getFilteredChip(getAdapterPosition());
-            chipDataSource.takeChip(chip);
+            final Chip chip = mDataSource.getFilteredChip(getAdapterPosition());
+            mDataSource.takeChip(chip);
 
             // Trigger callback with the clicked chip
-            listener.onFilteredChipClick(chip);
+            mListener.onFilteredChipClick(chip);
         }
     }
 
@@ -153,7 +155,7 @@ class FilterableChipsAdapter extends RecyclerView.Adapter<FilterableChipsAdapter
 
 
     /**
-     * Concrete implementation of {@link Filter} to help us filter our list of filterable chips.
+     * Concrete implementation of {@link Filter} to help us mFilter our list of filterable chips.
      *
      * This works by cloning the list of filterable chips, so that the original filterable chips
      * list is retained, and then inclusively filtering the data source filterable chips list.
@@ -161,7 +163,7 @@ class FilterableChipsAdapter extends RecyclerView.Adapter<FilterableChipsAdapter
      * Once the data source filterable chips list is filtered, the adapter will notify data
      * set changes have happened.
      *
-     * If the user removes the filter (removing all the typed characters), the original list
+     * If the user removes the mFilter (removing all the typed characters), the original list
      * of filterable chips will be added back into the data source filterable chips.
      */
     private final class ChipFilter extends Filter {
@@ -169,21 +171,21 @@ class FilterableChipsAdapter extends RecyclerView.Adapter<FilterableChipsAdapter
         protected FilterResults performFiltering(CharSequence constraint) {
             FilterResults results = new FilterResults();
 
-            chipDataSource.getFilteredChips().clear();
+            mDataSource.getFilteredChips().clear();
             if (TextUtils.isEmpty(constraint)) {
-                chipDataSource.getFilteredChips().addAll(chipDataSource.getOriginalChips());
+                mDataSource.getFilteredChips().addAll(mDataSource.getOriginalChips());
             } else {
                 final String pattern = constraint.toString().toLowerCase().trim();
-                for (Chip chip : chipDataSource.getOriginalChips()) {
+                for (Chip chip : mDataSource.getOriginalChips()) {
                     if (chip.getTitle().toLowerCase().contains(pattern)
                             || (chip.getSubtitle() != null && chip.getSubtitle().toLowerCase().replaceAll("\\s", "").contains(pattern))) {
-                        chipDataSource.getFilteredChips().add(chip);
+                        mDataSource.getFilteredChips().add(chip);
                     }
                 }
             }
 
-            results.values = chipDataSource.getFilteredChips();
-            results.count = chipDataSource.getFilteredChips().size();
+            results.values = mDataSource.getFilteredChips();
+            results.count = mDataSource.getFilteredChips().size();
             return results;
         }
 
