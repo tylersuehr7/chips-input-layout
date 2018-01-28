@@ -17,15 +17,14 @@ import com.tylersuehr.chips.data.ChipChangedObserver;
 /**
  * Copyright © 2017 Tyler Suehr
  *
- * Used by {@link FilterableRecyclerView} to adapt the filterable chips into
- * views and display them in a linear list-like fashion.
+ * Subclass of {@link RecyclerView.Adapter} to adapt the filterable chips
+ * into views and display them in a linear list-list fashion.
  *
- * This adapter should afford the ability to mFilter the appropriate data source
- * and update the UI accordingly. It should also allow the user to press on a
+ * This should afford the ability to filter the appropriate data source and
+ * update the UI accordingly. It should also allow the user to press on a
  * filterable chip item to select it.
  *
- * We should also observe changes to {@link ChipDataSource} to update the UI
- * accordingly.
+ * This observes changes to {@link ChipDataSource} to update its UI accordingly.
  *
  * @author Tyler Suehr
  * @version 1.0

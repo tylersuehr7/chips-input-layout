@@ -12,7 +12,7 @@ import com.tylersuehr.chips.data.Chip;
 /**
  * Copyright © 2017 Tyler Suehr
  *
- * This is the view that displays the normal mChip (specified in Material Design Guide).
+ * This view displays the normal chip (specified in Material Design Guide).
  *
  * @author Tyler Suehr
  * @version 1.0

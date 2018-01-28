@@ -12,10 +12,10 @@ import android.widget.RelativeLayout;
 /**
  * Copyright © 2017 Tyler Suehr
  *
- * Setting onKeyEventListener doesn't work on software keyboards (IME) :(
+ * Subclass of {@link AppCompatEditText} that provides a solution for detecting both
+ * the IME_ACTION_DONE and backspace key press on software keyboards.
  *
- * This subclass of {@link AppCompatEditText} provides a solution for detecting both
- * the IME_ACTION_DONE and backspace key press on software keyboards!
+ * Setting onKeyEventListener doesn't work on software keyboards (IME) :(
  *
  * TODO: Also try to simplify text watcher crap with this as well
  *

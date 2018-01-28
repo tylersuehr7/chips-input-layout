@@ -21,7 +21,7 @@ import android.text.TextPaint;
  * a randomly, but repeatable, color. If no digit or letter in the English alphabet
  * is available, a default image is shown instead.
  *
- * This tool affords the above with two methods:
+ * This affords the above with two methods:
  * (1) {@link #getLetterTile(String)}, and
  * (2) {@link #getCircularLetterTile(String)}
  *

@@ -12,21 +12,20 @@ import com.tylersuehr.chips.data.ChipChangedObserver;
 /**
  * Copyright © 2017 Tyler Suehr
  *
- * Used by {@link ChipsInputLayout} to adapt the selected chips into views and
- * display the EditText to allow the user to type text in for chips.
+ * Subclass of {@link RecyclerView.Adapter} to adapt the selected chips into views
+ * and display an input (EditText) to allow the user to type text in for chips.
  *
- * This adapter should also afford the following abilities/features:
+ * This adapter should afford the following abilities/features:
  * (1) Allow user to create custom chips, if the options permit it.
  * (2) Allow user to remove any chip by pressing delete on an empty input.
  * (3) Allow the user to see chip details, if the options permit it.
  *
- * We should also observe changes to {@link ChipDataSource} to update the UI
- * accordingly.
+ * This observes changes to {@link ChipDataSource} to update the UI accordingly.
  *
  * @author Tyler Suehr
  * @version 1.0
  */
-class ChipItemInputAdapter
+class ChipsAdapter
         extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         implements ChipsEditText.OnKeyboardListener, ChipChangedObserver {
     private static final int CHIP  = 0;
@@ -37,9 +36,9 @@ class ChipItemInputAdapter
     private final ChipsEditText mEditText;
 
 
-    ChipItemInputAdapter(ChipDataSource dataSource,
-                         ChipsEditText editText,
-                         ChipOptions options) {
+    ChipsAdapter(ChipDataSource dataSource,
+                 ChipsEditText editText,
+                 ChipOptions options) {
         mDataSource = dataSource;
         mEditText = editText;
         mOptions = options;

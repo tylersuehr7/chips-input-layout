@@ -23,7 +23,7 @@ import android.util.AttributeSet;
 /**
  * Copyright © 2017 Tyler Suehr
  *
- * A subclass of {@link AppCompatImageView} that will crop the given image into
+ * Subclass of {@link AppCompatImageView} that will crop the given image into
  * a circular Bitmap image.
  *
  * @author Tyler Suehr

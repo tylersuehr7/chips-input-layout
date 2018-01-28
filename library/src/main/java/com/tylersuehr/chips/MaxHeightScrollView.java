@@ -7,8 +7,8 @@ import android.util.AttributeSet;
 /**
  * Copyright © 2017 Tyler Suehr
  *
- * A subclass of {@link NestedScrollView} that allows you to specify a maximum height
- * that the view cannot exceed.
+ * Subclass of {@link NestedScrollView} that allows a maximum height to be specified
+ * such that this views height cannot exceed it.
  *
  * @author Tyler Suehr
  * @version 1.0

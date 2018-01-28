@@ -27,12 +27,12 @@ import java.util.List;
  *
  * Chips are a design concept specified in the Google Material Design Guide.
  *
- * The purpose of this view, in this library, is for displaying chips in a flowing layout,
- * and allowing the user to input to filter any filterable chips or to create custom chips.
+ * The purpose of this view, and this library, is for displaying chips in a flowing
+ * layout, and allowing the user to input to filter any filterable chips or to create
+ * custom chips.
  *
  * Important notes:
- * The chips data source is initialized as a {@link ListChipDataSource} in the constructor
- * by default.
+ * By default, the chip data source is {@link ListChipDataSource}.
  *
  * @author Tyler Suehr
  * @version 1.0
@@ -51,7 +51,7 @@ public class ChipsInputLayout extends MaxHeightScrollView
 
     /* Displays selected chips and chips EditText */
     private final RecyclerView mChipsRecycler;
-    private final ChipItemInputAdapter mChipsAdapter;
+    private final ChipsAdapter mChipsAdapter;
 
     /* Displays filtered chips */
     private FilterableRecyclerView mFilteredRecycler;
@@ -74,7 +74,7 @@ public class ChipsInputLayout extends MaxHeightScrollView
         inflate(c, R.layout.chips_input_view, this);
 
         // Setup the chips recycler view
-        mChipsAdapter = new ChipItemInputAdapter(
+        mChipsAdapter = new ChipsAdapter(
                 mDataSource, loadChipsInput(), mOptions);
         mChipsRecycler = findViewById(R.id.chips_recycler);
         mChipsRecycler.setLayoutManager(ChipsLayoutManager.newBuilder(c).build());
