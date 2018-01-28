@@ -8,6 +8,6 @@ package com.tylersuehr.chips;
  * @author Tyler Suehr
  * @version 1.0
  */
-interface IChipsComponent {
+interface ChipComponent {
     void setChipOptions(ChipOptions options);
 }
