@@ -25,15 +25,6 @@ final class Utils {
         return (int)(px * density);
     }
 
-    static float sp(@Px int px) {
-        final float sDensity = Resources.getSystem().getDisplayMetrics().scaledDensity;
-        return (px * sDensity);
-    }
-
-    static int alpha(int color, int alpha) {
-        return Color.argb(alpha, Color.red(color), Color.green(color), Color.blue(color));
-    }
-
     static boolean isColorDark(int color) {
         double darkness = 1 - (0.2126 * Color.red(color)
                 + 0.7152 * Color.green(color)
@@ -53,36 +44,28 @@ final class Utils {
 
         if (!hasMenuKey && !hasBackKey) {
             // The device has a navigation bar
-            Resources res = c.getResources();
+            final Resources res = c.getResources();
+            final Configuration config = res.getConfiguration();
 
-            int orientation = res.getConfiguration().orientation;
+            int orientation = config.orientation;
             int resourceId;
-            if (isTablet(c)) {
-                resourceId = res.getIdentifier(orientation == Configuration.ORIENTATION_PORTRAIT ? "navigation_bar_height" : "navigation_bar_height_landscape", "dimen", "android");
+
+            // Check if the device is a tablet
+            if ((config.screenLayout&Configuration.SCREENLAYOUT_SIZE_MASK)
+                    >= Configuration.SCREENLAYOUT_SIZE_LARGE) {
+                resourceId = res.getIdentifier(orientation == Configuration.ORIENTATION_PORTRAIT
+                        ? "navigation_bar_height" : "navigation_bar_height_landscape",
+                        "dimen", "android");
             } else {
-                resourceId = res.getIdentifier(orientation == Configuration.ORIENTATION_PORTRAIT ? "navigation_bar_height" : "navigation_bar_width", "dimen", "android");
+                resourceId = res.getIdentifier(orientation == Configuration.ORIENTATION_PORTRAIT
+                        ? "navigation_bar_height" : "navigation_bar_width",
+                        "dimen", "android");
             }
+
             if (resourceId > 0) {
                 return res.getDimensionPixelSize(resourceId);
             }
         }
         return result;
-    }
-
-    static Activity scanForActivity(Context c) {
-        if (c == null) {
-            return null;
-        } else if (c instanceof Activity) {
-            return (Activity)c;
-        } else if (c instanceof ContextWrapper) {
-            return scanForActivity(((ContextWrapper)c).getBaseContext());
-        }
-        return null;
-    }
-
-    private static boolean isTablet(Context c) {
-        final Resources res = c.getResources();
-        return (res.getConfiguration().screenLayout&Configuration.SCREENLAYOUT_SIZE_MASK)
-                >= Configuration.SCREENLAYOUT_SIZE_LARGE;
     }
 }

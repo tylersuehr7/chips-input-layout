@@ -56,7 +56,7 @@ class FilterableChipsAdapter
     @Override
     public Holder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        View v = inflater.inflate(R.layout.adapter_filtereable_item, parent, false);
+        View v = inflater.inflate(R.layout.chip_view_filterable, parent, false);
         return new Holder(v);
     }
 
@@ -87,8 +87,7 @@ class FilterableChipsAdapter
         }
         if (mOptions.mFilterableListTextColor != null) {
             holder.title.setTextColor(mOptions.mFilterableListTextColor);
-            holder.subtitle.setTextColor(Utils.alpha(mOptions
-                    .mFilterableListTextColor.getDefaultColor(), 150));
+            holder.subtitle.setTextColor(mOptions.mFilterableListTextColor);
         }
     }
 
