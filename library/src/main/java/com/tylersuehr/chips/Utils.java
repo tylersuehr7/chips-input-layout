@@ -1,7 +1,5 @@
 package com.tylersuehr.chips;
-import android.app.Activity;
 import android.content.Context;
-import android.content.ContextWrapper;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Color;
@@ -21,7 +19,8 @@ import android.view.ViewConfiguration;
  */
 final class Utils {
     static int dp(@Px int px) {
-        final float density = Resources.getSystem().getDisplayMetrics().density;
+        final float density = Resources.getSystem()
+                .getDisplayMetrics().density;
         return (int)(px * density);
     }
 
