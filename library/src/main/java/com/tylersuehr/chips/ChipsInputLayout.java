@@ -549,6 +549,10 @@ public class ChipsInputLayout extends MaxHeightScrollView
         }
     }
 
+    public void setImageRenderer(ChipImageRenderer renderer) {
+        mOptions.mImageRenderer = renderer;
+    }
+
     /**
      * Gets the current chip data source being used.
      *

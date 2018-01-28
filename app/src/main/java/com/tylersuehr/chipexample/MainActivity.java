@@ -1,11 +1,8 @@
 package com.tylersuehr.chipexample;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuItem;
 
 import com.tylersuehr.chips.ChipsInputLayout;
 
@@ -33,6 +30,7 @@ public class MainActivity extends ContactLoadingActivity
 
         // Setup chips input
         mChipsInput = (ChipsInputLayout)findViewById(R.id.chips_input);
+        mChipsInput.setImageRenderer(new GlideRenderer());
 
         // Load the current user's contact information
         loadContactsWithRuntimePermission();
