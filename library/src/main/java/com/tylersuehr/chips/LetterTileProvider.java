@@ -62,7 +62,7 @@ public class LetterTileProvider {
                 .getDrawable(c, R.drawable.chip_delete_icon_24dp));
     }
 
-    static LetterTileProvider getInstance(Context c) {
+    public static LetterTileProvider getInstance(Context c) {
         if (instance == null) {
             synchronized (LetterTileProvider.class) {
                 if (instance == null) {
