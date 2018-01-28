@@ -1,33 +1,39 @@
 package com.tylersuehr.chips;
+
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+
 import com.tylersuehr.chips.data.Chip;
+
 import java.util.UUID;
 
 /**
  * Copyright © 2017 Tyler Suehr
  *
- * Subclass of {@link Chip} that contains the most minimal information needed to work
- * and is not filterable.
+ * Subclass of {@link Chip} that's used when the user creates a custom chip.
  *
- * Note: although this is publicly accessible, this is intended to be used by
- * this library as a custom chip when a user types a custom chip title into the
- * input only.
+ * A custom chip can be created whenever the user inputs text into the chip
+ * input layout, that doesn't match filterable information, and they press
+ * enter on the software keyboard.
  *
  * @author Tyler Suehr
  * @version 1.0
  */
-public class NonFilterableChip extends Chip {
-    private final String id;
-    private final String title;
+public final class CustomChip extends Chip {
+    private String id;
+    private String title;
 
 
-    public NonFilterableChip(String title) {
-        setFilterable(false);
+    CustomChip(String title, boolean filtered) {
         this.id = UUID.randomUUID().toString();
         this.title = title;
+        setFilterable(filtered);
+    }
+
+    CustomChip(String title) {
+        this(title, false);
     }
 
     @Nullable

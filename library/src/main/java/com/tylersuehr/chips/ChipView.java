@@ -3,6 +3,7 @@ import android.content.Context;
 import android.graphics.PorterDuff;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
+import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -48,18 +49,28 @@ public class ChipView extends FrameLayout {
 
     /**
      * Sets an OnClickListener on the ChipView itself.
-     * @param onClickListener {@link OnClickListener}
+     * @param listener {@link OnChipClickListener}
      */
-    public void setOnChipClicked(OnClickListener onClickListener) {
-        getChildAt(0).setOnClickListener(onClickListener);
+    public void setOnChipClicked(final OnChipClickListener listener) {
+        getChildAt(0).setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listener.onChipClicked(ChipView.this);
+            }
+        });
     }
 
     /**
      * Sets an OnClickListener on the delete button.
-     * @param onClickListener {@link OnClickListener}
+     * @param listener {@link OnChipDeleteListener}
      */
-    public void setOnDeleteClicked(OnClickListener onClickListener) {
-        mButtonDelete.setOnClickListener(onClickListener);
+    public void setOnDeleteClicked(final OnChipDeleteListener listener) {
+        mButtonDelete.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listener.onChipDeleted(ChipView.this);
+            }
+        });
     }
 
     void setChipOptions(ChipOptions options) {
@@ -102,5 +113,14 @@ public class ChipView extends FrameLayout {
             mLabelView.setTextColor(options.mChipTextColor);
         }
         mLabelView.setTypeface(options.typeface);
+    }
+
+
+    public interface OnChipClickListener {
+        void onChipClicked(ChipView v);
+    }
+
+    public interface OnChipDeleteListener {
+        void onChipDeleted(ChipView v);
     }
 }
