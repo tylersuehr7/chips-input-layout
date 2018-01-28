@@ -581,7 +581,7 @@ public class ChipsInputLayout extends MaxHeightScrollView
             // Create a new filterable recycler view
             mFilteredRecycler = new FilterableRecyclerView(getContext());
             mFilteredRecycler.setChipOptions(mOptions);
-            mFilteredRecycler.setAdapter(this, mFilteredAdapter);
+            mFilteredRecycler.setup(mFilteredAdapter, this);
 
             // To show our filterable recycler view, we need to make sure
             // our ChipsInputLayout has already been displayed on the screen

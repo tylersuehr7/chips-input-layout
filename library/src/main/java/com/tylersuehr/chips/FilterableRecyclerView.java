@@ -15,22 +15,21 @@ import android.widget.Filterable;
 /**
  * Copyright © 2017 Tyler Suehr
  *
- * This subclass of {@link RecyclerView} will allow us to call to the {@link Filter} to
- * filter the appropriate data source, and then receive a callback once the filtering is
- * complete.
+ * Subclass of {@link RecyclerView} to enable calling to {@link Filter} object
+ * to filter the appropriate data source, and then receive a callback once the
+ * filtering is completed.
  *
- * We want to callbacks for filtering events because we can handle showing/hiding this
- * view respectively.
+ * Callbacks for filtering events are necessary because they are used to show/hide
+ * this view respectively.
  *
  * @author Tyler Suehr
  * @version 1.0
  */
 class FilterableRecyclerView extends RecyclerView {
-    /* Used to determine location in window */
-    private ChipsInputLayout chipsInput;
-
+    /* Used to find its location in window */
+    private ChipsInputLayout mChipsInput;
     /* Used to trigger filtering and receive callbacks to show or hide this */
-    private Filter chipsFilter;
+    private Filter mFilter;
 
 
     FilterableRecyclerView(Context c) {
@@ -48,10 +47,11 @@ class FilterableRecyclerView extends RecyclerView {
         }
     }
 
-    <T extends RecyclerView.Adapter & Filterable> void setAdapter(ChipsInputLayout chipsInput, T adapter) {
+    <T extends RecyclerView.Adapter & Filterable>
+    void setup(T adapter, ChipsInputLayout chipsInputLayout) {
         setAdapter(adapter);
-        this.chipsInput = chipsInput;
-        this.chipsFilter = adapter.getFilter();
+        mFilter = adapter.getFilter();
+        mChipsInput = chipsInputLayout;
     }
 
     /**
@@ -62,7 +62,7 @@ class FilterableRecyclerView extends RecyclerView {
      */
     void filterChips(CharSequence filter) {
         if (filter != null) {
-            this.chipsFilter.filter(filter, new Filter.FilterListener() {
+            mFilter.filter(filter, new Filter.FilterListener() {
                 @Override
                 public void onFilterComplete(int count) {
                     // Show if, and only if, there are results
@@ -88,9 +88,10 @@ class FilterableRecyclerView extends RecyclerView {
         rootView.getWindowVisibleDisplayFrame(r);
 
         int[] coord = new int[2];
-        this.chipsInput.getLocationInWindow(coord);
+        mChipsInput.getLocationInWindow(coord);
+
         ViewGroup.MarginLayoutParams lp = (MarginLayoutParams)getLayoutParams();
-        lp.topMargin = coord[1] + chipsInput.getHeight();
+        lp.topMargin = coord[1] + mChipsInput.getHeight();
 
         // Height of the keyboard
         lp.bottomMargin = rootView.getHeight() - r.bottom;
