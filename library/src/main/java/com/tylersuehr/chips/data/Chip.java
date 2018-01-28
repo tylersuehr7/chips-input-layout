@@ -12,23 +12,20 @@ import java.util.Locale;
 /**
  * Copyright © 2017 Tyler Suehr
  *
- * This is an abstraction that represents the most basic chip.
+ * This represents a chip (specified in Google Material Design Guide) as an object.
  *
  * @author Tyler Suehr
  * @version 1.0
  */
 public abstract class Chip {
-    /* Allows us to compare text from any language(s) */
-    private static Collator collator;
-
-    /* Allows us to compare Chip objects to each other */
-    private static Comparator<Chip> comparator;
-
-    /* Any king of extra data we might want to use */
-    private Object tag;
-
+    /* Allows to compare text from any language(s) */
+    private static Collator sCollator;
+    /* Allows to compare Chip objects to each other */
+    private static Comparator<Chip> sComparator;
+    /* Any king of extra data that might be used */
+    private Object mTag;
     /* Specifies if this Chip can be filtered or not */
-    private boolean filterable;
+    private boolean mFilterable;
 
 
     @Nullable
@@ -47,37 +44,37 @@ public abstract class Chip {
     public abstract Drawable getAvatarDrawable();
 
     /**
-     * Lazy loads a static comparator to compare chips.
+     * Lazy loads a comparator to compare chips to each other.
      * @return {@link Comparator}
      */
     public static Comparator<Chip> getComparator() {
-        if (comparator == null) {
-            comparator = new Comparator<Chip>() {
+        if (sComparator == null) {
+            sComparator = new Comparator<Chip>() {
                 @Override
                 public int compare(Chip c1, Chip c2) {
-                    if (collator == null) {
-                        collator = Collator.getInstance(Locale.getDefault());
+                    if (sCollator == null) {
+                        sCollator = Collator.getInstance(Locale.getDefault());
                     }
-                    return collator.compare(c1.getTitle(), c2.getTitle());
+                    return sCollator.compare(c1.getTitle(), c2.getTitle());
                 }
             };
         }
-        return comparator;
+        return sComparator;
     }
 
     public Object getTag() {
-        return tag;
+        return mTag;
     }
 
     public void setTag(Object tag) {
-        this.tag = tag;
+        this.mTag = tag;
     }
 
     public void setFilterable(boolean value) {
-        this.filterable = value;
+        this.mFilterable = value;
     }
 
     public boolean isFilterable() {
-        return filterable;
+        return mFilterable;
     }
 }
