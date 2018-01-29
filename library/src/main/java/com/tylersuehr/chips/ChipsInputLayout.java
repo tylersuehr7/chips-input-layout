@@ -398,7 +398,7 @@ public class ChipsInputLayout extends MaxHeightScrollView
      *
      * @param observer {@link ChipDataSource.SelectionObserver}
      */
-    public void addChipSelectionObserver(ChipDataSource.SelectionObserver observer) {
+    public void addSelectionObserver(ChipDataSource.SelectionObserver observer) {
         mDataSource.addSelectionObserver(observer);
     }
 
@@ -407,7 +407,7 @@ public class ChipsInputLayout extends MaxHeightScrollView
      *
      * @param observer {@link ChipDataSource.SelectionObserver}
      */
-    public void removeChipSelectionObserver(ChipDataSource.SelectionObserver observer) {
+    public void removeSelectionObserver(ChipDataSource.SelectionObserver observer) {
         mDataSource.removeSelectionObserver(observer);
     }
 
@@ -418,7 +418,7 @@ public class ChipsInputLayout extends MaxHeightScrollView
      *
      * @param observer {@link ChipDataSource.ChangeObserver}
      */
-    public void addChipChangedObserver(ChipDataSource.ChangeObserver observer) {
+    public void addChangeObserver(ChipDataSource.ChangeObserver observer) {
         mDataSource.addChangedObserver(observer);
     }
 
@@ -427,7 +427,7 @@ public class ChipsInputLayout extends MaxHeightScrollView
      *
      * @param observer {@link ChipDataSource.ChangeObserver}
      */
-    public void removeChipChangedObserver(ChipDataSource.ChangeObserver observer) {
+    public void removeChangeObserver(ChipDataSource.ChangeObserver observer) {
         mDataSource.removeChangedObserver(observer);
     }
 
@@ -507,27 +507,27 @@ public class ChipsInputLayout extends MaxHeightScrollView
         mOptions.mShowDelete = enabled;
     }
 
-    public void setDetailedChipDeleteIconColor(ColorStateList detailedChipIconColor) {
+    public void setChipDetailsDeleteIconColor(ColorStateList detailedChipIconColor) {
         mOptions.mDetailsChipDeleteIconColor = detailedChipIconColor;
     }
 
-    public void setDetailedChipBackgroundColor(ColorStateList detailedChipBackgroundColor) {
+    public void setChipDetailsBackgroundColor(ColorStateList detailedChipBackgroundColor) {
         mOptions.mDetailsChipBackgroundColor = detailedChipBackgroundColor;
     }
 
-    public void setDetailedChipTextColor(ColorStateList detailedChipTextColor) {
+    public void setChipDetailsTextColor(ColorStateList detailedChipTextColor) {
         mOptions.mDetailsChipTextColor = detailedChipTextColor;
     }
 
-    public void setFilterableListBackgroundColor(ColorStateList backgroundColor) {
+    public void setFilterListBackgroundColor(ColorStateList backgroundColor) {
         mOptions.mFilterableListBackgroundColor = backgroundColor;
     }
 
-    public void setFilterableListTextColor(ColorStateList textColor) {
+    public void setFilterListTextColor(ColorStateList textColor) {
         mOptions.mFilterableListTextColor = textColor;
     }
 
-    public void setFilterableListElevation(float elevation) {
+    public void setFilterListElevation(float elevation) {
         mOptions.mFilterableListElevation = elevation;
     }
 
@@ -548,6 +548,10 @@ public class ChipsInputLayout extends MaxHeightScrollView
         }
     }
 
+    /**
+     * Sets the image renderer used to load chip avatars.
+     * @param renderer {@link ChipImageRenderer}
+     */
     public void setImageRenderer(ChipImageRenderer renderer) {
         mOptions.mImageRenderer = renderer;
     }
