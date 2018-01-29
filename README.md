@@ -281,6 +281,43 @@ public class CoolAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> i
 }
 ```
 
+## Using Image Loading Libraries (Glide, Picasso,...)
+This library affords the ability to use custom image rendering so that you can use any 3rd-party image loading libraries that you wish. `ChipImageRenderer` is provided to the library components to use when they need to load chip avatars. 
+
+By default, `ChipsInputLayout` will use its own implementation of `ChipImageRenderer`, but you can provide a custom implementation to use instead by calling `setImageRenderer(ChipImageRenderer)` in `ChipsInputLayout`.
+
+Here's a small example (using Glide):
+```java
+public class GlideRenderer implements ChipImageRenderer {
+    @Override
+    public void renderAvatar(ImageView imageView, Chip chip) {
+        if (chip.getAvatarUri() != null) {
+            // Use Glide to load URL (provided in avatar uri)
+            Glide.with(imageView.getContext())
+                    .load(chip.getAvatarUri())
+                    .into(imageView);
+        } else {
+            // Default to circular tile if no uri exists
+            imageView.setImageBitmap(LetterTileProvider
+                    .getInstance(imageView.getContext())
+                    .getLetterTile(chip.getTitle()));
+        }
+    }
+}
+
+@Override
+protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.activity_cool);
+    
+    // Find out chips input layout in xml layout
+    ChipsInputLayout chipsInput = (ChipsInputLayout)findViewById(R.id.chips_input);
+    
+    // Set the custom image renderer for chip avatars
+    chipsInput.setImageRenderer(new GlideRenderer());
+}
+```
+
 ## Chip Validation
 This library also affords the ability to validate chips. Chip validtion can be used for a plethora of reasons or use-cases. Validation can be done on the selected chips or on a single chip itself.
 
