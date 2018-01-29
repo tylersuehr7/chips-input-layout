@@ -29,24 +29,25 @@ dependencies {
 }  
 ```
 
-Here's some of the core features of this library:
-* You can allow the user to filter chips as they type
-* You can allow the user to enter custom chips
-* You can specify if the chips show details, is deletable, or has an avatar
-* You can specify how the chips are managed/stored in memory
-* ChipsInputView can validate chips that are selected
-* Most views (seen in screenshots) are highly customizable
-* Sticks to the Material Design Guide as much as possible
+Core features of this library:
+* Use libraries (Glide, Picasso,...) to load chip avatars
+* Filter chips as user inputs text
+* Allow user to create custom chips
+* Specify if chips show details, are deletable, or have an avatar
+* Specify how chips are managed/stored in-memory
+* Validate any chips
+* Highly customizable chips
+* Strictly sticks to the Google Material Design Guide
 
 *Honorable Mentions:*
-* This was based on the design of: https://github.com/pchmn/MaterialChipsInput
 * This uses a RecyclerView layout manager: https://github.com/BelooS/ChipsLayoutManager
 
-## Using the Chips Input Layout
-The basic usage of this library is to allow users to input chips and for them to be displayed like in the Material Design Guide. To achieve this functionality, you'll need to use the `ChipsInputLayout` view.
+## Using the `ChipsInputLayout`
+The purpose of this library is to allow users to interact with chips, specified in the Google Material Design Guide. To achieve this functionality, you'll need to use the `ChipsInputLayout` view.
 
 ### Using in an XML layout
-`ChipsInputLayout` can be used in any ViewGroup and supports all width and height attributes. Simple usage is shown here:
+`ChipsInputLayout` can be used in any ViewGroup and supports all width and height attributes. 
+Simple usage is shown here:
 ```xml
 <com.tylersuehr.chips.ChipsInputLayout
         android:id="@+id/chips_input"
