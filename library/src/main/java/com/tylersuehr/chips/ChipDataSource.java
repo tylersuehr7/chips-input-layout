@@ -1,4 +1,4 @@
-package com.tylersuehr.chips.data;
+package com.tylersuehr.chips;
 import java.util.List;
 
 /**

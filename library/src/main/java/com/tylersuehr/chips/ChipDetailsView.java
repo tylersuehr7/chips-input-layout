@@ -13,7 +13,6 @@ import android.view.animation.AlphaAnimation;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import com.tylersuehr.chips.data.Chip;
 
 /**
  * Copyright © 2017 Tyler Suehr

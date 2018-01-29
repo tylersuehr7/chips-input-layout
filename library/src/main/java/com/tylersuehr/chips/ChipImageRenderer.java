@@ -2,8 +2,6 @@ package com.tylersuehr.chips;
 
 import android.widget.ImageView;
 
-import com.tylersuehr.chips.data.Chip;
-
 /**
  * Copyright © 2017 Tyler Suehr
  *

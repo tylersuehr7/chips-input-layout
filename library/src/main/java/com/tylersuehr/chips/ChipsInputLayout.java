@@ -15,9 +15,6 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.RelativeLayout;
 import com.beloo.widget.chipslayoutmanager.ChipsLayoutManager;
-import com.tylersuehr.chips.data.Chip;
-import com.tylersuehr.chips.data.ChipDataSource;
-import com.tylersuehr.chips.data.ListChipDataSource;
 
 import java.util.List;
 
