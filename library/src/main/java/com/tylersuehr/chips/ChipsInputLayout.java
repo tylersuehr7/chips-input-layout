@@ -90,7 +90,9 @@ public class ChipsInputLayout extends MaxHeightScrollView
         mChipsInput.setText("");
 
         // Close the software keyboard
-        hideKeyboard();
+        if (mOptions.mHideKeyboardOnChipClick) {
+            hideKeyboard();
+        }
     }
 
     /**
@@ -532,6 +534,10 @@ public class ChipsInputLayout extends MaxHeightScrollView
 
     public void setCustomChipsEnabled(boolean enabled) {
         mOptions.mAllowCustomChips = enabled;
+    }
+
+    public void setHideKeyboardOnChipClick(boolean hide) {
+        mOptions.mHideKeyboardOnChipClick = hide;
     }
 
     public void setMaxRows(int rows) {

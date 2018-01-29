@@ -43,6 +43,7 @@ final class ChipOptions {
     /* Properties pertaining to the ChipsInputLayout itself */
     Typeface mTypeface = Typeface.DEFAULT;
     boolean mAllowCustomChips;
+    boolean mHideKeyboardOnChipClick;
     int mMaxRows;
 
     @NonNull
@@ -72,12 +73,13 @@ final class ChipOptions {
         mDetailsChipTextColor = a.getColorStateList(R.styleable.ChipsInputLayout_details_textColor);
 
         // Setup the properties for the FilterableRecyclerView
-        mFilterableListElevation = a.getDimension(R.styleable.ChipsInputLayout_filter_elevation, Utils.dp(2));
+        mFilterableListElevation = a.getDimension(R.styleable.ChipsInputLayout_filter_elevation, R.dimen.chip_open_elevation);
         mFilterableListBackgroundColor = a.getColorStateList(R.styleable.ChipsInputLayout_filter_backgroundColor);
         mFilterableListTextColor = a.getColorStateList(R.styleable.ChipsInputLayout_filter_textColor);
 
         // Setup the properties for the ChipsInput itself
         mAllowCustomChips = a.getBoolean(R.styleable.ChipsInputLayout_allowCustomChips, true);
+        mHideKeyboardOnChipClick = a.getBoolean(R.styleable.ChipsInputLayout_hideKeyboardOnChipClick, true);
         mMaxRows = a.getInt(R.styleable.ChipsInputLayout_maxRows, 3);
 
         a.recycle();
