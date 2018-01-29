@@ -30,8 +30,7 @@ import java.util.List;
  * layout, and allowing the user to input to filter any filterable chips or to create
  * custom chips.
  *
- * Important notes:
- * By default, the chip data source is {@link ListChipDataSource}.
+ * Notes: by default, the chip data source is {@link ListChipDataSource}.
  *
  * @author Tyler Suehr
  * @version 1.0
@@ -553,14 +552,6 @@ public class ChipsInputLayout extends MaxHeightScrollView
         mOptions.mImageRenderer = renderer;
     }
 
-    /**
-     * Gets the current chip data source being used.
-     *
-     * Note: This method should be used conservatively. Most components should access chips
-     * through other methods on ChipsInputLayout instead of the chip data source directly.
-     *
-     * @return {@link ChipDataSource}
-     */
     public ChipDataSource getChipDataSource() {
         return mDataSource;
     }
@@ -602,9 +593,6 @@ public class ChipsInputLayout extends MaxHeightScrollView
         }
     }
 
-    /**
-     * Hides the software keyboard from the chips edit text.
-     */
     private void hideKeyboard() {
         ((InputMethodManager)getContext().getSystemService(Context.INPUT_METHOD_SERVICE))
                 .hideSoftInputFromWindow(mChipsInput.getWindowToken(), 0);
@@ -612,7 +600,7 @@ public class ChipsInputLayout extends MaxHeightScrollView
 
 
     /**
-     * This is used to ensure that selected chips are... well... valid lol.
+     * Defines a validator to validate chips.
      */
     public interface ChipValidator {
         boolean validate(Chip chip);
