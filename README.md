@@ -1,13 +1,6 @@
 # Chips Input Layout
 A highly customizable Android ViewGroup for displaying Chips (specified in the Material Design Guide)!
 
-*Awesome changes underway; docs and code still being updated*
-
-Some new features already added in dev:
-* Chip image rendering (allows using other image loading libraries to load chip avatars)
-* Fixed input hint being cutoff when near the end, now just wraps to next line
-* Reduced dependency on the concrete class ChipsInputLayout, more decoupled than before
-
 <img src="https://github.com/tylersuehr7/chips-input-layout/blob/master/docs/screen_filterable_list.png" width="200"> <img src="https://github.com/tylersuehr7/chips-input-layout/blob/master/docs/screen_contact_chip_multiple.png" width="200"> <img src="https://github.com/tylersuehr7/chips-input-layout/blob/master/docs/screen_chips_multiple.png" width="200"> <img src="https://github.com/tylersuehr7/chips-input-layout/blob/master/docs/screen_contact_chip_details.png" width="200">
 
 How to use it...
@@ -25,7 +18,7 @@ allprojects {
 In your app level build.gradle:
 ```java
 dependencies {
-    compile 'com.github.tylersuehr7:chips-input-layout:1.2'
+    compile 'com.github.tylersuehr7:chips-input-layout:1.4'
 }  
 ```
 
