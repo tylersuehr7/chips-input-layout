@@ -88,7 +88,6 @@ public class ChipsInputLayout extends MaxHeightScrollView
 
         // Clear the input and refresh the chips recycler
         mChipsInput.setText("");
-        mChipsAdapter.notifyDataSetChanged();
 
         // Close the software keyboard
         hideKeyboard();
