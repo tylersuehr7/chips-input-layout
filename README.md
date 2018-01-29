@@ -46,8 +46,7 @@ Core features of this library:
 The purpose of this library is to allow users to interact with chips, specified in the Google Material Design Guide. To achieve this functionality, you'll need to use the `ChipsInputLayout` view.
 
 ### Using in an XML layout
-`ChipsInputLayout` can be used in any ViewGroup and supports all width and height attributes. 
-Simple usage is shown here:
+`ChipsInputLayout` can be used in any ViewGroup and supports all width and height attributes. Simple usage is shown here:
 ```xml
 <com.tylersuehr.chips.ChipsInputLayout
         android:id="@+id/chips_input"
@@ -56,8 +55,7 @@ Simple usage is shown here:
         android:hint="Start typing for chips... "
         android:textColorHint="#757575"
         android:textColor="#212121"
-        app:detailedChipsEnabled="true"
-        app:customChipsEnabled="true"/>
+        app:chip_showDetails="true"/>
 ```
 
 Here is a table of all the XML attributes available for this view:
@@ -67,20 +65,21 @@ Attribute | Type | Summary
 `android:hint` | `string` | Hint shown in the chips input.
 `android:textColorHint` | `color` | Text color of the hint shown in the chips input. 
 `android:textColor` | `color` | Text color of chips input.
-`app:detailedChipsEnabled` | `boolean` | True if clicking a chip should show its details.
-`app:customChipsEnabled` | `boolean` | True if user is allowed to enter custom chips.
+`app:allowCustomChips` | `boolean` | True if user is allowed to enter custom chips.
 `app:maxRows` | `int` | Maximum number of rows used to display chips.
-`app:chipTextColor` | `color` | Text color of each chips' title and subtitle.
-`app:chipHasAvatarIcon` | `boolean` | True if each chip should show an avatar icon.
-`app:chipDeletable` | `boolean` | True if each chip should be deletable by the user.
-`app:chipDeleteIconColor` | `color` | Color of each chips' delete icon.
-`app:chipBackgroundColor` | `color` | Color of each chips' background.
-`app:detailedChipTextColor` | `color` | Text color of each detailed chips' title and subtitle.
-`app:detailedChipBackgroundColor` | `color` | Color of each detailed chips' background.
-`app:detailedChipDeleteIconColor` | `color` | Color of each detailed chips' delete icon.
-`app:filterableListBackgroundColor` | `color` | Color of the filterable list's background.
-`app:filterableListTextColor` | `color` | Text color of the filterable list's items.
-`app:filterableListElevation` | `dimension` | Elevation of the filterable list.
+`app:chip_showDetails` | `boolean` | True if clicking a chip should show its details.
+`app:chip_showAvatar` | `boolean` | True if each chip should show an avatar icon.
+`app:chip_showDelete` | `boolean` | True if each chip should be deletable by the user.
+`app:chip_deleteIcon` | `reference` | Changes the chips' delete icons.
+`app:chip_deleteIconColor` | `color` | Color of each chips' delete icon.
+`app:chip_backgroundColor` | `color` | Color of each chips' background.
+`app:chip_textColor` | `color` | Text color of each chips' title and subtitle.
+`app:details_deleteIconColor` | `color` | Color of each detailed chips' delete icon.
+`app:details_backgroundColor` | `color` | Color of each detailed chips' background.
+`app:details_textColor` | `color` | Text color of each detailed chips' title and subtitle.
+`app:filter_elevation` | `dimension` | Elevation of the filterable list.
+`app:filter_backgroundColor` | `color` | Color of the filterable list's background.
+`app:filter_textColor` | `color` | Text color of the filterable list's items.
 
 ### Using in Java code
 `ChipsInputLayout` can be programmatically added into any ViewGroup. Simple usage in an Activity is shown here:
@@ -114,12 +113,12 @@ Method | Summary
 `setChipBackgroundColor(ColorStateList)` | Changes color of each chips' background.
 `setChipDeleteIcon(Drawable)` | Changes the each chips' delete icon.
 `setChipDeleteIcon(int)` | Overload of setChipDeleteIcon(Drawable).
-`setDetailedChipTextColor(ColorStateList)` | Changes text color of each detailed chips' title and subtitle.
-`setDetailedChipBackgroundColor(ColorStateList)` | Changes color of each detailed chips' background.
-`setDetailedChipDeleteIconColor(ColorStateList)` | Changes color of each detailed chips' delete icon.
-`setFilterableListBackgroundColor(ColorStateList)` | Changes color of the filterable list's background.
-`setFilterableListTextColor(ColorStateList)` | Changes text color of the filterable list's items.
-`setFilterableListElevation(float)` | Changes elevation of the filterable list.
+`setChipDetailsTextColor(ColorStateList)` | Changes text color of each detailed chips' title and subtitle.
+`setChipDetailsBackgroundColor(ColorStateList)` | Changes color of each detailed chips' background.
+`setChipDetailsDeleteIconColor(ColorStateList)` | Changes color of each detailed chips' delete icon.
+`setFilterListBackgroundColor(ColorStateList)` | Changes color of the filterable list's background.
+`setFilterListTextColor(ColorStateList)` | Changes text color of the filterable list's items.
+`setFilterListElevation(float)` | Changes elevation of the filterable list.
 
 ## Using the Chips
 There are a plethora of ways you can manipulate chips in `ChipsInputLayout`. However, the main abilities afforded by `ChipsInputLayout` are that you can set a list of chips that can be filtered by user input and set a list of chips that are pre-selected. Other features are listed in the table below.
@@ -227,13 +226,13 @@ By default, `ChipsInputLayout` will automatically use `ListChipDataSource`; whic
 ### Observing chip selection changes
 `ChipDataSource` has the ability to notify observers that want to observe specific chip selection events in `ChipDataSource`. The observers will be notified if a chip has been selected or unselected from the selected chip list in `ChipDataSource`. Both selection and deselection events will afford the chip that was selected or deselected respectively.
 
-To use this functionality, you'll want to implement the `ChipSelectionObserver` and register it on `ChipDataSource`. Be sure to manage unregistering the observer, if need be, as well. 
+To use this functionality, you'll want to implement the `ChipDataSource.SelectionObserver` and register it on `ChipDataSource`. Be sure to manage unregistering the observer, if need be, as well. 
 
-Since components outside of the library cannot, and should not, directly access `ChipDataSouce`, you'll use `ChipsInputLayout` to set the observer; using its `setChipSelectionObserver(ChipSelectionObserver)` method.
+To set the observer, you'll need to call the `addSelectionObserver(ChipDataSource.SelectionObserver)` method in `ChipsInputLayout`.
 
 Here is a simple example:
 ```java
-public class CoolActivity extends AppCompatActivity implements ChipSelectionObserver {
+public class CoolActivity extends AppCompatActivity implements ChipDataSource.SelectionObserver {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -241,7 +240,7 @@ public class CoolActivity extends AppCompatActivity implements ChipSelectionObse
         
         // Get the ChipsInputLayout from the layout file
         ChipsInputLayout chipsInput = (ChipsInputLayout)findViewById(R.id.chips);
-        chipsInput.setChipSelectionObserver(this);
+        chipsInput.addSelectionObserver(this);
     }
     
     @Override
@@ -261,15 +260,15 @@ public class CoolActivity extends AppCompatActivity implements ChipSelectionObse
 
 This is used internally by the library to trigger UI updates on `RecyclerView` adapters when the data has changed.
 
-To use this functionality, you'll want to implement the `ChipChangedObserver` and register it on `ChipDataSource`. Be sure to manage unregistering the observer, if need be, as well. 
+To use this functionality, you'll want to implement the `ChipDataSource.ChangeObserver` and register it on `ChipDataSource`. Be sure to manage unregistering the observer, if need be, as well. 
 
-Since components outside of the library cannot, and should not, directly access `ChipDataSouce`, you'll use `ChipsInputLayout` to set the observer; using its `setChipChangedObserver(ChipChangedObserver)` method.
+To set the observer, you'll need to call the `addChangeObserver(ChipDataSource.ChangeObserver)` method in `ChipsInputLayout`.
 
 Here is a simple example:
 ```java
-public class CoolAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements ChipChangedObserver {
+public class CoolAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements ChipDataSouce.ChangeObserver {
     public CoolAdapter(ChipDataSource dataSource) {
-        dataSource.addChipChangedObserver(this);
+        dataSource.addChangeObserver(this);
     }
     
     // adapter implementation to do really cool adapter stuff...
