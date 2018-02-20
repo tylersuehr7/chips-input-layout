@@ -16,6 +16,7 @@
         <attr name="android:textColorHint"/>
         <attr name="android:textColor"/>
         <attr name="allowCustomChips" format="boolean"/>
+        <attr name="hideKeyboardOnChipClick" format="boolean"/>
         <attr name="maxRows" format="integer" />
 
         <attr name="chip_showDetails" format="boolean" />

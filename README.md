@@ -59,6 +59,7 @@ Attribute | Type | Summary
 `android:textColorHint` | `color` | Text color of the hint shown in the chips input. 
 `android:textColor` | `color` | Text color of chips input.
 `app:allowCustomChips` | `boolean` | True if user is allowed to enter custom chips.
+`app:hideKeyboardOnChipClick` | `boolean` | True if the keyboard should hide when a filterable chip is clicked.
 `app:maxRows` | `int` | Maximum number of rows used to display chips.
 `app:chip_showDetails` | `boolean` | True if clicking a chip should show its details.
 `app:chip_showAvatar` | `boolean` | True if each chip should show an avatar icon.
@@ -97,6 +98,7 @@ Method | Summary
 `setInputTextColor(ColorStateList)` | Changes text color of chips input.
 `setShowDetailedChipsEnabled(boolean)` |  True if clicking a chip should show its details.
 `setCustomChipsEnabled(boolean)` | True if user is allowed to enter custom chips.
+`setHideKeyboardOnChipClick(boolean)` | True if the keyboard should hide when filterable chip is clicked.
 `setMaxRows(int)` | Changes maximum number of rows used to display chips.
 `setTypeface(Typeface)` | Changes the typeface of the ChipsInputLayout and all associated textual-based components.
 `setChipTitleTextColor(ColorStateList)` | Changes text color of each chips' title and subtitle.

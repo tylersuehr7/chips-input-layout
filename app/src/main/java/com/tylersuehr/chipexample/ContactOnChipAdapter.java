@@ -7,8 +7,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.tylersuehr.chips.data.Chip;
-import com.tylersuehr.chips.data.ChipDataSource;
+import com.tylersuehr.chips.Chip;
+import com.tylersuehr.chips.ChipDataSource;
 
 /**
  * Copyright © 2017 Tyler Suehr

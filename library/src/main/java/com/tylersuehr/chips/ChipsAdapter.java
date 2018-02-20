@@ -5,8 +5,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.RelativeLayout;
-import com.tylersuehr.chips.data.Chip;
-import com.tylersuehr.chips.data.ChipDataSource;
 
 /**
  * Copyright © 2017 Tyler Suehr

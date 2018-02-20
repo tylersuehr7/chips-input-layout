@@ -5,7 +5,7 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.tylersuehr.chips.ChipImageRenderer;
 import com.tylersuehr.chips.LetterTileProvider;
-import com.tylersuehr.chips.data.Chip;
+import com.tylersuehr.chips.Chip;
 
 /**
  * Copyright © 2017 Tyler Suehr

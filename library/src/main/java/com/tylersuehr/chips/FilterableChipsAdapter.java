@@ -10,9 +10,6 @@ import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.TextView;
 
-import com.tylersuehr.chips.data.Chip;
-import com.tylersuehr.chips.data.ChipDataSource;
-
 /**
  * Copyright © 2017 Tyler Suehr
  *
