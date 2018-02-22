@@ -59,7 +59,7 @@ public class ChipsInputLayout extends MaxHeightScrollView
     }
 
     public ChipsInputLayout(Context c, AttributeSet attrs) {
-        this(c, attrs);
+        this(c, attrs, 0);
     }
 
     public ChipsInputLayout(Context c, AttributeSet attrs, int defStyleAttr) {
