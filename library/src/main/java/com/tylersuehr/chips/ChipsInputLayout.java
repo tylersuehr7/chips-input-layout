@@ -655,7 +655,7 @@ public class ChipsInputLayout extends MaxHeightScrollView
             if (mTextChangedListener != null) {
                 mTextChangedListener.onChipsInputTextChanged(s);
 
-                // TODO: 
+                // TODO:
                 // As this is a listener used mostly to dynamically change
                 // the filteredList, a timeout before filtering should be
                 // configured to replace 1500(ms) hardcoded value

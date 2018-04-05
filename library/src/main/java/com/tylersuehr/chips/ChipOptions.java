@@ -53,6 +53,10 @@ final class ChipOptions {
 
 
     ChipOptions(Context c, AttributeSet attrs, int defStyleAttr) {
+        // Set defaults
+        mImageRenderer = new DefaultImageRenderer();
+
+        // Set the XML attributes
         TypedArray a = c.obtainStyledAttributes(attrs, R.styleable.ChipsInputLayout);
 
         // Setup the properties for the ChipEditText
@@ -86,12 +90,10 @@ final class ChipOptions {
 
         a.recycle();
 
+        // Set the styleable attributes
         final int[] styleable = new int[] { android.R.attr.textAppearance };
-
-        TypedArray ta = c.obtainStyledAttributes(attrs, styleable, defStyleAttr, 0);
-        mTextAppearanceIdRes = ta.getResourceId(0, android.R.attr.textAppearanceMedium);
-        ta.recycle();
-
-        mImageRenderer = new DefaultImageRenderer();
+        a = c.obtainStyledAttributes(attrs, styleable, defStyleAttr, 0);
+        mTextAppearanceIdRes = a.getResourceId(0, android.R.attr.textAppearanceMedium);
+        a.recycle();
     }
 }
