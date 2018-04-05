@@ -13,6 +13,7 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.RelativeLayout;
 import com.beloo.widget.chipslayoutmanager.ChipsLayoutManager;
@@ -486,6 +487,19 @@ public class ChipsInputLayout extends MaxHeightScrollView
         if (mChipsInput != null) { // Can be null because its lazy loaded
             mChipsInput.setHint(hint);
         }
+    }
+
+    public void setInputType(int type) {
+        if (mChipsInput != null) {
+            mChipsInput.setInputType(type);
+        }
+    }
+
+    public int getInputType() {
+        if (mChipsInput == null) {
+            return EditorInfo.TYPE_NULL;
+        }
+        return mChipsInput.getInputType();
     }
 
     public void setChipDeleteIconColor(ColorStateList deleteIconColor) {
