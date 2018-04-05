@@ -18,7 +18,7 @@ allprojects {
 In your app level build.gradle:
 ```java
 dependencies {
-    compile 'com.github.tylersuehr7:chips-input-layout:2.2'
+    compile 'com.github.tylersuehr7:chips-input-layout:2.3'
 }  
 ```
 
