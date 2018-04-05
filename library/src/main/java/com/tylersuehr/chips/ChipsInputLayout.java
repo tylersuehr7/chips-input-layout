@@ -4,6 +4,7 @@ import android.content.res.ColorStateList;
 import android.content.res.Configuration;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
+import android.os.Handler;
 import android.support.annotation.DrawableRes;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
@@ -48,8 +49,9 @@ public class ChipsInputLayout extends MaxHeightScrollView
     /* Displays filtered chips */
     private FilterableRecyclerView mFilteredRecycler;
     private FilterableChipsAdapter mFilteredAdapter;
-    private ChipsInputTextChangedListener mTextChangedListener;
 
+    /* Stores reference to callback for text changed events */
+    private OnChipsInputTextChangedListener mTextChangedListener;
     /* Used to validate selected chips */
     private ChipValidator mValidator;
 
@@ -457,7 +459,11 @@ public class ChipsInputLayout extends MaxHeightScrollView
         return LetterTileProvider.getInstance(getContext());
     }
 
-    public void setInputTextChangedListener(ChipsInputTextChangedListener listener) {
+    public OnChipsInputTextChangedListener getOnChipsInputTextChangedListener() {
+        return mTextChangedListener;
+    }
+
+    public void setOnChipsInputTextChangedListener(OnChipsInputTextChangedListener listener) {
         mTextChangedListener = listener;
     }
 
@@ -645,17 +651,28 @@ public class ChipsInputLayout extends MaxHeightScrollView
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
 
         @Override
-        public void afterTextChanged(Editable s) {
+        public void afterTextChanged(final Editable s) {
             if (mTextChangedListener != null) {
-                mTextChangedListener.onTextChangedListener(s);
-                // TODO: As this is a listener used mostly to dinamically change the filteredList, a 
+                mTextChangedListener.onChipsInputTextChanged(s);
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        onTextChanged(s, 0, 0, 0);
+                    }
+                }, 1500);
+
+                // TODO: As this is a listener used mostly to dynamically change the filteredList, a
                 // timeout before filtering should be configured to replace 1500(ms) hardcoded value
-                new Handler().postDelayed(() -> onTextChanged(s, 0, 0, 0), 1500);
+//                new Handler().postDelayed(() -> onTextChanged(s, 0, 0, 0), 1500);
             }
         }
     }
 
-    public interface ChipsInputTextChangedListener {
-        void onChipsInputTextChanged (CharSequence s);
+
+    /**
+     * Defines callbacks for text changed events.
+     */
+    public interface OnChipsInputTextChangedListener {
+        void onChipsInputTextChanged(CharSequence s);
     }
 }
