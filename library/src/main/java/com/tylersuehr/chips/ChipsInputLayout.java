@@ -4,6 +4,7 @@ import android.content.res.ColorStateList;
 import android.content.res.Configuration;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
+import android.os.Handler;
 import android.support.annotation.DrawableRes;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
@@ -12,6 +13,7 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.RelativeLayout;
 import com.beloo.widget.chipslayoutmanager.ChipsLayoutManager;
@@ -49,6 +51,8 @@ public class ChipsInputLayout extends MaxHeightScrollView
     private FilterableRecyclerView mFilteredRecycler;
     private FilterableChipsAdapter mFilteredAdapter;
 
+    /* Stores reference to callback for text changed events */
+    private OnChipsInputTextChangedListener mTextChangedListener;
     /* Used to validate selected chips */
     private ChipValidator mValidator;
 
@@ -58,8 +62,12 @@ public class ChipsInputLayout extends MaxHeightScrollView
     }
 
     public ChipsInputLayout(Context c, AttributeSet attrs) {
-        super(c, attrs);
-        mOptions = new ChipOptions(c, attrs);
+        this(c, attrs, 0);
+    }
+
+    public ChipsInputLayout(Context c, AttributeSet attrs, int defStyleAttr) {
+        super(c, attrs, defStyleAttr);
+        mOptions = new ChipOptions(c, attrs, defStyleAttr);
         mDataSource = new ListChipDataSource();
 
         // Inflate the view
@@ -452,6 +460,14 @@ public class ChipsInputLayout extends MaxHeightScrollView
         return LetterTileProvider.getInstance(getContext());
     }
 
+    public OnChipsInputTextChangedListener getOnChipsInputTextChangedListener() {
+        return mTextChangedListener;
+    }
+
+    public void setOnChipsInputTextChangedListener(OnChipsInputTextChangedListener listener) {
+        mTextChangedListener = listener;
+    }
+
     public void setInputTextColor(ColorStateList textColor) {
         mOptions.mTextColor = textColor;
         if (mChipsInput != null) { // Can be null because its lazy loaded
@@ -471,6 +487,19 @@ public class ChipsInputLayout extends MaxHeightScrollView
         if (mChipsInput != null) { // Can be null because its lazy loaded
             mChipsInput.setHint(hint);
         }
+    }
+
+    public void setInputType(int type) {
+        if (mChipsInput != null) {
+            mChipsInput.setInputType(type);
+        }
+    }
+
+    public int getInputType() {
+        if (mChipsInput == null) {
+            return EditorInfo.TYPE_NULL;
+        }
+        return mChipsInput.getInputType();
     }
 
     public void setChipDeleteIconColor(ColorStateList deleteIconColor) {
@@ -636,6 +665,29 @@ public class ChipsInputLayout extends MaxHeightScrollView
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
 
         @Override
-        public void afterTextChanged(Editable s) {}
+        public void afterTextChanged(final Editable s) {
+            if (mTextChangedListener != null) {
+                mTextChangedListener.onChipsInputTextChanged(s);
+
+                // TODO:
+                // As this is a listener used mostly to dynamically change
+                // the filteredList, a timeout before filtering should be
+                // configured to replace 1500(ms) hardcoded value
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        onTextChanged(s, 0, 0, 0);
+                    }
+                }, 1500);
+            }
+        }
+    }
+
+
+    /**
+     * Defines callbacks for text changed events.
+     */
+    public interface OnChipsInputTextChangedListener {
+        void onChipsInputTextChanged(CharSequence s);
     }
 }

@@ -74,6 +74,7 @@ class ChipsEditText extends AppCompatEditText implements ChipComponent {
         }
         setHint(options.mHint);
         setTypeface(options.mTypeface);
+        setTextAppearance(getContext(), options.mTextAppearanceIdRes);
     }
 
     float calculateTextWidth() {
