@@ -48,6 +48,7 @@ public class ChipsInputLayout extends MaxHeightScrollView
     /* Displays filtered chips */
     private FilterableRecyclerView mFilteredRecycler;
     private FilterableChipsAdapter mFilteredAdapter;
+    private ChipsInputTextChangedListener mTextChangedListener;
 
     /* Used to validate selected chips */
     private ChipValidator mValidator;
@@ -58,8 +59,12 @@ public class ChipsInputLayout extends MaxHeightScrollView
     }
 
     public ChipsInputLayout(Context c, AttributeSet attrs) {
-        super(c, attrs);
-        mOptions = new ChipOptions(c, attrs);
+        this(c, attrs, 0);
+    }
+
+    public ChipsInputLayout(Context c, AttributeSet attrs, int defStyleAttr) {
+        super(c, attrs, defStyleAttr);
+        mOptions = new ChipOptions(c, attrs, defStyleAttr);
         mDataSource = new ListChipDataSource();
 
         // Inflate the view
@@ -452,6 +457,10 @@ public class ChipsInputLayout extends MaxHeightScrollView
         return LetterTileProvider.getInstance(getContext());
     }
 
+    public void setInputTextChangedListener(ChipsInputTextChangedListener listener) {
+        mTextChangedListener = listener;
+    }
+
     public void setInputTextColor(ColorStateList textColor) {
         mOptions.mTextColor = textColor;
         if (mChipsInput != null) { // Can be null because its lazy loaded
@@ -636,6 +645,17 @@ public class ChipsInputLayout extends MaxHeightScrollView
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
 
         @Override
-        public void afterTextChanged(Editable s) {}
+        public void afterTextChanged(Editable s) {
+            if (mTextChangedListener != null) {
+                mTextChangedListener.onTextChangedListener(s);
+                // TODO: As this is a listener used mostly to dinamically change the filteredList, a 
+                // timeout before filtering should be configured to replace 1500(ms) hardcoded value
+                new Handler().postDelayed(() -> onTextChanged(s, 0, 0, 0), 1500);
+            }
+        }
+    }
+
+    public interface ChipsInputTextChangedListener {
+        void onChipsInputTextChanged (CharSequence s);
     }
 }

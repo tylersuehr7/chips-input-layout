@@ -40,6 +40,8 @@ final class ChipOptions {
     ColorStateList mFilterableListTextColor;
     float mFilterableListElevation;
 
+    int mTextAppearanceIdRes;
+
     /* Properties pertaining to the ChipsInputLayout itself */
     Typeface mTypeface = Typeface.DEFAULT;
     boolean mAllowCustomChips;
@@ -50,7 +52,7 @@ final class ChipOptions {
     ChipImageRenderer mImageRenderer;
 
 
-    ChipOptions(Context c, AttributeSet attrs) {
+    ChipOptions(Context c, AttributeSet attrs, int defStyleAttr) {
         TypedArray a = c.obtainStyledAttributes(attrs, R.styleable.ChipsInputLayout);
 
         // Setup the properties for the ChipEditText
@@ -83,6 +85,12 @@ final class ChipOptions {
         mMaxRows = a.getInt(R.styleable.ChipsInputLayout_maxRows, 3);
 
         a.recycle();
+
+        final int[] styleable = new int[] { android.R.attr.textAppearance };
+
+        TypedArray ta = c.obtainStyledAttributes(attrs, styleable, defStyleAttr, 0);
+        mTextAppearanceIdRes = ta.getResourceId(0, android.R.attr.textAppearanceMedium);
+        ta.recycle();
 
         mImageRenderer = new DefaultImageRenderer();
     }
