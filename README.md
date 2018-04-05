@@ -114,6 +114,8 @@ Method | Summary
 `setFilterListBackgroundColor(ColorStateList)` | Changes color of the filterable list's background.
 `setFilterListTextColor(ColorStateList)` | Changes text color of the filterable list's items.
 `setFilterListElevation(float)` | Changes elevation of the filterable list.
+`setInputType(int)` | Sets the text input type on the ChipsEditText.
+`setOnChipsInputTextChangedListener(OnChipsInputTextChangedListener)` | Sets a text changed listener that gets invoked when text it changed on the ChipsEditText.
 
 ## Using the Chips
 There are a plethora of ways you can manipulate chips in `ChipsInputLayout`. However, the main abilities afforded by `ChipsInputLayout` are that you can set a list of chips that can be filtered by user input and set a list of chips that are pre-selected. Other features are listed in the table below.
