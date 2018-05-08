@@ -23,10 +23,12 @@
         android:hint="Start typing for chips..."
         android:textColorHint="#757575"
         android:textColor="#212121"/>
+
     <TextView
+        android:id="@+id/t"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
         android:padding="16dp"
-        android:text="Above is the ChipsInputLayout! Type some stuff to filter contacts!"/>
+        android:text="Above is the ChipsInputLayout! Type some stuff to filter contacts!" />
 </LinearLayout>

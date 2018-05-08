@@ -3,6 +3,8 @@ package com.tylersuehr.chipexample;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
+import android.widget.TextView;
 
 import com.tylersuehr.chips.ChipsInputLayout;
 
@@ -34,6 +36,21 @@ public class MainActivity extends ContactLoadingActivity
 
         // Load the current user's contact information
         loadContactsWithRuntimePermission();
+        mChipsInput.getmChipsInput().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mChipsInput.getmChipsInput().setFocusableInTouchMode(true);
+            }
+        });
+
+        TextView t=findViewById(R.id.t);
+        t.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mChipsInput.getmChipsInput().clearFocus();
+                mChipsInput.getmChipsInput().setFocusableInTouchMode(false);
+            }
+        });
     }
 
     /**

@@ -40,8 +40,13 @@ public class ChipsInputLayout extends MaxHeightScrollView
     private final ChipOptions mOptions;
     /* Stores the source of all the chips */
     private ChipDataSource mDataSource;
+
+    public ChipsEditText getmChipsInput() {
+        return mChipsInput;
+    }
+
     /* Stores reference to the user input */
-    private ChipsEditText mChipsInput;
+    public ChipsEditText mChipsInput;
 
     /* Displays selected chips and chips EditText */
     private final RecyclerView mChipsRecycler;
