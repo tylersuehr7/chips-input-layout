@@ -61,6 +61,8 @@ Attribute | Type | Summary
 `app:allowCustomChips` | `boolean` | True if user is allowed to enter custom chips.
 `app:hideKeyboardOnChipClick` | `boolean` | True if the keyboard should hide when a filterable chip is clicked.
 `app:maxRows` | `int` | Maximum number of rows used to display chips.
+`app:delimiter` | `string` | A custom delimiter used to submit new chips.
+`app:delimiterRegex` | `boolean` | True if `app:delimiter` is a regular expression.
 `app:chip_showDetails` | `boolean` | True if clicking a chip should show its details.
 `app:chip_showAvatar` | `boolean` | True if each chip should show an avatar icon.
 `app:chip_showDelete` | `boolean` | True if each chip should be deletable by the user.
@@ -101,6 +103,8 @@ Method | Summary
 `setHideKeyboardOnChipClick(boolean)` | True if the keyboard should hide when filterable chip is clicked.
 `setMaxRows(int)` | Changes maximum number of rows used to display chips.
 `setTypeface(Typeface)` | Changes the typeface of the ChipsInputLayout and all associated textual-based components.
+`setDelimiter(String)` | Sets the customer delimiter to be used to separate new chips.
+`setDelimiter(String, boolean)` | Sets the customer delimiter to be used to separate new chips. Boolean is whether string is a regular expression or not.
 `setChipTitleTextColor(ColorStateList)` | Changes text color of each chips' title and subtitle.
 `setShowChipAvatarEnabled(boolean)` | True if each chip should show an avatar icon.
 `setChipsDeletable(boolean)` | True if each chip should be deletable by the user.
