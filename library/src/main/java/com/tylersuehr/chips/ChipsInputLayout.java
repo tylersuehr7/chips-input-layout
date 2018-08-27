@@ -19,6 +19,7 @@ import android.widget.RelativeLayout;
 import com.beloo.widget.chipslayoutmanager.ChipsLayoutManager;
 
 import java.util.List;
+import java.util.regex.Pattern;
 
 /**
  * Copyright © 2017 Tyler Suehr
@@ -579,6 +580,19 @@ public class ChipsInputLayout extends MaxHeightScrollView
         }
     }
 
+    public void setDelimiter(String delimiter, boolean regex){
+        mOptions.mDelimiter = delimiter;
+        mOptions.mDelimiterRegex = regex;
+    }
+
+    public void setDelimiter(String delimiter){
+        setDelimiter(delimiter, false);
+    }
+
+    public ChipsEditText getChipsInputEditText() {
+        return mChipsInput;
+    }
+
     /**
      * Sets the image renderer used to load chip avatars.
      * @param renderer {@link ChipImageRenderer}
@@ -679,6 +693,18 @@ public class ChipsInputLayout extends MaxHeightScrollView
                         onTextChanged(s, 0, 0, 0);
                     }
                 }, 1500);
+            }
+
+            String delimiter = mOptions.mDelimiter;
+            if(delimiter != null && delimiter.length() > 0 && mChipsInput.getKeyboardListener() != null){
+                String delimiterRegex = mOptions.mDelimiterRegex ? delimiter : Pattern.quote(delimiter);
+                final String text = s.toString();
+                if(Pattern.compile(delimiterRegex).matcher(text).find()){
+                    final String[] pieces = text.split(delimiterRegex);
+                    for(String piece : pieces) {
+                        mChipsInput.getKeyboardListener().onKeyboardActionDone(piece);
+                    }
+                }
             }
         }
     }
