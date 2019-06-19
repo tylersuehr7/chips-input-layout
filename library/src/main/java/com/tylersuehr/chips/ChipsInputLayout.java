@@ -592,6 +592,10 @@ public class ChipsInputLayout extends MaxHeightScrollView
     public ChipsEditText getChipsInputEditText() {
         return mChipsInput;
     }
+    
+    public void clearChipsInputText () {
+        mChipsInput.setText("");
+    }
 
     /**
      * Sets the image renderer used to load chip avatars.
