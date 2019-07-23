@@ -47,6 +47,8 @@ final class ChipOptions {
     boolean mAllowCustomChips;
     boolean mHideKeyboardOnChipClick;
     int mMaxRows;
+    String mDelimiter;
+    boolean mDelimiterRegex;
 
     @NonNull
     ChipImageRenderer mImageRenderer;
@@ -87,6 +89,8 @@ final class ChipOptions {
         mAllowCustomChips = a.getBoolean(R.styleable.ChipsInputLayout_allowCustomChips, true);
         mHideKeyboardOnChipClick = a.getBoolean(R.styleable.ChipsInputLayout_hideKeyboardOnChipClick, true);
         mMaxRows = a.getInt(R.styleable.ChipsInputLayout_maxRows, 3);
+        mDelimiter = a.getString(R.styleable.ChipsInputLayout_delimiter);
+        mDelimiterRegex = a.getBoolean(R.styleable.ChipsInputLayout_delimiterRegex, false);
 
         a.recycle();
 
