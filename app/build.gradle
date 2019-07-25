@@ -1,6 +1,32 @@
+buildscript {
+    ext.kotlin_version = '1.2.40'
+
+    repositories {
+        google()
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:3.1.1'
+
+        // NOTE: Do not place your application dependencies here; they belong
+        // in the individual module build.gradle files
+    }
+}
+
+allprojects {
+    repositories {
+        google()
+        jcenter()
+        maven { url "https://jitpack.io" }
+    }
+}
+
+
+
 apply plugin: 'com.android.application'
 
 android {
+
     compileSdkVersion 28
     buildToolsVersion "28.0.2"
     defaultConfig {
@@ -20,6 +46,7 @@ android {
 }
 
 dependencies {
+
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
@@ -29,6 +56,5 @@ dependencies {
     implementation 'com.android.support.constraint:constraint-layout:1.1.2'
     testImplementation 'junit:junit:4.12'
     implementation project(':library')
-
     implementation 'com.github.bumptech.glide:glide:4.0.0'
 }
